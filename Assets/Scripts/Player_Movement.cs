@@ -9,6 +9,7 @@ public class Player_Movement : MonoBehaviour {
 
 	float stamina = 1.0f;
 	bool running = false;
+    public bool ableToRun = false;
 
     public bool onTopOfSomething = true;
     public Vector2 somethingsVelocity;
@@ -174,7 +175,7 @@ public class Player_Movement : MonoBehaviour {
 				}
 			}
 		}
-		if ((Input.GetKeyDown (KeyCode.LeftShift) && stamina > 0.1f) || ((!running && Input.GetKey (KeyCode.LeftShift)) && stamina > 0.3f)) {
+		if (((Input.GetKeyDown (KeyCode.LeftShift) && stamina > 0.1f) || ((!running && Input.GetKey (KeyCode.LeftShift)) && stamina > 0.3f)) && ableToRun) {
 			anim.SetBool ("Running", true);
 			running = true;
 		}

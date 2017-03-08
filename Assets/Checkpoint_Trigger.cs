@@ -18,7 +18,7 @@ public class Checkpoint_Trigger : MonoBehaviour {
         if (coll.gameObject.name == "Player Prefab")
         {
             Checkpoint_Handler ch = coll.gameObject.GetComponent<Checkpoint_Handler>();
-            ch.checkpoint = transform;
+            ch.checkpoint = transform.GetChild(0).transform;
             GetComponent<SpriteRenderer>().sprite = ch.checkpointOn;
         }
     }

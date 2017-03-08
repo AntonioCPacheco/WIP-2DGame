@@ -7,23 +7,46 @@ public class LightWall_Behaviour : MonoBehaviour {
     bool lastFrame = false;
 
     public bool inverted = false;
-    
+    public float delay = 1.5f;
+
+    float elapsedTime = 0f;
+
     // Use this for initialization
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(v_isInLight != lastFrame)
-        {            
+        if (v_isInLight && elapsedTime < delay)
+        {
+            elapsedTime += Time.deltaTime;
+        } else if (!v_isInLight && elapsedTime > 0)
+        {
+            elapsedTime -= Time.deltaTime;
+        }
+        
+        if (elapsedTime >= delay)
+        {
+            GetComponent<BoxCollider2D>().isTrigger = !inverted;
+        }
+        else if (elapsedTime <= 0)
+        {
+            elapsedTime = 0f;
+            GetComponent<BoxCollider2D>().isTrigger = inverted;
+        }
+
+        GetComponent<SpriteRenderer>().color = Color.Lerp(inverted ? Color.green : Color.red, inverted ? Color.red : Color.green, elapsedTime / delay);
+        /*if(v_isInLight != lastFrame)
+        {
             lastFrame = v_isInLight;
+
             GetComponent<BoxCollider2D>().isTrigger = !v_isInLight;
             if (inverted)
                 GetComponent<BoxCollider2D>().isTrigger = !GetComponent<BoxCollider2D>().isTrigger;
-        }
+        }*/
     }
 
     public void InLight(bool l)

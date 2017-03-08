@@ -3,10 +3,13 @@ using System.Collections;
 
 public class Light_Settings : MonoBehaviour {
 
-    
+    private const float RANGE_TO_RADIUS_RATIO = 5.17241379f;
 
     Light aLight;
     Light_Movement lMovement;
+
+    public Texture normalCookie;
+    public Texture largeCookie;
 
     CircleCollider2D collider2d;
 
@@ -27,8 +30,17 @@ public class Light_Settings : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	 
-	}
+        if (Input.GetMouseButtonDown(0))
+        {
+            transform.localScale = new Vector3(2, 2, 1);
+            aLight.spotAngle = aLight.spotAngle * 1.41f;
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+            aLight.spotAngle = aLight.spotAngle / 1.41f;
+        }
+    }
 
     public void increaseLight(int ammount)
     {
@@ -38,7 +50,7 @@ public class Light_Settings : MonoBehaviour {
         aLight.range = aLight.range + (ammount * ((maxRange - minRange) / increments));
         aLight.range = aLight.range > maxRange ? maxRange : aLight.range;
 
-        collider2d.radius = aLight.range / 5.5f;
+        collider2d.radius = aLight.range / RANGE_TO_RADIUS_RATIO;
         /*if (aLight.spotAngle + (ammount * 20) > 179)
         {
             aLight.spotAngle = 179;
@@ -55,7 +67,7 @@ public class Light_Settings : MonoBehaviour {
         aLight.range = aLight.range + (ammount * ((maxRange - minRange) / increments));
         aLight.range = aLight.range > maxRange ? maxRange : aLight.range;
 
-        collider2d.radius = aLight.range / 4.5f;
+        collider2d.radius = aLight.range / RANGE_TO_RADIUS_RATIO;
         /*if (aLight.spotAngle - (ammount * 20) < 70)
         {
             aLight.spotAngle = 70;
@@ -73,7 +85,7 @@ public class Light_Settings : MonoBehaviour {
         else if (other.gameObject.name.StartsWith("Turtle"))
         {
             other.GetComponent<Turtle_Movement>().InLight(true);
-            other.GetComponent<Turtle_Movement>().Flip();
+            //other.GetComponent<Turtle_Movement>().Flip();
         }
         else if (other.gameObject.name.StartsWith("Lock_LightSwitch"))
         {

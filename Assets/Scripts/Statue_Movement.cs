@@ -10,12 +10,15 @@ public class Statue_Movement : MonoBehaviour
     public float aggroDistance = 10;
     Rigidbody2D rbody;
 
-    bool onEdge = false;
+    int onEdge = 0;
     bool grounded = false;
     public Transform groundCheck;
-    //float groundRadius = 0.2f;
     public LayerMask whatIsGround;
-    
+
+    public bool onTopOfSomething = true;
+    public float somethingsVelocity;
+    bool isColliding = false;
+
     bool v_isInLight = false;
 
     float distance;
@@ -51,15 +54,18 @@ public class Statue_Movement : MonoBehaviour
         {
             rbody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         }
-        /*if (Random.Range(0, 100) > 98)
-            GetComponent<Animator>().SetTrigger("wink");*/
+        if (onTopOfSomething && !isColliding)
+        {
+            transform.position = new Vector3(transform.position.x + somethingsVelocity, transform.position.y);
+            somethingsVelocity = 0f;
+        }
     }
 
     void FixedUpdate()
     {
         if (!v_isInLight)
         {
-            grounded = Mathf.Round(rbody.velocity.y) == 0f && !onEdge;/*Physics2D.OverlapCircle (groundCheck.position, groundRadius, whatIsGround);*/
+            grounded = Mathf.Round(rbody.velocity.y) == 0f && onEdge != 0;
            
             if (!facingPlayer && (Mathf.Abs(player.transform.position.x - transform.position.x) > 7))
                 Flip();
@@ -101,7 +107,7 @@ public class Statue_Movement : MonoBehaviour
     {
         if(coll.gameObject.layer == LayerMask.NameToLayer("Floor") || coll.gameObject.layer == LayerMask.NameToLayer("Platforms"))
         {
-            onEdge = false;
+            onEdge++;
         }
     }
 
@@ -109,7 +115,15 @@ public class Statue_Movement : MonoBehaviour
     {
         if (coll.gameObject.layer == LayerMask.NameToLayer("Floor") || coll.gameObject.layer == LayerMask.NameToLayer("Platforms"))
         {
-            onEdge = true;
+            onEdge--;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        if (coll.gameObject.layer == LayerMask.NameToLayer("Floor") || (coll.gameObject.layer == LayerMask.NameToLayer("LightWalls") && !coll.collider.isTrigger))
+        {
+            isColliding = true;
         }
     }
 }

@@ -117,6 +117,7 @@ public class Game_RoomManager : MonoBehaviour {
 	}
 
 	public Transform GetInitialDoor(){
+        if (activeRoom == null) return null;
 		return activeRoom.FindChild ("InitialDoor");
 	}
 
