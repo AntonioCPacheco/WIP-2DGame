@@ -38,7 +38,7 @@ public class LightWall_Behaviour : MonoBehaviour {
             GetComponent<BoxCollider2D>().isTrigger = inverted;
         }
 
-        GetComponent<SpriteRenderer>().color = Color.Lerp(inverted ? Color.green : Color.red, inverted ? Color.red : Color.green, elapsedTime / delay);
+        GetComponent<SpriteRenderer>().color = Color.Lerp(inverted ? new Color(0,0,0,0) : Color.white, inverted ? Color.white : new Color(0, 0, 0, 0), elapsedTime / delay);
         /*if(v_isInLight != lastFrame)
         {
             lastFrame = v_isInLight;
