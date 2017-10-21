@@ -71,7 +71,7 @@ public class Game_RoomManager : MonoBehaviour {
 			
 			ladder.currentRoom = activeRoom;
 			ladder.nextRoom = NewLevelFirstRoom();
-			ladder.linkedDoor = ladder.nextRoom.FindChild ("Entrance");
+			ladder.linkedDoor = ladder.nextRoom.Find ("Entrance");
 		}
 
 		//Creating rooms for the new doors and assigning accordingly
@@ -91,7 +91,7 @@ public class Game_RoomManager : MonoBehaviour {
 					} else {
 						doorAux.nextRoom = NewRoom (doors [i]);
 					}
-					doorAux.linkedDoor = doorAux.nextRoom.FindChild ("InitialDoor");
+					doorAux.linkedDoor = doorAux.nextRoom.Find ("InitialDoor");
 	
 					doorAux.Initialized ();
 				} else {
@@ -118,17 +118,17 @@ public class Game_RoomManager : MonoBehaviour {
 
 	public Transform GetInitialDoor(){
         if (activeRoom == null) return null;
-		return activeRoom.FindChild ("InitialDoor");
+		return activeRoom.Find ("InitialDoor");
 	}
 
 	public List<Transform> GetActiveDoors(){ //InitialDoor doesn't count
 		
 		List<Transform> res = new List<Transform>();
 		if (activeRoom != null) {
-			Transform doors = activeRoom.FindChild ("Doors");
+			Transform doors = activeRoom.Find ("Doors");
 			int numberOfDoors = doors.childCount;
 			for (int i = 1; i <= numberOfDoors; i++) {
-				res.Add(doors.FindChild ("Door " + i));
+				res.Add(doors.Find ("Door " + i));
 			}
 		}
 		return res;
@@ -136,7 +136,7 @@ public class Game_RoomManager : MonoBehaviour {
 
 	public Transform GetActiveLadder(){
 		if (activeRoom != null) {
-			return activeRoom.FindChild ("Ladder");
+			return activeRoom.Find ("Ladder");
 		}
 		return null;
 	}
@@ -145,10 +145,10 @@ public class Game_RoomManager : MonoBehaviour {
 
 		List<Transform> res = new List<Transform>();
 		if (activeRoom != null) {
-			Transform cases = activeRoom.FindChild ("Cases");
+			Transform cases = activeRoom.Find ("Cases");
 			int numberOfCases = cases.childCount;
 			for (int i = 1; i <= numberOfCases; i++) {
-				res.Add(cases.FindChild ("Case " + i));
+				res.Add(cases.Find ("Case " + i));
 			}
 		}
 		return res;
@@ -157,13 +157,13 @@ public class Game_RoomManager : MonoBehaviour {
 	public List<Transform> GetActiveItems(){
 		List<Transform> res = new List<Transform>();
 		if (activeRoom != null) {
-			if (activeRoom.FindChild ("Items") == null) {
+			if (activeRoom.Find ("Items") == null) {
 				Transform tAux = new GameObject ().transform;
 				tAux.SetParent (activeRoom);
 				tAux.name = "Items";
 			}
 				
-			Transform items = activeRoom.FindChild ("Items");
+			Transform items = activeRoom.Find ("Items");
 			for (int i = 0; i < items.childCount; i++) {
 				res.Add(items.GetChild(i));
 			}
@@ -183,12 +183,12 @@ public class Game_RoomManager : MonoBehaviour {
 	}
 
 	public Transform NewRoom(Transform entranceDoor){
-		Transform room = (Transform)Instantiate (prefab_Rooms.FindChild("Room " + pickRandomRoom()), transform.position, transform.rotation);
+		Transform room = (Transform)Instantiate (prefab_Rooms.Find("Room " + pickRandomRoom()), transform.position, transform.rotation);
 		numberOfRooms++;
 		room.name = "Room " + numberOfRooms;
 
 		//Creating essential components
-		Transform doorAux = room.FindChild("InitialDoor");
+		Transform doorAux = room.Find("InitialDoor");
 		doorAux.GetComponent<Player_EnterDoors> ().linkedDoor = entranceDoor;
 		doorAux.GetComponent<Player_EnterDoors> ().currentRoom = room;
 		doorAux.GetComponent<Player_EnterDoors> ().nextRoom = entranceDoor.GetComponent<Player_EnterDoors>().currentRoom;
@@ -204,7 +204,7 @@ public class Game_RoomManager : MonoBehaviour {
 		numberOfRooms++;
 		room.name = "Room " + numberOfRooms;
 
-		Transform doorAux = room.FindChild("InitialDoor");
+		Transform doorAux = room.Find("InitialDoor");
 		doorAux.GetComponent<Player_EnterDoors> ().linkedDoor = entranceDoor;
 		doorAux.GetComponent<Player_EnterDoors> ().currentRoom = room;
 		doorAux.GetComponent<Player_EnterDoors> ().nextRoom = entranceDoor.GetComponent<Player_EnterDoors>().currentRoom;

@@ -85,7 +85,10 @@ public class Light_Settings : MonoBehaviour {
         else if (other.gameObject.name.StartsWith("Turtle"))
         {
             other.GetComponent<Turtle_Movement>().InLight(true);
-            //other.GetComponent<Turtle_Movement>().Flip();
+        }
+        else if (other.gameObject.name.StartsWith("Blob"))
+        {
+            other.GetComponent<Blob_Movement>().InLight(true);
         }
         else if (other.gameObject.name.StartsWith("Lock_LightSwitch"))
         {
@@ -110,6 +113,10 @@ public class Light_Settings : MonoBehaviour {
         else if (other.gameObject.name.StartsWith("Turtle"))
         {
             other.GetComponent<Turtle_Movement>().InLight(false);
+        }
+        else if (other.gameObject.name.StartsWith("Blob"))
+        {
+            other.GetComponent<Blob_Movement>().InLight(false);
         }
         else if (other.gameObject.name.StartsWith("Lock_LightSwitch"))
         {

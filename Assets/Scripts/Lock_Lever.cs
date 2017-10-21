@@ -19,7 +19,7 @@ public class Lock_Lever : Lock_SuperClass {
 
     protected override bool isBeingTriggered()
     {
-        if((Input.GetKeyDown(KeyCode.S) && player.GetComponent<PolygonCollider2D>().OverlapPoint(transform.FindChild("Open Point").GetComponent<Transform>().position)))
+        if((Input.GetKeyDown(KeyCode.S) && player.GetComponent<PolygonCollider2D>().OverlapPoint(transform.Find("Open Point").GetComponent<Transform>().position)))
         {
             transform.GetComponent<SpriteRenderer>().sprite = sprTriggered;
             return true;

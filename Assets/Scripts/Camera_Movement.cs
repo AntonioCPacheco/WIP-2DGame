@@ -19,8 +19,8 @@ public class Camera_Movement : MonoBehaviour
 
     Transform player;
     Vector3 mouse;
-    Vector3 topLeft = new Vector3(-3000f, 3000f, 0f);
-    Vector3 bottomRight = new Vector3(3000f, -3000f, 0f);
+    public Vector3 topLeft = new Vector3(-3000f, 3000f, 0f);
+    public Vector3 bottomRight = new Vector3(3000f, -3000f, 0f);
     Vector3 target;
 
     bool isGrounded = true;
@@ -56,9 +56,14 @@ public class Camera_Movement : MonoBehaviour
                     compensation2D = new Vector2(Mathf.Sign(mouseRelative.x), 0);
 
                 compensation2D = lookAhead * compensation2D;
-                target = new Vector3((player.position.x + compensation2D.x), (player.position.y + compensation2D.y), (player.position.z));
+                float targetX = (followMouse ? compensation2D.x : 0);
+                float targetY = (followMouse ? compensation2D.y : 0);
+                target = new Vector3((player.position.x + targetX), (player.position.y + targetY), (player.position.z));
             }
-            else{ target = player.position;}
+            else
+            {
+                target = player.position + new Vector3(lookAhead * player.localScale.x, lookUp, 0);
+            }
         }
         else{ target = camPositionSnap;}
 

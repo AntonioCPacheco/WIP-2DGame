@@ -75,7 +75,7 @@ public class Player_Health : MonoBehaviour {
 					Physics2D.IgnoreLayerCollision (LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Eyes"));
 					Physics2D.IgnoreLayerCollision (LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Crawlers"));
                     
-                    GameObject.Find("Spotlight").GetComponent<Light>().color = damageColor;
+                    if(spotlight != null) spotlight.GetComponent<Light>().color = damageColor;
                 }
 
 				res = true;

@@ -197,7 +197,7 @@ public class Player_Movement : MonoBehaviour {
 				doors.Add (ladder);
 			for (int i = 0; i < doors.Count; i++) {
 				Transform child = doors [i];
-				if (GetComponent<PolygonCollider2D> ().OverlapPoint (new Vector2 (child.FindChild ("EntrancePoint").position.x, child.FindChild ("EntrancePoint").position.y)) && child.GetComponent<Player_EnterDoors>().isOpen) {
+				if (GetComponent<PolygonCollider2D> ().OverlapPoint (new Vector2 (child.Find ("EntrancePoint").position.x, child.Find ("EntrancePoint").position.y)) && child.GetComponent<Player_EnterDoors>().isOpen) {
 					child.GetComponent<Player_EnterDoors> ().changeRoom ();
 					break;
 				}
@@ -210,7 +210,7 @@ public class Player_Movement : MonoBehaviour {
 			for (int i = 0; i < cases.Count; i++) {
 				Transform child = cases [i];
 				Debug.Log ("[Player_Movement] Found a case in " + child.parent.parent.gameObject.name);
-				if (GetComponent<BoxCollider2D> ().OverlapPoint (new Vector2 (child.FindChild ("OpeningPoint").position.x, child.FindChild ("OpeningPoint").position.y))) {
+				if (GetComponent<BoxCollider2D> ().OverlapPoint (new Vector2 (child.Find ("OpeningPoint").position.x, child.Find ("OpeningPoint").position.y))) {
 					child.GetComponent<Case_Open> ().Open ();
 					Debug.Log ("[Player_Movement] Tried to open a case in " + child.parent.parent.gameObject.name);
 					break;
@@ -221,7 +221,7 @@ public class Player_Movement : MonoBehaviour {
 			for (int i = 0; i < items.Count; i++) {
 				Transform child = items [i];
 				Debug.Log ("[Player_Movement] Found an item in " + child.parent.parent.gameObject.name);
-				if (GetComponent<BoxCollider2D> ().OverlapPoint (new Vector2 (child.FindChild ("PickUpPoint").position.x, child.FindChild ("PickUpPoint").position.y))) {
+				if (GetComponent<BoxCollider2D> ().OverlapPoint (new Vector2 (child.Find ("PickUpPoint").position.x, child.Find ("PickUpPoint").position.y))) {
 					child.GetComponent<Item_SuperClass> ().OnPickUp ();
 					Debug.Log ("[Player_Movement] Tried to pick up an item in " + child.parent.parent.gameObject.name);
 					break;
