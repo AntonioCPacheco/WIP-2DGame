@@ -40,4 +40,9 @@ public class Lock_LightSwitch : Lock_SuperClass {
     {
         return;
     }
+
+    protected override void OnTriggerEnter2D(Collider2D other)
+    {
+        print("Light Switch - Trigger Enter 2D Not Implemented");
+    }
 }

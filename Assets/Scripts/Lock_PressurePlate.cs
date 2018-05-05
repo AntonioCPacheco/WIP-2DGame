@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Lock_PressurePlate : Lock_SuperClass {
 
@@ -14,7 +15,7 @@ public class Lock_PressurePlate : Lock_SuperClass {
         {
             player = GameObject.Find("Player Prefab").transform;
         }
-        untriggerable = true;
+        untriggerable = false;
         SuperStart();
     }
 	
@@ -33,5 +34,10 @@ public class Lock_PressurePlate : Lock_SuperClass {
     {
         transform.GetComponent<SpriteRenderer>().sprite = sprUnTriggered;
         return;
+    }
+
+    protected override void OnTriggerEnter2D(Collider2D other)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -31,4 +31,9 @@ public class Lock_Lever : Lock_SuperClass {
     {
         return;
     }
+
+    protected override void OnTriggerEnter2D(Collider2D other)
+    {
+        print("Lever - Trigger Enter 2D Not Implemented");
+    }
 }

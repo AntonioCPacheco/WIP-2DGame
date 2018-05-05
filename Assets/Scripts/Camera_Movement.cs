@@ -45,7 +45,7 @@ public class Camera_Movement : MonoBehaviour
             mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mouseRelative = mouse - player.position;
 
-            if (mouseRelative.magnitude > minMouseDistance)
+            if (followMouse && mouseRelative.magnitude > minMouseDistance)
             {
                 Vector2 compensation2D = new Vector2();
                 if (Mathf.Abs(mouseRelative.x / mouseRelative.y) <= 0.5f)

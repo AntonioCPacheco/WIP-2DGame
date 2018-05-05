@@ -38,7 +38,7 @@ public abstract class Lock_SuperClass : MonoBehaviour {
 
     protected void untrigger()
     {
-        if(triggered && untriggerable)
+        if(triggered && !untriggerable)
             triggerAux(false);
     }
 
@@ -50,6 +50,8 @@ public abstract class Lock_SuperClass : MonoBehaviour {
         if(!t) childUnTrigger();
         door.GetComponent<Player_EnterDoors>().checkLocks();
     }
+
+    protected abstract void OnTriggerEnter2D(Collider2D other);
 
     protected abstract bool isBeingTriggered();
     protected abstract void childUnTrigger();

@@ -9,11 +9,10 @@ public class Player_Movement : MonoBehaviour {
 
 	float stamina = 1.0f;
 	bool running = false;
-    public bool ableToRun = false;
+    bool ableToRun = false;
 
     public bool onTopOfSomething = true;
     public Vector2 somethingsVelocity;
-
 
 	bool facingRight = true;
 
@@ -28,7 +27,7 @@ public class Player_Movement : MonoBehaviour {
 	public Transform groundCheck;
 
     //WallJumping Variables
-    public bool CanWallJump = false;
+    bool CanWallJump = false;
 	bool isWallJumping = false;
 	bool alreadyWallJumped = false;
 	bool huggingBackWall = false;
@@ -36,25 +35,31 @@ public class Player_Movement : MonoBehaviour {
 	public Transform rightWallCheck;
 	public Transform leftWallCheck;
 
+    //Box variables
+    bool hasBox = false;
+    GameObject box = null;
+    bool isPickingUp = false;
+
 	//Jumped Twice boolean
 	//bool jumpedTwice = false;
 
 	//Masks
 	public LayerMask whatIsGround;
-	public LayerMask whatIsWall;
+	LayerMask whatIsWall;
+    public LayerMask whatIsBoxes;
 
-	//Jump Forces
-	public float jumpForce = 700f;
-	public float jumpSideForce = 1000f;
+    //Jump Forces
+    public float jumpForce = 700f;
+	float jumpSideForce = 1000f;
 
-    public float knockback = 300f;
+    float knockback = 300f;
 
 	bool jumpNext = false;
-	public int jumpNextWindow = 10;
+	int jumpNextWindow = 10;
 	int jumpNextDeltaFrames = 0;
 
-	//public int maxJumpFrames = 90;
-	//int jumpFrames = 0;
+    bool alreadyPressedJump = false;
+    
 	Game_RoomManager roomManager;
 	Rigidbody2D rBody;
 	Camera_Movement mainCamera;
@@ -66,70 +71,18 @@ public class Player_Movement : MonoBehaviour {
 		mainCamera = GameObject.Find ("Main Camera").GetComponent<Camera_Movement> ();
 	}
 
-	//Deals with groundchecks and wallchecks
+	//Deals with collision checks(ground, walls, boxes) and physics
 	void FixedUpdate(){
-		if (canMove()) {
-			//Check if the GameObject is on the ground
-			Vector3 auxGCPos1 = new Vector3 (groundCheck.position.x + 4.0f, groundCheck.position.y, groundCheck.position.z);
-			Vector3 auxGCPos2 = new Vector3 (groundCheck.position.x - 4.0f, groundCheck.position.y, groundCheck.position.z);
-			grounded = Physics2D.OverlapCircle (auxGCPos1, groundRadius, whatIsGround);
-			grounded = grounded ? grounded : Physics2D.OverlapCircle (auxGCPos2, groundRadius, whatIsGround);
-			anim.SetBool ("Ground", grounded); //telling the Animator wether the GameObject is on the ground
+        if (!canMove())
+        {
+            return;
+        }
 
-			//Setting jump booleans in the case the GameObject is on the ground
-			if (grounded) {
-				//jumpedTwice = false;
-				alreadyWallJumped = false;
-				isWallJumping = false;
-				if (jumpNext) {
-					Jump ();
-				}
-				//jumpFrames = 0;
-			} else {
-				if (jumpNext) {
-					jumpNextDeltaFrames++;
-				}
-				if (jumpNextDeltaFrames > jumpNextWindow) {
-					jumpNext = false;
-					jumpNextDeltaFrames = 0;
-				}
-			}
-
-            //Checking if the GameObject is hugging any walls
-            if (CanWallJump) {
-                huggingFrontWall = Physics2D.OverlapCircle(rightWallCheck.position, groundRadius, whatIsWall);
-                if (!huggingFrontWall) {
-                    huggingBackWall = Physics2D.OverlapCircle(leftWallCheck.position, groundRadius, whatIsWall);
-                }
-            }
-		
-			anim.SetFloat ("vSpeed", rBody.velocity.y);
-			anim.SetFloat ("hSpeed", rBody.velocity.x);
-			anim.SetFloat ("AbsHSpeed", Mathf.Abs (rBody.velocity.x));
-			if (!isWallJumping){
-				
-				float move = Input.GetAxis ("Horizontal");
-				anim.SetFloat ("Speed", Mathf.Abs (move));
-
-				if (!isWaiting) {
-                    if (grounded)
-                    {
-                        rBody.velocity = new Vector2(move * (maxSpeed * (running ? 2 : 1)), rBody.velocity.y);
-                        if (onTopOfSomething)
-                        {
-                            rBody.velocity += somethingsVelocity;
-                            somethingsVelocity = Vector2.zero;
-                        }
-                    }
-                    else
-                        rBody.velocity = new Vector2(move * (maxJumpingSpeed * (running ? 2 : 1)), rBody.velocity.y);
-				}
-				if (move > 0 && !facingRight)
-					Flip ();
-				else if (move < 0 && facingRight)
-					Flip ();
-			}
-		}
+        checkGround();
+        checkJumpStatus();
+        checkWalls();
+        //also handles animator variables
+        handleHorizontalInput();
 	}
 
 	//Main function, deals with most of the player input. I should probably move the input elsewhere...
@@ -138,13 +91,6 @@ public class Player_Movement : MonoBehaviour {
 			rBody.velocity = Vector2.zero;
 			return;
 		}
-
-		if (running) {
-			stamina -= 0.0025f;
-		} else if (stamina < 1.0f) {
-			stamina += 0.0025f;
-		}
-
 		if (isWaiting) {
 			framesToWait--;
 			if (framesToWait == 0) {
@@ -154,80 +100,11 @@ public class Player_Movement : MonoBehaviour {
 			}
 		}
 
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			if (grounded /*|| !jumpedTwice*/) {
-				//if (!grounded) {
-				//	jumpedTwice = true;
-				//	Jump ();
-				//} else {
-				Jump ();
-				//anim.SetBool ("Ground", false);		
-				//}
-			} else if (CanWallJump && !alreadyWallJumped) {
-				if (huggingFrontWall) {
-					JumpBackward ();
-					alreadyWallJumped = true;
-				} else if (huggingBackWall) {
-					JumpForward ();
-					alreadyWallJumped = true;
-				} else {
-					jumpNext = true;
-				}
-			}
-		}
-		if (((Input.GetKeyDown (KeyCode.LeftShift) && stamina > 0.1f) || ((!running && Input.GetKey (KeyCode.LeftShift)) && stamina > 0.3f)) && ableToRun) {
-			anim.SetBool ("Running", true);
-			running = true;
-		}
-		if (Input.GetKeyUp (KeyCode.LeftShift) || stamina < 0.01) {
-			anim.SetBool ("Running", false);
-			running = false;
-		}
-		if (Input.GetKeyUp (KeyCode.Space) && rBody.velocity.y > 0f) {
-			rBody.velocity = new Vector2 (rBody.velocity.x, rBody.velocity.y*0.6f);
-			//jumpFrames = maxJumpFrames + 1;
-		}
-		//Enter doors
-		if (Input.GetKeyDown (KeyCode.UpArrow) || Input.GetKeyDown (KeyCode.W)) {
-			List<Transform> doors = roomManager.GetActiveDoors ();
-			if (roomManager.GetInitialDoor () != null)
-				doors.Add (roomManager.GetInitialDoor ());
-			Transform ladder = roomManager.GetActiveLadder ();
-			if (ladder != null)
-				doors.Add (ladder);
-			for (int i = 0; i < doors.Count; i++) {
-				Transform child = doors [i];
-				if (GetComponent<PolygonCollider2D> ().OverlapPoint (new Vector2 (child.Find ("EntrancePoint").position.x, child.Find ("EntrancePoint").position.y)) && child.GetComponent<Player_EnterDoors>().isOpen) {
-					child.GetComponent<Player_EnterDoors> ().changeRoom ();
-					break;
-				}
-			}
-		}
-
-		//Open chests
-		if(Input.GetKeyDown (KeyCode.DownArrow) || Input.GetKeyDown (KeyCode.S)) {
-			List<Transform> cases = roomManager.GetActiveCases ();
-			for (int i = 0; i < cases.Count; i++) {
-				Transform child = cases [i];
-				Debug.Log ("[Player_Movement] Found a case in " + child.parent.parent.gameObject.name);
-				if (GetComponent<BoxCollider2D> ().OverlapPoint (new Vector2 (child.Find ("OpeningPoint").position.x, child.Find ("OpeningPoint").position.y))) {
-					child.GetComponent<Case_Open> ().Open ();
-					Debug.Log ("[Player_Movement] Tried to open a case in " + child.parent.parent.gameObject.name);
-					break;
-				}
-			}
-
-			List<Transform> items = roomManager.GetActiveItems ();
-			for (int i = 0; i < items.Count; i++) {
-				Transform child = items [i];
-				Debug.Log ("[Player_Movement] Found an item in " + child.parent.parent.gameObject.name);
-				if (GetComponent<BoxCollider2D> ().OverlapPoint (new Vector2 (child.Find ("PickUpPoint").position.x, child.Find ("PickUpPoint").position.y))) {
-					child.GetComponent<Item_SuperClass> ().OnPickUp ();
-					Debug.Log ("[Player_Movement] Tried to pick up an item in " + child.parent.parent.gameObject.name);
-					break;
-				}
-			}
-		}
+        handleJumpInput1();
+        handleRunInput();
+        handleJumpInput2();
+        handleVerticalInput();
+        handlePickUp();
 	}
 		
 	//Wall jump if player is facing the wall
@@ -247,7 +124,7 @@ public class Player_Movement : MonoBehaviour {
 
 	//Main jump
 	void Jump(){
-		rBody.AddForce (new Vector2 (0, (jumpForce * ((Mathf.Abs(rBody.velocity.x)>80 ) ? 1 : 0.7f)) - (rBody.velocity.y * 45)));
+		rBody.AddForce (new Vector2 (0, (jumpForce * (/*(Mathf.Abs(rBody.velocity.x)>80 ) ? 1 : */0.7f)) - (rBody.velocity.y * 45)));
 	}
 
 	//Flip player sprite to face the opposite direction
@@ -319,4 +196,236 @@ public class Player_Movement : MonoBehaviour {
 		return stamina;
 	}
 
+    void handleVerticalInput()
+    {
+        //Enter doors
+        if (Input.GetAxis("Vertical") > 0.1)
+        {
+            List<Transform> doors = roomManager.GetActiveDoors();
+            if (roomManager.GetInitialDoor() != null)
+                doors.Add(roomManager.GetInitialDoor());
+            Transform ladder = roomManager.GetActiveLadder();
+            if (ladder != null)
+                doors.Add(ladder);
+            for (int i = 0; i < doors.Count; i++)
+            {
+                Transform child = doors[i];
+                if (GetComponent<PolygonCollider2D>().OverlapPoint(new Vector2(child.Find("EntrancePoint").position.x, child.Find("EntrancePoint").position.y)) && child.GetComponent<Player_EnterDoors>().isOpen)
+                {
+                    child.GetComponent<Player_EnterDoors>().changeRoom();
+                    break;
+                }
+            }
+        }
+
+        //Open chests
+        if (Input.GetAxis("Vertical") < 0.1)
+        {
+            List<Transform> cases = roomManager.GetActiveCases();
+            for (int i = 0; i < cases.Count; i++)
+            {
+                Transform child = cases[i];
+                Debug.Log("[Player_Movement] Found a case in " + child.parent.parent.gameObject.name);
+                if (GetComponent<BoxCollider2D>().OverlapPoint(new Vector2(child.Find("OpeningPoint").position.x, child.Find("OpeningPoint").position.y)))
+                {
+                    child.GetComponent<Case_Open>().Open();
+                    Debug.Log("[Player_Movement] Tried to open a case in " + child.parent.parent.gameObject.name);
+                    break;
+                }
+            }
+
+            List<Transform> items = roomManager.GetActiveItems();
+            for (int i = 0; i < items.Count; i++)
+            {
+                Transform child = items[i];
+                Debug.Log("[Player_Movement] Found an item in " + child.parent.parent.gameObject.name);
+                if (GetComponent<BoxCollider2D>().OverlapPoint(new Vector2(child.Find("PickUpPoint").position.x, child.Find("PickUpPoint").position.y)))
+                {
+                    child.GetComponent<Item_SuperClass>().OnPickUp();
+                    Debug.Log("[Player_Movement] Tried to pick up an item in " + child.parent.parent.gameObject.name);
+                    break;
+                }
+            }
+        }
+    }
+    void handleJumpInput1()
+    {
+        if (!hasBox && !alreadyPressedJump && Input.GetAxis("Jump") > 0.1)
+        {
+            alreadyPressedJump = true;
+            if (grounded /*|| !jumpedTwice*/)
+            {
+                //if (!grounded) {
+                //	jumpedTwice = true;
+                //	Jump ();
+                //} else {
+                Jump();
+                //anim.SetBool ("Ground", false);		
+                //}
+            }
+            else if (CanWallJump && !alreadyWallJumped)
+            {
+                if (huggingFrontWall)
+                {
+                    JumpBackward();
+                    alreadyWallJumped = true;
+                }
+                else if (huggingBackWall)
+                {
+                    JumpForward();
+                    alreadyWallJumped = true;
+                }
+                else
+                {
+                    jumpNext = true;
+                }
+            }
+        }
+    }
+    void handleJumpInput2()
+    {
+        if (Input.GetAxis("Jump") < 0.1)
+        {
+            if (alreadyPressedJump)
+                alreadyPressedJump = false;
+            if(rBody.velocity.y > 0f)
+                rBody.velocity = new Vector2(rBody.velocity.x, rBody.velocity.y * 0.6f);
+            //jumpFrames = maxJumpFrames + 1;
+        }
+    }
+    void handleRunInput()
+    {
+        if (running)
+        {
+            stamina -= 0.0025f;
+        }
+        else if (stamina < 1.0f)
+        {
+            stamina += 0.0025f;
+        }
+
+        if (((Input.GetAxis("Run") > 0.1 && stamina > 0.1f) || ((!running && Input.GetAxis("Run") > 0.1) && stamina > 0.3f)) && ableToRun)
+        {
+            anim.SetBool("Running", true);
+            running = true;
+        }
+        if (Input.GetAxis("Run") < 0.1 || stamina < 0.01)
+        {
+            anim.SetBool("Running", false);
+            running = false;
+        }
+    }
+    void handlePickUp()
+    {
+        if(Input.GetAxis("PickUp") == 1 && !isPickingUp)
+        {
+            isPickingUp = true;
+            if (!hasBox)
+            {
+                Collider2D boxsCollider = Physics2D.OverlapCircle(rightWallCheck.position, groundRadius, whatIsBoxes);
+                print("Tried to pickup");
+                if (boxsCollider != null)
+                {
+                    print(boxsCollider.name);
+                    boxsCollider.gameObject.SetActive(false);
+                    box = boxsCollider.gameObject;
+                    box.transform.SetParent(this.transform);
+                    box.SetActive(false);
+                    hasBox = true;
+                    anim.SetTrigger("hasBox");
+                }
+            }
+            else
+            {
+                box.SetActive(true);
+                box.transform.SetParent(null);
+                box = null;
+                hasBox = false;
+                anim.SetTrigger("lostBox");
+            }
+        }
+        else if(isPickingUp && Input.GetAxis("PickUp") == 0)
+        {
+            isPickingUp = false;
+        }
+    }
+
+    void checkGround()
+    {
+        //Check if the GameObject is on the ground
+        Vector3 auxGCPos1 = new Vector3(groundCheck.position.x + 4.0f, groundCheck.position.y, groundCheck.position.z);
+        Vector3 auxGCPos2 = new Vector3(groundCheck.position.x - 4.0f, groundCheck.position.y, groundCheck.position.z);
+        grounded = Physics2D.OverlapCircle(auxGCPos1, groundRadius, whatIsGround);
+        grounded = grounded ? grounded : Physics2D.OverlapCircle(auxGCPos2, groundRadius, whatIsGround);
+        anim.SetBool("Ground", grounded); //telling the Animator whether the GameObject is on the ground
+    }
+    void checkJumpStatus()
+    {
+        //Setting jump booleans in the case the GameObject is on the ground
+        if (grounded)
+        {
+            //jumpedTwice = false;
+            alreadyWallJumped = false;
+            isWallJumping = false;
+            if (jumpNext)
+            {
+                Jump();
+            }
+            //jumpFrames = 0;
+        }
+        else
+        {
+            if (jumpNext)
+            {
+                jumpNextDeltaFrames++;
+            }
+            if (jumpNextDeltaFrames > jumpNextWindow)
+            {
+                jumpNext = false;
+                jumpNextDeltaFrames = 0;
+            }
+        }
+    }
+    void checkWalls()
+    { 
+        //Checking if the GameObject is hugging any walls
+        if (CanWallJump)
+        {
+            huggingFrontWall = Physics2D.OverlapCircle(rightWallCheck.position, groundRadius, whatIsWall);
+            if (!huggingFrontWall)
+            {
+                huggingBackWall = Physics2D.OverlapCircle(leftWallCheck.position, groundRadius, whatIsWall);
+            }
+        }
+    }
+    void handleHorizontalInput()
+    {
+        if (!isWallJumping)
+        {
+            float move = Input.GetAxis("Horizontal");
+            anim.SetFloat("Speed", Mathf.Abs(move));
+
+            if (!isWaiting)
+            {
+                if (grounded)
+                {
+                    rBody.velocity = new Vector2(move * (maxSpeed * (running ? 2 : 1) * (hasBox ? .5f : 1)), rBody.velocity.y);
+                    if (onTopOfSomething)
+                    {
+                        rBody.velocity += somethingsVelocity;
+                        somethingsVelocity = Vector2.zero;
+                    }
+                }
+                else
+                    rBody.velocity = new Vector2(move * (maxJumpingSpeed * (running ? 2 : 1) * (hasBox ? .5f : 1)), rBody.velocity.y);
+            }
+            if (move > 0 && !facingRight)
+                Flip();
+            else if (move < 0 && facingRight)
+                Flip();
+        }
+        anim.SetFloat("vSpeed", rBody.velocity.y);
+        anim.SetFloat("hSpeed", rBody.velocity.x - somethingsVelocity.x);
+        anim.SetFloat("AbsHSpeed", Mathf.Abs(rBody.velocity.x - somethingsVelocity.x));
+    }
 }
