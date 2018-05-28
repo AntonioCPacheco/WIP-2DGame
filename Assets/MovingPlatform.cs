@@ -5,7 +5,6 @@ using UnityEngine;
 public class MovingPlatform : MonoBehaviour
 {
     public float maxSpeed = 4f;
-    public bool facingRight = false;
 
     Vector3 vecZero = Vector3.zero;
     Rigidbody2D rbody;
@@ -13,6 +12,8 @@ public class MovingPlatform : MonoBehaviour
     bool playerOnTop = false;
 
     float lastX = 0f;
+
+    public bool enabled = true;
 
     // Use this for initialization
     void Start()
@@ -23,7 +24,14 @@ public class MovingPlatform : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rbody.velocity = new Vector2((facingRight ? 1 : -1) * 0.3f * maxSpeed, 0);
+        if (enabled)
+        {
+            rbody.velocity = new Vector2(0.3f * maxSpeed, 0);
+        }
+        else
+        {
+            rbody.velocity = new Vector2(0, 0);
+        }
         if (playerOnTop && lastX != transform.position.x)
         {
             GameObject.Find("Player Prefab").GetComponent<Player_Movement>().somethingsVelocity = (rbody.velocity);
@@ -33,8 +41,7 @@ public class MovingPlatform : MonoBehaviour
 
     public void Flip()
     {
-        facingRight = !facingRight;
-        transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+        maxSpeed *= -1;
     }
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -44,8 +51,6 @@ public class MovingPlatform : MonoBehaviour
             GameObject.Find("Player Prefab").GetComponent<Player_Movement>().onTopOfSomething = true;
             playerOnTop = true;
         }
-        else if (coll.gameObject.layer == LayerMask.NameToLayer("Floor"))
-            Flip();
     }
 
     void OnCollisionExit2D(Collision2D col)
@@ -55,5 +60,21 @@ public class MovingPlatform : MonoBehaviour
             GameObject.Find("Player Prefab").GetComponent<Player_Movement>().onTopOfSomething = false;
             playerOnTop = false;
         }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Floor"))
+            Flip();
+    }
+
+    public void enable()
+    {
+        enabled = true;
+    }
+
+    public void disable()
+    {
+        enabled = false;
     }
 }

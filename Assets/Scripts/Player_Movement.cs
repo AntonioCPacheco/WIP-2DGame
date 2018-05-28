@@ -60,13 +60,13 @@ public class Player_Movement : MonoBehaviour {
 
     bool alreadyPressedJump = false;
     
-	Game_RoomManager roomManager;
 	Rigidbody2D rBody;
 	Camera_Movement mainCamera;
+
+    bool startedDialogue = false;
 	
 	void Start(){
 		anim = GetComponent<Animator>();
-		roomManager = GameObject.Find ("RoomManager").GetComponent<Game_RoomManager> ();
 		rBody = GetComponent<Rigidbody2D> ();
 		mainCamera = GameObject.Find ("Main Camera").GetComponent<Camera_Movement> ();
 	}
@@ -75,6 +75,7 @@ public class Player_Movement : MonoBehaviour {
 	void FixedUpdate(){
         if (!canMove())
         {
+            anim.SetFloat("Speed", 0);
             return;
         }
 
@@ -89,7 +90,7 @@ public class Player_Movement : MonoBehaviour {
 	void Update(){
 		if (!canMove ()) {
 			rBody.velocity = Vector2.zero;
-			return;
+            return;
 		}
 		if (isWaiting) {
 			framesToWait--;
@@ -124,7 +125,7 @@ public class Player_Movement : MonoBehaviour {
 
 	//Main jump
 	void Jump(){
-		rBody.AddForce (new Vector2 (0, (jumpForce * (/*(Mathf.Abs(rBody.velocity.x)>80 ) ? 1 : */0.7f)) - (rBody.velocity.y * 45)));
+		rBody.AddForce (new Vector2 (0, (jumpForce * (hasBox? 0.45f : 0.7f)) - (rBody.velocity.y * 45)));
 	}
 
 	//Flip player sprite to face the opposite direction
@@ -143,7 +144,6 @@ public class Player_Movement : MonoBehaviour {
 		isWaiting = true;
 		framesToWait = xFrames;
 	}
-
 
 	//Teleport player to given position
 	public void MovePlayerTo(Vector3 vec3){
@@ -185,7 +185,7 @@ public class Player_Movement : MonoBehaviour {
 	//Function that returns true if the player is allowed to move and false otherwise
 	//Needs work though
 	bool canMove(){
-		return !gameObject.GetComponent<Player_Health> ().isDead ();
+		return (!gameObject.GetComponent<Player_Health> ().isDead () && !startedDialogue);
 	}
 
 	public bool isGrounded(){
@@ -201,23 +201,18 @@ public class Player_Movement : MonoBehaviour {
         //Enter doors
         if (Input.GetAxis("Vertical") > 0.1)
         {
-            List<Transform> doors = roomManager.GetActiveDoors();
-            if (roomManager.GetInitialDoor() != null)
-                doors.Add(roomManager.GetInitialDoor());
-            Transform ladder = roomManager.GetActiveLadder();
-            if (ladder != null)
-                doors.Add(ladder);
-            for (int i = 0; i < doors.Count; i++)
+            Player_EnterDoors[] doors = FindObjectsOfType<Player_EnterDoors>();
+            for (int i = 0; i < doors.Length; i++)
             {
-                Transform child = doors[i];
-                if (GetComponent<PolygonCollider2D>().OverlapPoint(new Vector2(child.Find("EntrancePoint").position.x, child.Find("EntrancePoint").position.y)) && child.GetComponent<Player_EnterDoors>().isOpen)
+                Transform child = doors[i].transform;
+                if (GetComponent<BoxCollider2D>().OverlapPoint(new Vector2(child.Find("EntrancePoint").position.x, child.Find("EntrancePoint").position.y)) && doors[i].isOpen)
                 {
-                    child.GetComponent<Player_EnterDoors>().changeRoom();
+                    doors[i].changeRoom();
                     break;
                 }
             }
         }
-
+        /*
         //Open chests
         if (Input.GetAxis("Vertical") < 0.1)
         {
@@ -246,11 +241,11 @@ public class Player_Movement : MonoBehaviour {
                     break;
                 }
             }
-        }
+        }*/
     }
     void handleJumpInput1()
     {
-        if (!hasBox && !alreadyPressedJump && Input.GetAxis("Jump") > 0.1)
+        if (!alreadyPressedJump && Input.GetAxis("Jump") > 0.1)
         {
             alreadyPressedJump = true;
             if (grounded /*|| !jumpedTwice*/)
@@ -332,7 +327,7 @@ public class Player_Movement : MonoBehaviour {
                     box.transform.SetParent(this.transform);
                     box.SetActive(false);
                     hasBox = true;
-                    anim.SetTrigger("hasBox");
+                    anim.SetTrigger("pickBox");
                 }
             }
             else
@@ -348,6 +343,7 @@ public class Player_Movement : MonoBehaviour {
         {
             isPickingUp = false;
         }
+        anim.SetBool("hasBox", hasBox);
     }
 
     void checkGround()
@@ -427,5 +423,15 @@ public class Player_Movement : MonoBehaviour {
         anim.SetFloat("vSpeed", rBody.velocity.y);
         anim.SetFloat("hSpeed", rBody.velocity.x - somethingsVelocity.x);
         anim.SetFloat("AbsHSpeed", Mathf.Abs(rBody.velocity.x - somethingsVelocity.x));
+    }
+
+    public void startDialogue()
+    {
+        startedDialogue = true;
+    }
+
+    public void stopDialogue()
+    {
+        startedDialogue = false;
     }
 }

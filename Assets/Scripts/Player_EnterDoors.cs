@@ -7,6 +7,8 @@ public class Player_EnterDoors : MonoBehaviour {
 	public Transform nextRoom;
 	public Transform currentRoom;
 
+    public Transform npcDoor;
+
     public Transform[] locks;
 
     public bool isOpen = false;
@@ -15,10 +17,13 @@ public class Player_EnterDoors : MonoBehaviour {
 
 	bool beenInitialized = false;
 
+    public bool sameRoomAsNPC = false;
+
 	// Use this for initialization
 	void Start () {
-		//beenInitialized = false;
-	}
+        //beenInitialized = false;
+        GetComponent<Animator>().SetBool("OpenDoor", isOpen);
+    }
 
     void Awake()
     {
@@ -39,10 +44,20 @@ public class Player_EnterDoors : MonoBehaviour {
 	}
 
 	public void changeRoom(){
+        if (linkedDoor == null)
+        {
+            print("Can't go in this door");
+            return;
+        }
+        Camera mainCamera = Camera.main;
+        mainCamera.GetComponent<Camera_Movement>().followNPC = linkedDoor.GetComponent<Player_EnterDoors>().sameRoomAsNPC;
 		Vector3 v3 = linkedDoor.TransformVector(linkedDoor.position);
 		GameObject.Find("Player Prefab").GetComponent<Player_Movement>().MovePlayerTo(v3);
-		Debug.Log ("Changing to Room : " + nextRoom.gameObject.name);
-		GameObject.Find ("RoomManager").GetComponent<Game_RoomManager> ().ChangeActiveRoom (nextRoom);
+
+        if(npcDoor != null)
+        {
+            GameObject.Find("NPC").GetComponent<NPC_Movement>().moveNPCto(npcDoor.position);
+        }
 	}
 
     public void open()
@@ -59,5 +74,11 @@ public class Player_EnterDoors : MonoBehaviour {
             if (!locks[i].GetComponent<Lock_SuperClass>().triggered) auxOpen = false;
         }
         if (auxOpen && !isOpen) open();
+        updateIndicators();
+    }
+
+    public void updateIndicators() //Call when a new lock triggers
+    {
+        this.transform.GetComponentInChildren<Door_DisplayLockStates>().triggerLock();
     }
 }

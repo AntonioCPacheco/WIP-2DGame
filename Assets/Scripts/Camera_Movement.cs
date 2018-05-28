@@ -12,12 +12,14 @@ public class Camera_Movement : MonoBehaviour
 
     public bool followPlayer = true;
     public bool followMouse = true;
+    public bool followNPC = true;
 
     public Vector3 camPositionSnap = Vector3.zero;
 
     Vector3 velocity = Vector3.zero;
 
     Transform player;
+    Transform npc;
     Vector3 mouse;
     public Vector3 topLeft = new Vector3(-3000f, 3000f, 0f);
     public Vector3 bottomRight = new Vector3(3000f, -3000f, 0f);
@@ -31,6 +33,7 @@ public class Camera_Movement : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player Prefab").transform;
+        npc = GameObject.Find("NPC").transform;
         mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         cam = GetComponent<Camera>();
@@ -59,6 +62,10 @@ public class Camera_Movement : MonoBehaviour
                 float targetX = (followMouse ? compensation2D.x : 0);
                 float targetY = (followMouse ? compensation2D.y : 0);
                 target = new Vector3((player.position.x + targetX), (player.position.y + targetY), (player.position.z));
+            }
+            else if(followNPC)
+            {
+                target = (player.position + npc.position)/2 + new Vector3(lookAhead * player.localScale.x, lookUp, 0);
             }
             else
             {
