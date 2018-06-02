@@ -8,8 +8,10 @@ public class DialogueManager : MonoBehaviour {
     private int sentencesDisplayed = 0;
     private float[] npcSteps;
 
+    int numOfSingleLines = 0;
+
     Transform childObject;
-    MovingPlatform platform;
+    Lock_SuperClass linkedLock;
 
     bool waitForContinue = false;
 
@@ -22,21 +24,29 @@ public class DialogueManager : MonoBehaviour {
         }
         sentences = new Queue<string>();
 	}
-	
-	public void StartDialogue(Dialogue dialogue, float[] npcSteps, MovingPlatform platform)
+
+
+    public void StartDialogue(Dialogue dialogue, float[] npcSteps, int numOfSingleLines, Lock_SuperClass linkedLock)
     {
         sentencesDisplayed = 0;
         sentences.Clear();
-        this.npcSteps = npcSteps;
-        this.platform = platform;
+        if (npcSteps != null)
+            this.npcSteps = npcSteps;
+        this.linkedLock = linkedLock;
+        this.numOfSingleLines = numOfSingleLines;
         GameObject.Find("Player Prefab").GetComponent<Player_Movement>().startDialogue();
         GameObject.Find("NPC").GetComponent<NPC_Movement>().startDialogue();
-        
+
         foreach (string sentence in dialogue.sentences)
         {
             sentences.Enqueue(sentence);
         }
         DisplayNextSentence();
+    }
+
+    public void StartDialogue(Dialogue dialogue, float[] npcSteps, int numOfSingleLines)
+    {
+        StartDialogue(dialogue, npcSteps, numOfSingleLines, null);
     }
 
     public void DisplayNextSentence()
@@ -46,8 +56,9 @@ public class DialogueManager : MonoBehaviour {
             return;
         }
 
-        if (sentences.Count > 5)
+        if (numOfSingleLines > 0)
         {
+            numOfSingleLines--;
             DisplaySingleDialogue();
             return;
         }
@@ -100,12 +111,18 @@ public class DialogueManager : MonoBehaviour {
         }
         GameObject.Find("Player Prefab").GetComponent<Player_Movement>().stopDialogue();
         GameObject.Find("NPC").GetComponent<NPC_Movement>().stopDialogue();
-        if(platform != null) platform.enable();
     }
 
     public void pickChoice(int choice) //from 0 - 3
     {
         if (choice < 1 || choice > 4) throw new System.Exception("Choice out of range.");
+        if (npcSteps == null || npcSteps.Length == 0)
+        {
+            EndDialogue();
+            StopAllCoroutines();
+            print("No steps for the NPC to take.");
+            return;
+        }
         //Log choice
         print(getIndex(choice).text);
         GameObject.Find("NPC").GetComponent<NPC_Movement>().setNextStep(npcSteps[choice - 1]);

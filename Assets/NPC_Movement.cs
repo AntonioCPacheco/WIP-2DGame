@@ -21,7 +21,6 @@ public class NPC_Movement : MonoBehaviour
     float xBeforeTarget;
     float target;
     bool reachedTarget = true;
-    bool lastTarget = false;
 
     bool inDialogue = false;
     bool changedNextStep = true;
@@ -37,7 +36,7 @@ public class NPC_Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (inDialogue || lastTarget) { return; }
+        if (inDialogue) { return; }
         if (isReadyForNextStep())
         {
             xBeforeTarget = this.transform.position.x;
@@ -104,7 +103,7 @@ public class NPC_Movement : MonoBehaviour
 
     bool isReadyForNextStep()
     {
-        return (reachedTarget && !inDialogue && changedNextStep);
+        return (!inDialogue && changedNextStep);
     }
 
     public void setNextStep(float nextStep)
@@ -115,13 +114,6 @@ public class NPC_Movement : MonoBehaviour
 
     float getNextStep()
     {
-        /*if (pathQueue.Count == 0)
-        {
-            print("path empty");
-            lastTarget = true;
-            rbody.constraints = RigidbodyConstraints2D.FreezePositionX;
-            return this.transform.position.x;
-        }*/
         changedNextStep = false;
         return nextStep;
     }

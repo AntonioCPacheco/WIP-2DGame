@@ -106,7 +106,10 @@ public class Player_Movement : MonoBehaviour {
         handleJumpInput2();
         handleVerticalInput();
         handlePickUp();
-	}
+
+        if(Input.GetKeyDown(KeyCode.H))
+            halpImStuck();
+    }
 		
 	//Wall jump if player is facing the wall
 	void JumpBackward(){
@@ -318,7 +321,6 @@ public class Player_Movement : MonoBehaviour {
             if (!hasBox)
             {
                 Collider2D boxsCollider = Physics2D.OverlapCircle(rightWallCheck.position, groundRadius, whatIsBoxes);
-                print("Tried to pickup");
                 if (boxsCollider != null)
                 {
                     print(boxsCollider.name);
@@ -405,7 +407,7 @@ public class Player_Movement : MonoBehaviour {
             {
                 if (grounded)
                 {
-                    rBody.velocity = new Vector2(move * (maxSpeed * (running ? 2 : 1) * (hasBox ? .5f : 1)), rBody.velocity.y);
+                    rBody.velocity = new Vector2(move * (maxSpeed * (running ? 2 : 1) * (hasBox ? .6f : 1)), rBody.velocity.y);
                     if (onTopOfSomething)
                     {
                         rBody.velocity += somethingsVelocity;
@@ -413,7 +415,7 @@ public class Player_Movement : MonoBehaviour {
                     }
                 }
                 else
-                    rBody.velocity = new Vector2(move * (maxJumpingSpeed * (running ? 2 : 1) * (hasBox ? .5f : 1)), rBody.velocity.y);
+                    rBody.velocity = new Vector2(move * (maxJumpingSpeed * (running ? 2 : 1) * (hasBox ? .6f : 1)), rBody.velocity.y);
             }
             if (move > 0 && !facingRight)
                 Flip();
@@ -433,5 +435,10 @@ public class Player_Movement : MonoBehaviour {
     public void stopDialogue()
     {
         startedDialogue = false;
+    }
+
+    void halpImStuck()
+    {
+        MovePlayerTo(this.transform.position + new Vector3(0, 20, 0));
     }
 }

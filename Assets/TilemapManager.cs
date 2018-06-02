@@ -31,7 +31,7 @@ public class TilemapManager : MonoBehaviour {
         {
             updateTilemap = false;
             tilemapScript.UpdateTilemap();
-            UnityEditor.PrefabUtility.ReplacePrefab(child.gameObject, tilemapBackup);
+            //UnityEditor.PrefabUtility.ReplacePrefab(child.gameObject, tilemapBackup);
             if (tilemapBackup == null)
             {
                 tilemapBackup = (GameObject)Resources.Load("TilemapBackup", typeof(GameObject));

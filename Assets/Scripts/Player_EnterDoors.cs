@@ -19,10 +19,15 @@ public class Player_EnterDoors : MonoBehaviour {
 
     public bool sameRoomAsNPC = false;
 
+    public bool isInCutscene = false;
+
+    EndGame end;
+
 	// Use this for initialization
 	void Start () {
         //beenInitialized = false;
         GetComponent<Animator>().SetBool("OpenDoor", isOpen);
+        end = GetComponent<EndGame>();
     }
 
     void Awake()
@@ -47,6 +52,7 @@ public class Player_EnterDoors : MonoBehaviour {
         if (linkedDoor == null)
         {
             print("Can't go in this door");
+            if (end != null) end.endGame();
             return;
         }
         Camera mainCamera = Camera.main;
@@ -58,6 +64,8 @@ public class Player_EnterDoors : MonoBehaviour {
         {
             GameObject.Find("NPC").GetComponent<NPC_Movement>().moveNPCto(npcDoor.position);
         }
+
+        if (end != null) end.endGame();
 	}
 
     public void open()
@@ -74,7 +82,7 @@ public class Player_EnterDoors : MonoBehaviour {
             if (!locks[i].GetComponent<Lock_SuperClass>().triggered) auxOpen = false;
         }
         if (auxOpen && !isOpen) open();
-        updateIndicators();
+        if (!isInCutscene) updateIndicators();
     }
 
     public void updateIndicators() //Call when a new lock triggers

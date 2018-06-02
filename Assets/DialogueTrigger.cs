@@ -9,6 +9,7 @@ public class DialogueTrigger : MonoBehaviour {
 
     public Dialogue dialogue;
     public float[] npcSteps;
+    public int numOfSingleLines = 0;
 
     public void TriggerDialogue()
     {
@@ -18,8 +19,12 @@ public class DialogueTrigger : MonoBehaviour {
     IEnumerator waitForTime(float time)
     {
         print(Time.time);
+        if (platform != null)
+        {
+            platform.enable();
+        }
         yield return new WaitForSeconds(time);
-        FindObjectOfType<DialogueManager>().StartDialogue(dialogue, npcSteps, platform);
+        FindObjectOfType<DialogueManager>().StartDialogue(dialogue, npcSteps, numOfSingleLines);
         this.gameObject.SetActive(false);
         print(Time.time);
     }
