@@ -13,6 +13,8 @@ public class DialogueManager : MonoBehaviour {
     Transform childObject;
     Lock_SuperClass linkedLock;
 
+    GUI_FirstSelected es;
+
     bool waitForContinue = false;
 
 	// Use this for initialization
@@ -23,6 +25,7 @@ public class DialogueManager : MonoBehaviour {
             childObject.GetChild(i).gameObject.SetActive(false);
         }
         sentences = new Queue<string>();
+        es = GameObject.FindObjectOfType<GUI_FirstSelected>();
 	}
 
 
@@ -62,6 +65,7 @@ public class DialogueManager : MonoBehaviour {
             DisplaySingleDialogue();
             return;
         }
+        HandleFirstSelected(1);
         Text toChange = getIndex(sentencesDisplayed);
 
         string sentence = sentences.Dequeue();
@@ -73,6 +77,7 @@ public class DialogueManager : MonoBehaviour {
 
     void DisplaySingleDialogue()
     {
+        HandleFirstSelected(5);
         Text toChange = getIndex(0);
         getIndex(5);
 
@@ -137,10 +142,17 @@ public class DialogueManager : MonoBehaviour {
     }
 
     public void continueButton(){
+        print("a");
         waitForContinue = false;
         getIndex(5).transform.parent.gameObject.SetActive(false);
         getIndex(0).transform.parent.gameObject.SetActive(false);
+        if(numOfSingleLines == 0) HandleFirstSelected(1);
         StopAllCoroutines();
         DisplayNextSentence();
+    }
+
+    void HandleFirstSelected(int index)
+    {
+        es.setFirstSelected(childObject.GetChild(index).gameObject);
     }
 }

@@ -64,8 +64,16 @@ public class MovingPlatform : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Floor"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Floor") || playerFlipCondition(other))
             Flip();
+        else if (other.gameObject.layer == LayerMask.NameToLayer("Boxes"))
+            other.GetComponent<Rigidbody2D>().isKinematic = true;
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Boxes"))
+            other.GetComponent<Rigidbody2D>().isKinematic = false;
     }
 
     public void enable()
@@ -76,5 +84,14 @@ public class MovingPlatform : MonoBehaviour
     public void disable()
     {
         enabled = false;
+    }
+
+    bool playerFlipCondition(Collider2D other)
+    {
+        if (other.gameObject.layer != LayerMask.NameToLayer("Player")) return false;
+        if (other.GetType() != typeof(BoxCollider2D)) return false;
+        if (maxSpeed < 0 && other.transform.position.x < transform.position.x) return true;
+        if (maxSpeed > 0 && other.transform.position.x > transform.position.x) return true;
+        return false;
     }
 }

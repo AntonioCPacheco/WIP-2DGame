@@ -68,20 +68,20 @@ public class Game_RoomManager : MonoBehaviour {
 		//Checking if final room on floor
 		if (GetActiveLadder() != null) {
 			Player_EnterDoors ladder = GetActiveLadder().GetComponent<Player_EnterDoors> ();
-			
+			/*
 			ladder.currentRoom = activeRoom;
 			ladder.nextRoom = NewLevelFirstRoom();
-			ladder.linkedDoor = ladder.nextRoom.Find ("Entrance");
+			ladder.linkedDoor = ladder.nextRoom.Find ("Entrance").GetComponent<Player_EnterDoors>();*/
 		}
-
+        /*
 		//Creating rooms for the new doors and assigning accordingly
-		List<Transform> doors = GetActiveDoors ();
+		List<Player_EnterDoors> doors = GetActiveDoors ();
 		//Debug.Log (doors.Count);
 		for (int i = 0; i < doors.Count; i++) {
 			Player_EnterDoors doorAux = doors [i].GetComponent<Player_EnterDoors> ();
 			if (!doorAux.HasBeenInitialized ()) {
 				if (generateDoors) {
-					Debug.Log ("" + doors [i].parent.parent.gameObject.name + " - " + doors [i].parent.gameObject.name + " - " + doors [i].gameObject.name);
+					Debug.Log ("" + doors [i].transform.parent.parent.gameObject.name + " - " + doors [i].transform.parent.gameObject.name + " - " + doors [i].gameObject.name);
 					doorAux.currentRoom = activeRoom;
 					if (numberOfRooms == levelNumber * 3) {
 						doorAux.nextRoom = FinalRoom (doors [i]);
@@ -91,14 +91,14 @@ public class Game_RoomManager : MonoBehaviour {
 					} else {
 						doorAux.nextRoom = NewRoom (doors [i]);
 					}
-					doorAux.linkedDoor = doorAux.nextRoom.Find ("InitialDoor");
+					doorAux.linkedDoor = doorAux.nextRoom.Find ("InitialDoor").GetComponent<Player_EnterDoors>();
 	
 					doorAux.Initialized ();
 				} else {
 					Destroy(doors [i].gameObject);
 				}
 			} 
-		}
+		}*/
 
 		List<Transform> cases = GetActiveCases ();
 		for (int i = 0; i < cases.Count; i++) {
@@ -121,14 +121,14 @@ public class Game_RoomManager : MonoBehaviour {
 		return activeRoom.Find ("InitialDoor");
 	}
 
-	public List<Transform> GetActiveDoors(){ //InitialDoor doesn't count
+	public List<Player_EnterDoors> GetActiveDoors(){ //InitialDoor doesn't count
 		
-		List<Transform> res = new List<Transform>();
+		List<Player_EnterDoors> res = new List<Player_EnterDoors>();
 		if (activeRoom != null) {
 			Transform doors = activeRoom.Find ("Doors");
 			int numberOfDoors = doors.childCount;
 			for (int i = 1; i <= numberOfDoors; i++) {
-				res.Add(doors.Find ("Door " + i));
+				res.AddRange(doors.GetComponentsInChildren<Player_EnterDoors>());
 			}
 		}
 		return res;
@@ -182,34 +182,34 @@ public class Game_RoomManager : MonoBehaviour {
 		return room;
 	}
 
-	public Transform NewRoom(Transform entranceDoor){
+	public Transform NewRoom(Player_EnterDoors entranceDoor){
 		Transform room = (Transform)Instantiate (prefab_Rooms.Find("Room " + pickRandomRoom()), transform.position, transform.rotation);
 		numberOfRooms++;
 		room.name = "Room " + numberOfRooms;
-
-		//Creating essential components
-		Transform doorAux = room.Find("InitialDoor");
-		doorAux.GetComponent<Player_EnterDoors> ().linkedDoor = entranceDoor;
-		doorAux.GetComponent<Player_EnterDoors> ().currentRoom = room;
-		doorAux.GetComponent<Player_EnterDoors> ().nextRoom = entranceDoor.GetComponent<Player_EnterDoors>().currentRoom;
-		doorAux.GetComponent<Player_EnterDoors> ().Initialized ();
-
+        /*
+        //Creating essential components
+        Player_EnterDoors doorAux = room.Find("InitialDoor").GetComponent<Player_EnterDoors>();
+		doorAux.linkedDoor = entranceDoor;
+		doorAux.currentRoom = room;
+		doorAux.nextRoom = entranceDoor.currentRoom;
+		doorAux.Initialized ();
+        */
 		room.SetParent (activeLevel);
 		room.gameObject.SetActive (false);
 		return room;
 	}
 
-	Transform FinalRoom(Transform entranceDoor){
+	Transform FinalRoom(Player_EnterDoors entranceDoor){
 		Transform room = (Transform) Instantiate (prefab_FinalRoom, transform.position, transform.rotation);
 		numberOfRooms++;
 		room.name = "Room " + numberOfRooms;
-
-		Transform doorAux = room.Find("InitialDoor");
-		doorAux.GetComponent<Player_EnterDoors> ().linkedDoor = entranceDoor;
-		doorAux.GetComponent<Player_EnterDoors> ().currentRoom = room;
-		doorAux.GetComponent<Player_EnterDoors> ().nextRoom = entranceDoor.GetComponent<Player_EnterDoors>().currentRoom;
-		doorAux.GetComponent<Player_EnterDoors> ().Initialized ();
-
+        /*
+        Player_EnterDoors doorAux = room.Find("InitialDoor").GetComponent<Player_EnterDoors>();
+		doorAux.linkedDoor = entranceDoor;
+		doorAux.currentRoom = room;
+		doorAux.nextRoom = entranceDoor.currentRoom;
+		doorAux.Initialized ();
+        */
 		room.SetParent (activeLevel);
 		return room;
 	}

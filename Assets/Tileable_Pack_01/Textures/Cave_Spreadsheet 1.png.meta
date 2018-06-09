@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 72d033a5bb52e7b44a79196b463e743a
-timeCreated: 1527980056
+guid: 1040053afdd227a47b8321b044f2c3d9
+timeCreated: 1525480101
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -52,10 +52,6 @@ TextureImporter:
     21300090: Cave_Spreadsheet_45
     21300092: Cave_Spreadsheet_46
     21300094: Cave_Spreadsheet_47
-    21300096: Cave_Spreadsheet_48
-    21300098: Cave_Spreadsheet_49
-    21300100: Cave_Spreadsheet_50
-    21300102: Cave_Spreadsheet_51
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -994,78 +990,6 @@ TextureImporter:
         - {x: -24, y: -24}
         - {x: 24, y: -24}
         - {x: 24, y: 24}
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Cave_Spreadsheet_48
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 168
-        width: 48
-        height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 2, y: 28, z: 0, w: 0}
-      outline: []
-      physicsShape:
-      - - {x: -21.925388, y: 24}
-        - {x: -21.923914, y: 4}
-        - {x: 24, y: 4.0547943}
-        - {x: 24, y: 24}
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Cave_Spreadsheet_49
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 168
-        width: 48
-        height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 28, z: 0, w: 0}
-      outline: []
-      physicsShape:
-      - - {x: -24, y: 24}
-        - {x: -24, y: 3.9889984}
-        - {x: 24, y: 3.9469604}
-        - {x: 24, y: 24}
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Cave_Spreadsheet_50
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 168
-        width: 48
-        height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 28, z: 2, w: 0}
-      outline: []
-      physicsShape:
-      - - {x: -24, y: 24}
-        - {x: -24, y: 4.051712}
-        - {x: 22.003662, y: 3.973648}
-        - {x: 22.085709, y: 24}
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Cave_Spreadsheet_51
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 168
-        width: 48
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 2, y: 28, z: 2, w: 0}
-      outline: []
-      physicsShape:
-      - - {x: -22.030365, y: 24}
-        - {x: -21.986572, y: 4.006714}
-        - {x: 21.975616, y: 4.0587006}
-        - {x: 22.030365, y: 24}
       tessellationDetail: 0
     outline: []
     physicsShape: []

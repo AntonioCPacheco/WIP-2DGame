@@ -10,6 +10,10 @@ public class DialogueTrigger : MonoBehaviour {
     public Dialogue dialogue;
     public float[] npcSteps;
     public int numOfSingleLines = 0;
+    public bool onlyPlayerTrigger = true;
+
+    bool triggeredPlayer = false;
+    bool triggeredNPC = false;
 
     public void TriggerDialogue()
     {
@@ -19,11 +23,13 @@ public class DialogueTrigger : MonoBehaviour {
     IEnumerator waitForTime(float time)
     {
         print(Time.time);
+        
+        yield return new WaitForSeconds(time/2);
         if (platform != null)
         {
             platform.enable();
         }
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSeconds(time/2);
         FindObjectOfType<DialogueManager>().StartDialogue(dialogue, npcSteps, numOfSingleLines);
         this.gameObject.SetActive(false);
         print(Time.time);
@@ -31,9 +37,19 @@ public class DialogueTrigger : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") || other.CompareTag("NPC"))
+        if (other.CompareTag("Player"))
         {
-            TriggerDialogue();
+            if (onlyPlayerTrigger || triggeredNPC)
+                TriggerDialogue();
+            else
+                triggeredPlayer = true;
+        }
+        else if (other.CompareTag("NPC"))
+        {
+            if (triggeredPlayer)
+                TriggerDialogue();
+            else
+                triggeredNPC = true;
         }
     }
 }

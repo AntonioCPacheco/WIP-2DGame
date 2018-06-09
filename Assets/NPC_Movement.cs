@@ -7,6 +7,7 @@ public class NPC_Movement : MonoBehaviour
     public float nextStep = 160;
 
     public float maxSpeed = 4f;
+    public float jumpForce = 100f;
     bool facingPlayer;
     public bool facingRight = false;
 
@@ -21,6 +22,8 @@ public class NPC_Movement : MonoBehaviour
     float xBeforeTarget;
     float target;
     bool reachedTarget = true;
+
+    bool isJumping = false;
 
     bool inDialogue = false;
     bool changedNextStep = true;
@@ -44,7 +47,7 @@ public class NPC_Movement : MonoBehaviour
             facingRight = xBeforeTarget < target;
             Turn();
         }
-        if (!grounded || reachedTarget && !changedNextStep)
+        if ((!grounded && !isJumping) || reachedTarget && !changedNextStep)
         {
             rbody.velocity = new Vector2(0, rbody.velocity.y);
         }
@@ -64,6 +67,7 @@ public class NPC_Movement : MonoBehaviour
         anim.SetBool("Grounded", grounded);
         
         anim.SetFloat("Speed", Mathf.Abs(rbody.velocity.x));
+        anim.SetFloat("vSpeed", rbody.velocity.y);
         //if (!facingPlayer && (Mathf.Abs(player.transform.position.x - transform.position.x) > 7))
         //    Flip();
     }
@@ -132,5 +136,38 @@ public class NPC_Movement : MonoBehaviour
     {
         this.transform.position = newPos;
         nextStep = newPos.x + 50;
+    }
+
+    public bool tryEnterDoor(Player_EnterDoors sc)
+    {
+        if (reachedTarget)
+        {
+            enterDoor(sc);
+            return true;
+        }
+        return false;
+    }
+
+    private void enterDoor(Player_EnterDoors sc)
+    {
+        sc.changeRoom(false);
+        setVisibility(false);
+    }
+
+    public void setVisibility(bool visibility)
+    {
+        this.GetComponent<SpriteRenderer>().enabled = visibility;
+    }
+
+    public void jump()
+    {
+        isJumping = true;
+        rbody.AddForce(new Vector2(0, (jumpForce - (rbody.velocity.y * 45))));
+    }
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        print(coll.gameObject.name);
+        if (coll.gameObject.layer != LayerMask.NameToLayer("Floor")) isJumping = false;
     }
 }

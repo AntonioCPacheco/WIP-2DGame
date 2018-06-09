@@ -89,7 +89,7 @@ public class Player_Movement : MonoBehaviour {
 	//Main function, deals with most of the player input. I should probably move the input elsewhere...
 	void Update(){
 		if (!canMove ()) {
-			rBody.velocity = Vector2.zero;
+			rBody.velocity = new Vector2(0, rBody.velocity.y);
             return;
 		}
 		if (isWaiting) {
@@ -429,11 +429,14 @@ public class Player_Movement : MonoBehaviour {
 
     public void startDialogue()
     {
+        anim.SetTrigger("enteredDialogue");
+        anim.SetBool("inDialogue", true);
         startedDialogue = true;
     }
 
     public void stopDialogue()
     {
+        anim.SetBool("inDialogue", false);
         startedDialogue = false;
     }
 
