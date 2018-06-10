@@ -8,11 +8,12 @@ public class Camera_Movement : MonoBehaviour
     public float lookUp = 0f;
     public float vDampTime = 0.15f;
     public float hDampTime = 0.15f;
-    public float minMouseDistance = 30f;
 
     public bool followPlayer = true;
-    public bool followMouse = true;
     public bool followNPC = true;
+
+    public bool followMouse = true;
+    public float minMouseDistance = 30f;
 
     public Vector3 camPositionSnap = Vector3.zero;
 

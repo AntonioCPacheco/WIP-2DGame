@@ -59,6 +59,7 @@ public class Player_Movement : MonoBehaviour {
 	int jumpNextDeltaFrames = 0;
 
     bool inTrampolin = false;
+    bool inTrampolinUp = false;
 
     bool alreadyPressedJump = false;
     
@@ -131,7 +132,7 @@ public class Player_Movement : MonoBehaviour {
 	//Main jump
 	void Jump(){
         alreadyPressedJump = true;
-        rBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        rBody.AddForce(Vector2.up * (jumpForce * (hasBox ? 0.65f : 1f)), ForceMode2D.Impulse);
 	}
 
 	//Flip player sprite to face the opposite direction
@@ -195,7 +196,7 @@ public class Player_Movement : MonoBehaviour {
 	}
 
 	public bool isGrounded(){
-		return grounded;
+		return (grounded || inTrampolin);
 	}
 
 	public float getStamina(){
@@ -284,7 +285,7 @@ public class Player_Movement : MonoBehaviour {
     }
     void handleJumpInput2()
     {
-        if (Input.GetAxis("Jump") < 0.1 || inTrampolin)
+        if (Input.GetAxis("Jump") < 0.1 || inTrampolinUp)
         {
             if (alreadyPressedJump)
                 alreadyPressedJump = false;
@@ -358,6 +359,8 @@ public class Player_Movement : MonoBehaviour {
         grounded = Physics2D.OverlapCircle(auxGCPos1, groundRadius, whatIsGround);
         grounded = grounded ? grounded : Physics2D.OverlapCircle(auxGCPos2, groundRadius, whatIsGround);
         anim.SetBool("Ground", grounded); //telling the Animator whether the GameObject is on the ground
+
+        if (grounded && !inTrampolinUp) inTrampolin = false; 
     }
     void checkJumpStatus()
     {
@@ -447,13 +450,14 @@ public class Player_Movement : MonoBehaviour {
         MovePlayerTo(this.transform.position + new Vector3(0, 20, 0));
     }
 
-    public void addVerticalForce(float force, float jumpTime)
+    public void addDirectionalForce(Vector2 direction, float force, float jumpTime)
     {
-        StartCoroutine(JumpRoutine(force, jumpTime));
+        StartCoroutine(ForceRoutine(direction, force, jumpTime));
     }
     
-    IEnumerator JumpRoutine(float force, float jumpTime)
+    IEnumerator ForceRoutine(Vector2 direction, float force, float jumpTime)
     {
+        inTrampolinUp = true;
         inTrampolin = true;
         rBody.velocity = Vector2.zero;
         float timer = 0;
@@ -465,11 +469,12 @@ public class Player_Movement : MonoBehaviour {
             //each consecutive frame
             
             float proportionCompleted = timer / jumpTime;
-            Vector2 thisFrameJumpVector = Vector2.Lerp(Vector2.up* force, Vector2.zero, proportionCompleted);
+            Vector2 thisFrameJumpVector = Vector2.Lerp(direction* force, Vector2.zero, proportionCompleted);
             rBody.AddForce(thisFrameJumpVector);
             timer += Time.deltaTime;
             yield return null;
         }
-        inTrampolin = false;
+
+        inTrampolinUp = false;
     }
 }

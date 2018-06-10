@@ -11,7 +11,14 @@ public class Trampolin_Behavior : MonoBehaviour {
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<Player_Movement>().addVerticalForce(force, jumpTime);
+            other.GetComponent<Player_Movement>().addDirectionalForce(this.transform.up, force, jumpTime);
+            GetComponent<Animator>().SetTrigger("Triggered");
+        }
+
+        else if (other.CompareTag("Box"))
+        {
+            other.GetComponent<BoxBounce>().addDirectionalForce(this.transform.up, force * 0.8f);
+            GetComponent<Animator>().SetTrigger("Triggered");
         }
     }
 }
