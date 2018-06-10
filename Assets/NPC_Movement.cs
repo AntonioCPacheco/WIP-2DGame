@@ -170,4 +170,10 @@ public class NPC_Movement : MonoBehaviour
         print(coll.gameObject.name);
         if (coll.gameObject.layer != LayerMask.NameToLayer("Floor")) isJumping = false;
     }
+
+    public void addVerticalForce(float force)
+    {
+        isJumping = true;
+        rbody.AddForce(new Vector2(0, (force - (rbody.velocity.y * 45))));
+    }
 }

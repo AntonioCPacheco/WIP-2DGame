@@ -11,7 +11,7 @@ public class Player_Movement : MonoBehaviour {
 	bool running = false;
     bool ableToRun = false;
 
-    public bool onTopOfSomething = true;
+    public bool onTopOfSomething = false;
     public Vector2 somethingsVelocity;
 
 	bool facingRight = true;
@@ -23,7 +23,7 @@ public class Player_Movement : MonoBehaviour {
 
 	//Ground Check Variables
 	bool grounded = false;
-	float groundRadius = 0.4f;
+	float groundRadius = 0.1f;
 	public Transform groundCheck;
 
     //WallJumping Variables
@@ -57,6 +57,8 @@ public class Player_Movement : MonoBehaviour {
 	bool jumpNext = false;
 	int jumpNextWindow = 10;
 	int jumpNextDeltaFrames = 0;
+
+    bool inTrampolin = false;
 
     bool alreadyPressedJump = false;
     
@@ -128,7 +130,8 @@ public class Player_Movement : MonoBehaviour {
 
 	//Main jump
 	void Jump(){
-		rBody.AddForce (new Vector2 (0, (jumpForce * (hasBox? 0.45f : 0.7f)) - (rBody.velocity.y * 45)));
+        alreadyPressedJump = true;
+        rBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 	}
 
 	//Flip player sprite to face the opposite direction
@@ -248,9 +251,8 @@ public class Player_Movement : MonoBehaviour {
     }
     void handleJumpInput1()
     {
-        if (!alreadyPressedJump && Input.GetAxis("Jump") > 0.1)
+        if (!alreadyPressedJump && !inTrampolin && Input.GetAxis("Jump") > 0.1)
         {
-            alreadyPressedJump = true;
             if (grounded /*|| !jumpedTwice*/)
             {
                 //if (!grounded) {
@@ -282,7 +284,7 @@ public class Player_Movement : MonoBehaviour {
     }
     void handleJumpInput2()
     {
-        if (Input.GetAxis("Jump") < 0.1)
+        if (Input.GetAxis("Jump") < 0.1 || inTrampolin)
         {
             if (alreadyPressedJump)
                 alreadyPressedJump = false;
@@ -367,7 +369,7 @@ public class Player_Movement : MonoBehaviour {
             isWallJumping = false;
             if (jumpNext)
             {
-                Jump();
+                //Jump();
             }
             //jumpFrames = 0;
         }
@@ -443,5 +445,31 @@ public class Player_Movement : MonoBehaviour {
     void halpImStuck()
     {
         MovePlayerTo(this.transform.position + new Vector3(0, 20, 0));
+    }
+
+    public void addVerticalForce(float force, float jumpTime)
+    {
+        StartCoroutine(JumpRoutine(force, jumpTime));
+    }
+    
+    IEnumerator JumpRoutine(float force, float jumpTime)
+    {
+        inTrampolin = true;
+        rBody.velocity = Vector2.zero;
+        float timer = 0;
+        
+        while (timer < jumpTime)
+        {
+            //Calculate how far through the jump we are as a percentage
+            //apply the full jump force on the first frame, then apply less force
+            //each consecutive frame
+            
+            float proportionCompleted = timer / jumpTime;
+            Vector2 thisFrameJumpVector = Vector2.Lerp(Vector2.up* force, Vector2.zero, proportionCompleted);
+            rBody.AddForce(thisFrameJumpVector);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        inTrampolin = false;
     }
 }
