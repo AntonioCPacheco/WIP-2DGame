@@ -17,7 +17,7 @@ public class Trampolin_Behavior : MonoBehaviour {
 
         else if (other.CompareTag("Box"))
         {
-            other.GetComponent<BoxBounce>().addDirectionalForce(this.transform.up, force * 0.8f);
+            other.GetComponent<BoxBounce>().addDirectionalForce(this.transform.up, force * 1.2f);
             GetComponent<Animator>().SetTrigger("Triggered");
         }
     }

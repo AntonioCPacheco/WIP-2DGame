@@ -461,6 +461,8 @@ public class Player_Movement : MonoBehaviour {
         inTrampolin = true;
         rBody.velocity = Vector2.zero;
         float timer = 0;
+
+        force *= hasBox ? 0.75f : 1f;
         
         while (timer < jumpTime)
         {

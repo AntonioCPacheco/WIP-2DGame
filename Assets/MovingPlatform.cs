@@ -66,14 +66,23 @@ public class MovingPlatform : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Floor") || playerFlipCondition(other))
             Flip();
-        else if (other.gameObject.layer == LayerMask.NameToLayer("Boxes"))
-            other.GetComponent<Rigidbody2D>().isKinematic = true;
+        else if (other.CompareTag("Box"))
+        {
+            foreach(BoxCollider2D box in this.GetComponents<BoxCollider2D>()){
+                if (!box.isTrigger) Physics2D.IgnoreCollision(other, box, true);
+            }
+        }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Boxes"))
-            other.GetComponent<Rigidbody2D>().isKinematic = false;
+        if (other.CompareTag("Box"))
+        {
+            foreach (BoxCollider2D box in this.GetComponents<BoxCollider2D>())
+            {
+                if(!box.isTrigger) Physics2D.IgnoreCollision(other, box, false);
+            }
+        }
     }
 
     public void enable()

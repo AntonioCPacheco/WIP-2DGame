@@ -1,14 +1,11 @@
 fileFormatVersion: 2
-guid: f204d81b6176c5a4f8e5eb1616eb7028
-timeCreated: 1528667887
+guid: c0a5b8830632bd64e8a51fdaaa29e759
+timeCreated: 1528673372
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Trampolin_4
-    21300002: Trampolin_0
-    21300004: Trampolin_1
-    21300006: Trampolin_2
-    21300008: Trampolin_3
+    21300000: DoorStatusIndicators_0
+    21300002: DoorStatusIndicators_1
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -51,7 +48,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 2
+  spritePixelsToUnits: 1
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -62,7 +59,7 @@ TextureImporter:
   textureFormatSet: 0
   platformSettings:
   - buildTarget: DefaultTexturePlatform
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -71,7 +68,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
   - buildTarget: Standalone
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -83,57 +80,29 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Trampolin_3
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 72
-        width: 52
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Trampolin_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 48
-        width: 52
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Trampolin_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 24
-        width: 52
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Trampolin_0
+      name: DoorStatusIndicators_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 52
-        height: 24
+        width: 7
+        height: 7
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: DoorStatusIndicators_1
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 0
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
