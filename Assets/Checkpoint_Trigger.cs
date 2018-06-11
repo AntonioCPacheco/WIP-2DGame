@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Checkpoint_Trigger : MonoBehaviour {
 
+    private bool triggered = false;
+    public Sprite checkpointOn;
 	// Use this for initialization
 	void Start () {
 	
@@ -15,11 +18,14 @@ public class Checkpoint_Trigger : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.gameObject.name == "Player Prefab")
+        if (!triggered && coll.CompareTag("Player"))
         {
-            Checkpoint_Handler ch = coll.gameObject.GetComponent<Checkpoint_Handler>();
-            ch.checkpoint = transform.GetChild(0).transform;
-            GetComponent<SpriteRenderer>().sprite = ch.checkpointOn;
+            triggered = true;
+            FindObjectOfType<SaveManager>().saveGame();
+
+            GetComponent<SpriteRenderer>().sprite = checkpointOn;
+            /*Checkpoint_Handler ch = coll.gameObject.GetComponent<Checkpoint_Handler>();
+            ch.checkpoint = transform.GetChild(0).transform;*/
         }
     }
 }

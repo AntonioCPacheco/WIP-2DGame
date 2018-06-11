@@ -167,7 +167,6 @@ public class NPC_Movement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        print(coll.gameObject.name);
         if (coll.gameObject.layer != LayerMask.NameToLayer("Floor")) isJumping = false;
     }
 

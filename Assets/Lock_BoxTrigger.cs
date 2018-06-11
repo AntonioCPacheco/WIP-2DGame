@@ -9,7 +9,7 @@ public class Lock_BoxTrigger : Lock_SuperClass {
 
     public GameObject triggeredCollider;
 
-    private bool isTriggered;
+    public bool isTriggered;
 
     Transform player;
     // Use this for initialization
@@ -20,7 +20,7 @@ public class Lock_BoxTrigger : Lock_SuperClass {
         {
             player = GameObject.Find("Player Prefab").transform;
         }
-        untriggerable = true;
+        untriggerable = false;
         SuperStart();
     }
 

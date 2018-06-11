@@ -21,9 +21,10 @@ public class Checkpoint_Handler : MonoBehaviour {
 
     public void returnToLastCheckpoint()
     {
-        if (checkpoint != null)
+        FindObjectOfType<SaveManager>().loadGame();
+        /*if (checkpoint != null)
             transform.position = checkpoint.position;
         else
-            GameObject.Find("SceneManager").GetComponent<Game_SceneManager>().NewGame();
+            GameObject.Find("SceneManager").GetComponent<Game_SceneManager>().NewGame();*/
     }
 }

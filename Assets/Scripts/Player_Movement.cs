@@ -337,8 +337,12 @@ public class Player_Movement : MonoBehaviour {
             }
             else
             {
+                RaycastHit2D hit2D = Physics2D.Raycast(this.transform.position, this.transform.right, 20f, LayerMask.NameToLayer("Floor"));
+                
                 box.SetActive(true);
                 box.transform.SetParent(null);
+                if (hit2D.distance < 5f)
+                    box.transform.Translate(-1 * this.transform.localScale.x * (this.transform.right * 5f));
                 box = null;
                 hasBox = false;
                 anim.SetTrigger("lostBox");
