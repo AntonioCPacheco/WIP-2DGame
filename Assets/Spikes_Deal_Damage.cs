@@ -18,6 +18,7 @@ public class Spikes_Deal_Damage : MonoBehaviour {
         if (coll.gameObject.name == "Player Prefab")
         {
             coll.GetComponent<Checkpoint_Handler>().returnToLastCheckpoint();
+            GameObject.Find("DeathScreen").GetComponent<Animator>().SetTrigger("Die");
         }
     }
 }

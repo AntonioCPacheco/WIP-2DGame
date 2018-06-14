@@ -9,6 +9,8 @@ public class Save
     public Dictionary<int, bool> triggers = new Dictionary<int, bool>(); //Maps triggers' instanceIDs to triggered variables
     public List<int> doors = new List<int>(); //Maps doors' instanceIDs to open variables
 
+    public bool playerHasBox = false;
+
     Vector3Ser playerPosition;
     Vector3Ser npcPosition;
 

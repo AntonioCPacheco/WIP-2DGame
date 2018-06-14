@@ -29,11 +29,21 @@ public class Door_DisplayLockStates : MonoBehaviour {
             indicators[i].localPosition = translate; 
         }
         GameObject.Destroy(newObject);
-	}
+    }
 	
 	public void triggerLock () {
         if (numTriggered >= numLocks) return;
         indicators[numTriggered].GetComponent<SpriteRenderer>().sprite = activated;
         numTriggered++;
 	}
+
+    public void updateIndicators(int numLocks)
+    {
+        if (numLocks == numTriggered) return;
+        for(int i=0; i<this.numLocks; i++)
+        {
+            indicators[i].GetComponent<SpriteRenderer>().sprite = (numLocks>0 ? activated : deactivated);
+            numLocks--;
+        }
+    }
 }

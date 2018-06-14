@@ -138,7 +138,7 @@ public class Camera_Movement : MonoBehaviour
         while (beta < 1)
         {
             if (!updated && beta > 0.2f) {
-                linkedDoor.updateIndicators();
+                linkedDoor.checkLocks();
                 linkedDoor.isInCutscene = false;
                 updated = true;
             }

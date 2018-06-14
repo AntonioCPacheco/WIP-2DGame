@@ -94,16 +94,25 @@ public class Player_EnterDoors : MonoBehaviour {
     public void checkLocks()
     {
         bool auxOpen = true;
+        int numLocksTriggered = 0;
         for( int i = 0; i < locks.Length && auxOpen; i++ )
         {
-            if (!locks[i].GetComponent<Lock_SuperClass>().triggered) auxOpen = false;
+            if (!locks[i].GetComponent<Lock_SuperClass>().triggered)
+            {
+                auxOpen = false;
+            }
+            else
+            {
+                numLocksTriggered++;
+            }
         }
         if (auxOpen && !isOpen) open();
-        if (!isInCutscene) updateIndicators();
+        else if (!auxOpen && isOpen) close();
+        if (!isInCutscene) updateIndicators(numLocksTriggered);
     }
 
-    public void updateIndicators() //Call when a new lock triggers
+    public void updateIndicators(int numLocks) //Call when a new lock triggers
     {
-        this.transform.GetComponentInChildren<Door_DisplayLockStates>().triggerLock();
+        this.transform.GetComponentInChildren<Door_DisplayLockStates>().updateIndicators(numLocks);
     }
 }

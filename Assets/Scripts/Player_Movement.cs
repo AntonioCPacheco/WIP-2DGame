@@ -326,13 +326,7 @@ public class Player_Movement : MonoBehaviour {
                 Collider2D boxsCollider = Physics2D.OverlapCircle(rightWallCheck.position, groundRadius, whatIsBoxes);
                 if (boxsCollider != null)
                 {
-                    print(boxsCollider.name);
-                    boxsCollider.gameObject.SetActive(false);
-                    box = boxsCollider.gameObject;
-                    box.transform.SetParent(this.transform);
-                    box.SetActive(false);
-                    hasBox = true;
-                    anim.SetTrigger("pickBox");
+                    setBox(boxsCollider.transform);
                 }
             }
             else
@@ -341,6 +335,7 @@ public class Player_Movement : MonoBehaviour {
                 
                 box.SetActive(true);
                 box.transform.SetParent(null);
+                box.transform.position = this.transform.position + new Vector3(facingRight ? 12.5f : -12f, 6.5f, -28);
                 if (hit2D.distance < 5f)
                     box.transform.Translate(-1 * this.transform.localScale.x * (this.transform.right * 5f));
                 box = null;
@@ -424,7 +419,17 @@ public class Player_Movement : MonoBehaviour {
                     }
                 }
                 else
-                    rBody.velocity = new Vector2(move * (maxJumpingSpeed * (running ? 2 : 1) * (hasBox ? .6f : 1)), rBody.velocity.y);
+                {
+                    if (inTrampolin)
+                    {
+                        rBody.velocity = (rBody.velocity) * 0.8f + new Vector2(move * (maxJumpingSpeed * (running ? 2 : 1) * (hasBox ? .6f : 1)), rBody.velocity.y) * 0.2f;
+                    }
+                    else
+                    {
+                        rBody.velocity = new Vector2(move * (maxJumpingSpeed * (running ? 2 : 1) * (hasBox ? .6f : 1)), rBody.velocity.y);
+                    }
+                }
+
             }
             if (move > 0 && !facingRight)
                 Flip();
@@ -449,9 +454,32 @@ public class Player_Movement : MonoBehaviour {
         startedDialogue = false;
     }
 
+    public void setBox(Transform box)
+    {
+        this.box = box.gameObject;
+
+        print(this.box.name);
+        this.box.gameObject.SetActive(false);
+        this.box.transform.SetParent(this.transform);
+        this.box.gameObject.SetActive(false);
+        hasBox = true;
+        anim.SetTrigger("pickBox");
+    }
+
+    public void dropBoxAnim()
+    {
+        anim.SetTrigger("lostBox");
+        hasBox = false;
+    }
+
     void halpImStuck()
     {
         MovePlayerTo(this.transform.position + new Vector3(0, 20, 0));
+    }
+
+    public bool doesPlayerHaveBox()
+    {
+        return hasBox;
     }
 
     public void addDirectionalForce(Vector2 direction, float force, float jumpTime)
@@ -463,7 +491,7 @@ public class Player_Movement : MonoBehaviour {
     {
         inTrampolinUp = true;
         inTrampolin = true;
-        rBody.velocity = Vector2.zero;
+        //rBody.velocity = new Vector2(rBody.velocity.x, 0);
         float timer = 0;
 
         force *= hasBox ? 0.75f : 1f;
@@ -476,6 +504,7 @@ public class Player_Movement : MonoBehaviour {
             
             float proportionCompleted = timer / jumpTime;
             Vector2 thisFrameJumpVector = Vector2.Lerp(direction* force, Vector2.zero, proportionCompleted);
+            thisFrameJumpVector.y *= 1.5f;
             rBody.AddForce(thisFrameJumpVector);
             timer += Time.deltaTime;
             yield return null;

@@ -40,7 +40,8 @@ public class SaveManager : MonoBehaviour
 
         foreach (GameObject b in GameObject.FindGameObjectsWithTag("Box"))
         {
-            boxes.Add(b.transform.position, b.activeSelf);
+            if(b.transform.parent == null || !b.transform.parent.CompareTag("Player"))
+                boxes.Add(b.transform.position, b.activeSelf);
         }
 
         foreach (GameObject t in GameObject.FindGameObjectsWithTag("Trigger"))
@@ -54,6 +55,8 @@ public class SaveManager : MonoBehaviour
         }
 
         Save save = new Save();
+
+        save.playerHasBox = GameObject.FindGameObjectWithTag("Player").GetComponent<Player_Movement>().doesPlayerHaveBox();
 
         save.setPlayerPosition(GameObject.FindGameObjectWithTag("Player").transform.position);
         save.setNpcPosition(GameObject.FindGameObjectWithTag("NPC").transform.position);
@@ -82,8 +85,19 @@ public class SaveManager : MonoBehaviour
             GameObject.FindWithTag("NPC").transform.position = save.getNpcPosition();
 
             int i = 0;
+            if (save.playerHasBox)
+            {
+                Transform box = (boxes[0]).transform;
+                GameObject.FindWithTag("Player").GetComponent<Player_Movement>().setBox(box);
+                i++;
+            }
+            else
+            {
+                GameObject.FindWithTag("Player").GetComponent<Player_Movement>().dropBoxAnim();
+            }
             foreach(KeyValuePair<Vector3, bool> item in save.getBoxes())
             {
+                this.boxes[i].transform.parent = null;
                 this.boxes[i].transform.position = item.Key;
                 this.boxes[i].SetActive(item.Value);
                 i++;
