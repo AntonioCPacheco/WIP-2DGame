@@ -137,13 +137,13 @@ public class Camera_Movement : MonoBehaviour
         bool updated = false;
         while (beta < 1)
         {
-            if (!updated && beta > 0.2f) {
-                linkedDoor.checkLocks();
+            if (!updated && beta > 0.2f)
+            {
                 linkedDoor.isInCutscene = false;
+                linkedDoor.checkLocks();
                 updated = true;
             }
             beta = (Time.realtimeSinceStartup - startTime - pan_duration) / stay_duration;
-            print(beta);
             yield return null;
         }
         Time.timeScale = 1;

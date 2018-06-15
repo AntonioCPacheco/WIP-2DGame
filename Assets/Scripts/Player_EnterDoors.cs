@@ -95,7 +95,7 @@ public class Player_EnterDoors : MonoBehaviour {
     {
         bool auxOpen = true;
         int numLocksTriggered = 0;
-        for( int i = 0; i < locks.Length && auxOpen; i++ )
+        for( int i = 0; i < locks.Length; i++ )
         {
             if (!locks[i].GetComponent<Lock_SuperClass>().triggered)
             {
@@ -106,9 +106,10 @@ public class Player_EnterDoors : MonoBehaviour {
                 numLocksTriggered++;
             }
         }
+        if (!isInCutscene) updateIndicators(numLocksTriggered);
+
         if (auxOpen && !isOpen) open();
         else if (!auxOpen && isOpen) close();
-        if (!isInCutscene) updateIndicators(numLocksTriggered);
     }
 
     public void updateIndicators(int numLocks) //Call when a new lock triggers

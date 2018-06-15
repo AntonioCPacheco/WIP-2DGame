@@ -38,6 +38,8 @@ public class Lock_BoxTrigger : Lock_SuperClass {
             isTriggered = true;
             transform.GetComponent<SpriteRenderer>().sprite = sprTriggered;
             triggeredCollider.SetActive(true);
+            if (this.GetComponent<TriggerCutscene>() != null)
+                this.GetComponent<TriggerCutscene>().trigger();
         }
     }
 

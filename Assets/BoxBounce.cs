@@ -17,9 +17,10 @@ public class BoxBounce : MonoBehaviour {
 
     public void addDirectionalForce(Vector2 direction, float force)
     {
+        rBody.velocity = Vector2.zero;
         Vector2 f = new Vector2();
-        f.x = direction.x * force * 0.5f;
-        f.y = direction.y * force * 0.5f;
+        f.x = direction.x * force * 0.7f;
+        f.y = direction.y * force * (f.x == 0 ? 1.6f : 1f);
         rBody.AddForce(f, ForceMode2D.Impulse);
     }
 }

@@ -484,6 +484,7 @@ public class Player_Movement : MonoBehaviour {
 
     public void addDirectionalForce(Vector2 direction, float force, float jumpTime)
     {
+        force *= hasBox ? 0.75f : 1f;
         StartCoroutine(ForceRoutine(direction, force, jumpTime));
     }
     
@@ -493,8 +494,6 @@ public class Player_Movement : MonoBehaviour {
         inTrampolin = true;
         //rBody.velocity = new Vector2(rBody.velocity.x, 0);
         float timer = 0;
-
-        force *= hasBox ? 0.75f : 1f;
         
         while (timer < jumpTime)
         {

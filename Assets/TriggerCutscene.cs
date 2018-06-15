@@ -17,12 +17,21 @@ public class TriggerCutscene : MonoBehaviour {
         positionToSnapTo = linkedLock.door.position;
 	}
 	
-	// Update is called once per frame
+	/*// Update is called once per frame
 	void Update () {
         if (!triggered && linkedLock.triggered)
         {
             triggered = true;
             Camera.main.GetComponent<Camera_Movement>().newCutscene(positionToSnapTo, panDuration, stayDuration, linkedLock.door.GetComponent<Player_EnterDoors>());
         }
-	}
+	}*/
+
+    public void trigger()
+    {
+        if (!triggered)
+        {
+            triggered = true;
+            Camera.main.GetComponent<Camera_Movement>().newCutscene(positionToSnapTo, panDuration, stayDuration, linkedLock.door.GetComponent<Player_EnterDoors>());
+        }
+    }
 }
