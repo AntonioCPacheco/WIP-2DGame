@@ -14,11 +14,16 @@ public class MovingPlatform : MonoBehaviour
     float lastX = 0f;
 
     public bool enabled = true;
+    public Sprite on;
+    public Sprite off;
+    SpriteRenderer onOff;
 
     // Use this for initialization
     void Start()
     {
         rbody = GetComponent<Rigidbody2D>();
+        onOff = transform.FindChild("OnOff").GetComponentInChildren<SpriteRenderer>();
+        onOff.sprite = enabled ? on : off;
     }
 
     // Update is called once per frame
@@ -88,11 +93,13 @@ public class MovingPlatform : MonoBehaviour
     public void enable()
     {
         enabled = true;
+        onOff.sprite = on;
     }
 
     public void disable()
     {
         enabled = false;
+        onOff.sprite = off;
     }
 
     bool playerFlipCondition(Collider2D other)

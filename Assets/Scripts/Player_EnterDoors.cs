@@ -126,4 +126,10 @@ public class Player_EnterDoors : MonoBehaviour {
     {
         this.transform.GetComponentInChildren<Door_DisplayLockStates>().updateIndicators(numLocks);
     }
+
+    public void load()
+    {
+        if (!dialogueTriggerDone && dialogueTrigger.gameObject.activeSelf) close();
+        else checkLocks();
+    }
 }

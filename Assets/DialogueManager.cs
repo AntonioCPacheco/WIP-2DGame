@@ -169,7 +169,6 @@ public class DialogueManager : MonoBehaviour {
         for (int i = 1; i <= dialogueList.Count && GameObject.Find("DialogueTrigger " + i) != null; i++)
         {
             GameObject.Find("DialogueTrigger " + i).GetComponent<DialogueTrigger>().initialize(dialogueList[i-1]);
-            print(dialogueList[i - 1]);
         }
     }
 

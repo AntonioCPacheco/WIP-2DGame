@@ -113,7 +113,7 @@ public class SaveManager : MonoBehaviour
             {
                 GameObject door = (GameObject)EditorUtility.InstanceIDToObject(item);
 
-                door.GetComponent<Player_EnterDoors>().checkLocks();
+                door.GetComponent<Player_EnterDoors>().load();
             }
         }
     }
