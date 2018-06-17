@@ -4,13 +4,30 @@ using UnityEngine;
 
 public class ZoomOut : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
+    Camera_Movement mainCam;
+    int inside = 0;
+    // Use this for initialization
+    void Awake () {
+        mainCam = Camera.main.GetComponent<Camera_Movement>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    void OnTriggerEnter2D(Collider2D coll)
+    {
+        if (coll.CompareTag("Player"))
+        {
+            if(inside == 0)
+                mainCam.zoomOut();
+            inside++;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D coll)
+    {
+        if (coll.CompareTag("Player"))
+        {
+            inside--;
+            if (inside == 0)
+                mainCam.zoomIn();
+        }
+    }
 }

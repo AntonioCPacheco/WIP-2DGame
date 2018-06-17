@@ -24,17 +24,23 @@ public class Player_EnterDoors : MonoBehaviour {
     public bool isInCutscene = false;
 
     EndGame end;
+    bool dialogueTriggerDone = false;
 
 	// Use this for initialization
 	void Start () {
         //beenInitialized = false;
         GetComponent<Animator>().SetBool("OpenDoor", isOpen);
         end = GetComponent<EndGame>();
+        if (dialogueTrigger == null) dialogueTriggerDone = true;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (dialogueTrigger != null && !dialogueTrigger.gameObject.activeSelf) open();
+        if (!dialogueTriggerDone && !dialogueTrigger.gameObject.activeSelf)
+        {
+            dialogueTriggerDone = true;
+            open();
+        }
 	}
 
 	public bool HasBeenInitialized(){
@@ -81,12 +87,16 @@ public class Player_EnterDoors : MonoBehaviour {
 
     public void close()
     {
+        if (!isOpen) return;
+        print("close");
         isOpen = false;
         GetComponent<Animator>().SetBool("OpenDoor", false);
     }
 
     public void open()
     {
+        if (isOpen) return;
+        print("open");
         isOpen = true;
         GetComponent<Animator>().SetBool("OpenDoor", true);
     }

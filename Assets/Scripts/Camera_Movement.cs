@@ -32,6 +32,9 @@ public class Camera_Movement : MonoBehaviour
 
     bool inCutscene = false;
 
+    //Zoom in Variables
+    IEnumerator zoomInCoroutine;
+
     // Use this for initialization
     void Start()
     {
@@ -148,5 +151,45 @@ public class Camera_Movement : MonoBehaviour
         }
         Time.timeScale = 1;
         inCutscene = false;
+    }
+
+    public void zoomIn()
+    {
+        changeCameraSize(true);
+    }
+
+    public void zoomOut()
+    {
+        changeCameraSize(false);
+    }
+
+    void changeCameraSize(bool zoomIn)
+    {
+        if (zoomInCoroutine != null) StopCoroutine(zoomInCoroutine);
+
+        float original = this.GetComponent<Camera>().orthographicSize;
+        if (zoomIn)
+        {
+            zoomInCoroutine = changeCameraSize(original, 125, 2, Time.realtimeSinceStartup);
+            lookUp -= 30;
+        }
+        else
+        {
+            zoomInCoroutine = changeCameraSize(original, 185, 2, Time.realtimeSinceStartup);
+            lookUp += 30;
+        }
+        StartCoroutine(zoomInCoroutine);
+    }
+
+    IEnumerator changeCameraSize(float originalSize, float newSize, float lerpTime, float startTime)
+    {
+        float alpha = (Time.realtimeSinceStartup - startTime) / lerpTime;
+        print(alpha);
+        while (alpha < 1)
+        {
+            alpha = (Time.realtimeSinceStartup - startTime) / lerpTime;
+            this.GetComponent<Camera>().orthographicSize = Mathf.Lerp(originalSize, newSize, alpha);
+            yield return null;
+        }
     }
 }

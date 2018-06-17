@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
+using System;
 
 public class DialogueManager : MonoBehaviour {
     private Queue<string> sentences;
@@ -9,16 +11,15 @@ public class DialogueManager : MonoBehaviour {
     private float[] npcSteps;
 
     int numOfSingleLines = 0;
-
     Transform childObject;
     Lock_SuperClass linkedLock;
-
     GUI_FirstSelected es;
-
     bool waitForContinue = false;
 
 	// Use this for initialization
 	void Start () {
+        initializeTriggers();
+
         childObject = this.transform.Find("ChildObject");
         for(int i=0; i<childObject.childCount; i++)
         {
@@ -154,5 +155,29 @@ public class DialogueManager : MonoBehaviour {
     void HandleFirstSelected(int index)
     {
         es.setFirstSelected(childObject.GetChild(index).gameObject);
+    }
+
+    void initializeTriggers()
+    {
+        string path = Application.dataPath + "/Dialogue/dialogue.txt";
+        if (!File.Exists(path)) return;
+
+        StreamReader reader = new StreamReader(path);
+        List<string> dialogueList = parseTriggerText(reader.ReadToEnd());
+        reader.Close();
+
+        for (int i = 1; i <= dialogueList.Count && GameObject.Find("DialogueTrigger " + i) != null; i++)
+        {
+            GameObject.Find("DialogueTrigger " + i).GetComponent<DialogueTrigger>().initialize(dialogueList[i-1]);
+            print(dialogueList[i - 1]);
+        }
+    }
+
+    List<string> parseTriggerText(string file)
+    {
+        List<string> res = new List<string>();
+        string[] triggers = file.Split('|');
+        res.AddRange(triggers);
+        return res;
     }
 }

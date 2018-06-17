@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +15,12 @@ public class DialogueTrigger : MonoBehaviour {
 
     bool triggeredPlayer = false;
     bool triggeredNPC = false;
+
+    public void initialize(string dialogueLines)
+    {
+        string[] lines = dialogueLines.Split('-');
+        dialogue = new Dialogue(lines);
+    }
 
     public void TriggerDialogue()
     {
