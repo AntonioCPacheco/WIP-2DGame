@@ -8,27 +8,25 @@ public class Player_EnterDoors : MonoBehaviour {
 	Transform currentRoom;
 
     public Player_EnterDoors npcDoor;
-
     public DialogueTrigger dialogueTrigger;
-
     public Lock_SuperClass[] locks;
 
     public bool isOpen = false;
-
 	public bool isLadder = false;
 
-	bool beenInitialized = false;
-
     public bool sameRoomAsNPC = false;
-
     public bool isInCutscene = false;
+    public bool saveGameOnEnter = false;
 
+    AudioSource audioSource;
+    bool beenInitialized = false;
     EndGame end;
     bool dialogueTriggerDone = false;
+    int lastNumTriggers = 0;
 
 	// Use this for initialization
 	void Start () {
-        //beenInitialized = false;
+        audioSource = this.GetComponent<AudioSource>();
         GetComponent<Animator>().SetBool("OpenDoor", isOpen);
         end = GetComponent<EndGame>();
         if (dialogueTrigger == null) dialogueTriggerDone = true;
@@ -81,6 +79,11 @@ public class Player_EnterDoors : MonoBehaviour {
             }
 
             if (end != null) end.endGame();
+            if (saveGameOnEnter) SaveManager.saveGame();
+        }
+        else
+        {
+            if (end != null) end.endGameNPC();
         }
         close();
     }
@@ -88,6 +91,7 @@ public class Player_EnterDoors : MonoBehaviour {
     public void close()
     {
         if (!isOpen) return;
+        audioSource.Play();
         print("close");
         isOpen = false;
         GetComponent<Animator>().SetBool("OpenDoor", false);
@@ -96,6 +100,7 @@ public class Player_EnterDoors : MonoBehaviour {
     public void open()
     {
         if (isOpen) return;
+        audioSource.Play();
         print("open");
         isOpen = true;
         GetComponent<Animator>().SetBool("OpenDoor", true);
@@ -116,8 +121,13 @@ public class Player_EnterDoors : MonoBehaviour {
                 numLocksTriggered++;
             }
         }
-        if (!isInCutscene) updateIndicators(numLocksTriggered);
+        if (locks.Length == 0) auxOpen = false;
 
+        if (!isInCutscene && lastNumTriggers != numLocksTriggered)
+        {
+            updateIndicators(numLocksTriggered);
+            lastNumTriggers = numLocksTriggered;
+        }
         if (auxOpen && !isOpen) open();
         else if (!auxOpen && isOpen) close();
     }

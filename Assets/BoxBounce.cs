@@ -12,7 +12,7 @@ public class BoxBounce : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 
     public void addDirectionalForce(Vector2 direction, float force)

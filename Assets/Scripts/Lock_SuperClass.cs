@@ -6,6 +6,8 @@ public abstract class Lock_SuperClass : MonoBehaviour {
     public bool triggered;
     public Transform door;
 
+    protected AudioSource audioSource;
+
     protected bool untriggerable = false;
 
 	// Use this for initialization
@@ -33,7 +35,11 @@ public abstract class Lock_SuperClass : MonoBehaviour {
     protected void trigger()
     {
         if (!triggered)
+        {
             triggerAux(true);
+            print(audioSource.name);
+            if (audioSource != null) audioSource.Play();
+        }
     }
 
     protected void untrigger()

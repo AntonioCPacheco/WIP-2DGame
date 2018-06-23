@@ -10,11 +10,12 @@ public class Lock_BoxTrigger : Lock_SuperClass {
     public GameObject triggeredCollider;
 
     public bool isTriggered;
-
+    
     Transform player;
     // Use this for initialization
     void Start()
     {
+        this.audioSource = this.GetComponent<AudioSource>();
         triggeredCollider.SetActive(false);
         if (player == null)
         {
@@ -45,6 +46,7 @@ public class Lock_BoxTrigger : Lock_SuperClass {
 
     protected override void childUnTrigger()
     {
+        triggeredCollider.SetActive(false);
         transform.GetComponent<SpriteRenderer>().sprite = sprUnTriggered;
         isTriggered = false;
         return;

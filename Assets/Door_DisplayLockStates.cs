@@ -8,13 +8,16 @@ public class Door_DisplayLockStates : MonoBehaviour {
     public Sprite deactivated;
     public float spaceBetweenIndicators = 50f;
     public float moveUp = 100f;
-    
+
+    AudioSource audioSource;
     int numLocks = 0;
     int numTriggered = 0;
 
     Transform[] indicators;
 	// Use this for initialization
 	void Start () {
+        audioSource = this.GetComponent<AudioSource>();
+
         numLocks = this.GetComponentInParent<Player_EnterDoors>().locks.Length;
         indicators = new Transform[numLocks];
         GameObject newObject = new GameObject();
@@ -40,7 +43,9 @@ public class Door_DisplayLockStates : MonoBehaviour {
     public void updateIndicators(int numLocks)
     {
         if (numLocks == numTriggered) return;
-        for(int i=0; i<this.numLocks; i++)
+        if (audioSource != null) audioSource.Play();
+
+        for (int i=0; i<this.numLocks; i++)
         {
             indicators[i].GetComponent<SpriteRenderer>().sprite = (numLocks>0 ? activated : deactivated);
             numLocks--;

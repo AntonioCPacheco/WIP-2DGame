@@ -6,6 +6,8 @@ using System.IO;
 using System;
 
 public class DialogueManager : MonoBehaviour {
+    public bool assertive = true;
+
     private Queue<string> sentences;
     private int sentencesDisplayed = 0;
     private float[] npcSteps;
@@ -15,6 +17,8 @@ public class DialogueManager : MonoBehaviour {
     Lock_SuperClass linkedLock;
     GUI_FirstSelected es;
     bool waitForContinue = false;
+
+    IEnumerator lastCoroutine;
 
 	// Use this for initialization
 	void Start () {
@@ -68,12 +72,25 @@ public class DialogueManager : MonoBehaviour {
         }
         HandleFirstSelected(1);
         Text toChange = getIndex(sentencesDisplayed);
-
         string sentence = sentences.Dequeue();
-        StopAllCoroutines();
-        StartCoroutine(TypeSentence(sentence, toChange));
+        if (sentencesDisplayed++ == 0)
+        {
+            if(lastCoroutine != null)
+                StopCoroutine(lastCoroutine);
 
-        sentencesDisplayed++;
+            lastCoroutine = TypeSentence(sentence, toChange);
+            StartCoroutine(lastCoroutine);
+        }
+        else
+        {
+            DisplaySentence(sentence, toChange);
+        }
+    }
+
+    void DisplaySentence(string sentence, Text toChange)
+    {
+        toChange.text = sentence;
+        DisplayNextSentence();
     }
 
     void DisplaySingleDialogue()
@@ -159,7 +176,7 @@ public class DialogueManager : MonoBehaviour {
 
     void initializeTriggers()
     {
-        string path = Application.dataPath + "/Dialogue/dialogue.txt";
+        string path = Application.dataPath + "/Dialogue/dialogue" + (assertive ? "Assertive" : "Submissive") + ".txt";
         if (!File.Exists(path)) return;
 
         StreamReader reader = new StreamReader(path);

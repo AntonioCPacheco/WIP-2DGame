@@ -37,4 +37,14 @@ public class Game_PauseManager : MonoBehaviour {
 		auxObj.SetActive(true);
         Cursor.visible = true;
     }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
+    public void restartLevel()
+    {
+        SaveManager.loadGame();
+    }
 }

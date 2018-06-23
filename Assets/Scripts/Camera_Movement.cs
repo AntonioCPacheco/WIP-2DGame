@@ -4,7 +4,7 @@ using System.Collections;
 public class Camera_Movement : MonoBehaviour
 {
 
-    public float lookAhead = 3f;
+    public float lookRight = 3f;
     public float lookUp = 0f;
     public float vDampTime = 0.15f;
     public float hDampTime = 0.15f;
@@ -57,9 +57,9 @@ public class Camera_Movement : MonoBehaviour
             if (followMouse)
                 calculateMouse();
             else if(followNPC)
-                target = (player.position + npc.position)/2 + new Vector3(lookAhead * player.localScale.x, lookUp, 0);
+                target = (player.position + npc.position)/2 + new Vector3(lookRight, lookUp, 0);
             else
-                target = player.position + new Vector3(lookAhead * player.localScale.x, lookUp, 0);
+                target = player.position + new Vector3(lookRight, lookUp, 0);
         }
         else
         {
@@ -96,7 +96,7 @@ public class Camera_Movement : MonoBehaviour
             else if (Mathf.Abs(mouseRelative.y / mouseRelative.x) <= 0.5f)
                 compensation2D = new Vector2(Mathf.Sign(mouseRelative.x), 0);
 
-            compensation2D = lookAhead * compensation2D;
+            compensation2D = lookRight * compensation2D;
             float targetX = (followMouse ? compensation2D.x : 0);
             float targetY = (followMouse ? compensation2D.y : 0);
             target = new Vector3((player.position.x + targetX), (player.position.y + targetY), (player.position.z));
@@ -153,42 +153,56 @@ public class Camera_Movement : MonoBehaviour
         inCutscene = false;
     }
 
-    public void zoomIn()
+    public void zoomIn(Vector2 focusPosition)
     {
-        changeCameraSize(true);
+        changeCameraSize(true, focusPosition);
     }
 
-    public void zoomOut()
+    public void zoomIn(float lerpTime)
     {
-        changeCameraSize(false);
+        changeCameraSize(lerpTime);
     }
 
-    void changeCameraSize(bool zoomIn)
+    public void zoomOut(Vector2 focusPosition)
+    {
+        changeCameraSize(false, focusPosition);
+    }
+
+    void changeCameraSize(bool zoomIn, Vector2 focusPosition)
     {
         if (zoomInCoroutine != null) StopCoroutine(zoomInCoroutine);
 
-        float original = this.GetComponent<Camera>().orthographicSize;
         if (zoomIn)
         {
-            zoomInCoroutine = changeCameraSize(original, 125, 2, Time.realtimeSinceStartup);
-            lookUp -= 30;
+            zoomInCoroutine = changeCameraSize(Vector2.zero, 125, 2);
         }
         else
         {
-            zoomInCoroutine = changeCameraSize(original, 185, 2, Time.realtimeSinceStartup);
-            lookUp += 30;
+            zoomInCoroutine = changeCameraSize(focusPosition, 185, 2);
         }
         StartCoroutine(zoomInCoroutine);
     }
 
-    IEnumerator changeCameraSize(float originalSize, float newSize, float lerpTime, float startTime)
+    void changeCameraSize(float lerpTime)
     {
+        if (zoomInCoroutine != null) StopCoroutine(zoomInCoroutine);
+        zoomInCoroutine = changeCameraSize(Vector2.zero, 125, lerpTime*0.6f);
+        StartCoroutine(zoomInCoroutine);
+    }
+
+    IEnumerator changeCameraSize(Vector2 focusPosition, float newSize, float lerpTime)
+    {
+        float original = this.GetComponent<Camera>().orthographicSize;
+        Vector2 previousPosition = new Vector2(lookRight, lookUp);
+        float startTime = Time.realtimeSinceStartup;
         float alpha = (Time.realtimeSinceStartup - startTime) / lerpTime;
-        print(alpha);
         while (alpha < 1)
         {
+            print(alpha + " - " + lerpTime);
+            lookRight = Mathf.Lerp(previousPosition.x, focusPosition.x, alpha);
+            lookUp = Mathf.Lerp(previousPosition.y, focusPosition.y, alpha);
+            this.GetComponent<Camera>().orthographicSize = Mathf.Lerp(original, newSize, alpha);
             alpha = (Time.realtimeSinceStartup - startTime) / lerpTime;
-            this.GetComponent<Camera>().orthographicSize = Mathf.Lerp(originalSize, newSize, alpha);
             yield return null;
         }
     }

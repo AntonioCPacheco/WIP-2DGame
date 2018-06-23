@@ -10,7 +10,7 @@ public class SaveManager : MonoBehaviour
 {
     public static SaveManager sm;
 
-    private GameObject[] boxes;
+    private static GameObject[] boxes;
 
     void Start()
     {
@@ -31,15 +31,16 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-    public void saveGame()
+    public static void saveGame()
     {
         Debug.Log(Application.persistentDataPath);
         Dictionary<Vector3, bool> boxes = new Dictionary<Vector3, bool>();
         Dictionary<int, bool> triggers = new Dictionary<int, bool>();
         List<int> doors = new List<int>();
 
-        foreach (GameObject b in GameObject.FindGameObjectsWithTag("Box"))
+        foreach (GameObject b in SaveManager.boxes)
         {
+            //if (boxes.ContainsKey(b.transform.position)) boxes.Remove(b.transform.position);
             if(b.transform.parent == null || !b.transform.parent.CompareTag("Player"))
                 boxes.Add(b.transform.position, b.activeSelf);
         }
@@ -72,7 +73,7 @@ public class SaveManager : MonoBehaviour
         file.Close();
     }
 
-    public void loadGame()
+    public static void loadGame()
     {
         if(File.Exists(Application.persistentDataPath + "/saveData.dat"))
         {
@@ -81,6 +82,7 @@ public class SaveManager : MonoBehaviour
             Save save = (Save) bf.Deserialize(file);
             file.Close();
 
+            GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             GameObject.FindWithTag("Player").transform.position = save.getPlayerPosition();
             GameObject.FindWithTag("NPC").transform.position = save.getNpcPosition();
 
@@ -97,9 +99,9 @@ public class SaveManager : MonoBehaviour
             }
             foreach(KeyValuePair<Vector3, bool> item in save.getBoxes())
             {
-                this.boxes[i].transform.parent = null;
-                this.boxes[i].transform.position = item.Key;
-                this.boxes[i].SetActive(item.Value);
+                boxes[i].transform.parent = null;
+                boxes[i].transform.position = item.Key;
+                boxes[i].SetActive(item.Value);
                 i++;
             }
 

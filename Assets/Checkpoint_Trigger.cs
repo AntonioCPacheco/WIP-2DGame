@@ -21,7 +21,7 @@ public class Checkpoint_Trigger : MonoBehaviour {
         if (!triggered && coll.CompareTag("Player"))
         {
             triggered = true;
-            FindObjectOfType<SaveManager>().saveGame();
+            SaveManager.saveGame();
 
             GetComponent<SpriteRenderer>().sprite = checkpointOn;
             /*Checkpoint_Handler ch = coll.gameObject.GetComponent<Checkpoint_Handler>();

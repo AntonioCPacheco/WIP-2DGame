@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ZoomOut : MonoBehaviour {
 
+    public Vector2 focusPosition;
     Camera_Movement mainCam;
     int inside = 0;
     // Use this for initialization
@@ -15,8 +16,10 @@ public class ZoomOut : MonoBehaviour {
     {
         if (coll.CompareTag("Player"))
         {
-            if(inside == 0)
-                mainCam.zoomOut();
+            if (inside == 0)
+            {
+                mainCam.zoomOut(focusPosition);
+            }
             inside++;
         }
     }
@@ -27,7 +30,9 @@ public class ZoomOut : MonoBehaviour {
         {
             inside--;
             if (inside == 0)
-                mainCam.zoomIn();
+            {
+                mainCam.zoomIn(focusPosition);
+            }
         }
     }
 }

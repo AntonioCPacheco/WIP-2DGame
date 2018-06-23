@@ -47,7 +47,7 @@ public class NPC_Movement : MonoBehaviour
             facingRight = xBeforeTarget < target;
             Turn();
         }
-        if ((!grounded && !isJumping) || reachedTarget && !changedNextStep)
+        if ((reachedTarget && !changedNextStep))
         {
             rbody.velocity = new Vector2(0, rbody.velocity.y);
         }
@@ -63,7 +63,10 @@ public class NPC_Movement : MonoBehaviour
 
     void FixedUpdate()
     {
-        grounded = Physics2D.OverlapCircle (groundCheck.position, 0.4f, whatIsGround);
+        Vector2 A = groundCheck.position + new Vector3(6, -0.2f);
+        Vector2 B = groundCheck.position + new Vector3(-6, -0.2f);
+        grounded = Physics2D.OverlapCircle(A, 0.2f, whatIsGround);
+        grounded = grounded || Physics2D.OverlapCircle(B, 0.2f, whatIsGround);
         anim.SetBool("Grounded", grounded);
         
         anim.SetFloat("Speed", Mathf.Abs(rbody.velocity.x));
@@ -124,6 +127,7 @@ public class NPC_Movement : MonoBehaviour
 
     public void startDialogue()
     {
+        rbody.velocity = new Vector2(0, rbody.velocity.y);
         inDialogue = true;
     }
 
@@ -167,7 +171,7 @@ public class NPC_Movement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.layer != LayerMask.NameToLayer("Floor")) isJumping = false;
+        if (coll.gameObject.layer == LayerMask.NameToLayer("Floor")) isJumping = false;
     }
 
     public void addVerticalForce(float force)

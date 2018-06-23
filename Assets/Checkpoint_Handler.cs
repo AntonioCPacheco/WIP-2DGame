@@ -21,7 +21,7 @@ public class Checkpoint_Handler : MonoBehaviour {
 
     public void returnToLastCheckpoint()
     {
-        FindObjectOfType<SaveManager>().loadGame();
+        SaveManager.loadGame();
         /*if (checkpoint != null)
             transform.position = checkpoint.position;
         else
