@@ -38,6 +38,11 @@ public class DialogueTrigger : MonoBehaviour {
         }
         yield return new WaitForSeconds(time/2);
         FindObjectOfType<DialogueManager>().StartDialogue(dialogue, npcSteps, numOfSingleLines);
+        if (GetComponent<RockPaperScissorsTrigger>() != null)
+        {
+            int triggerAfterXChoices = GetComponent<RockPaperScissorsTrigger>().triggerAfterXChoices;
+            FindObjectOfType<DialogueManager>().SetRockPaperScissors(triggerAfterXChoices);
+        }
         this.gameObject.SetActive(false);
         print(Time.time);
     }

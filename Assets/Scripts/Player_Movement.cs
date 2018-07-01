@@ -206,7 +206,7 @@ public class Player_Movement : MonoBehaviour {
     void handleVerticalInput()
     {
         //Enter doors
-        if (Input.GetAxis("Vertical") > 0.1)
+        if (Input.GetAxis("Fire1") > 0.1)
         {
             Player_EnterDoors[] doors = FindObjectsOfType<Player_EnterDoors>();
             for (int i = 0; i < doors.Length; i++)
@@ -443,6 +443,8 @@ public class Player_Movement : MonoBehaviour {
 
     public void startDialogue()
     {
+        Transform npc = GameObject.Find("NPC").transform;
+        if ((npc.position.x > this.transform.position.x && this.transform.localScale.x == -1) || (npc.position.x < this.transform.position.x && this.transform.localScale.x == 1)) Flip();
         anim.SetTrigger("enteredDialogue");
         anim.SetBool("inDialogue", true);
         startedDialogue = true;

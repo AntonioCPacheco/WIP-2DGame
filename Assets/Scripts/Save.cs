@@ -6,8 +6,8 @@ using UnityEngine;
 public class Save
 {
     Dictionary<Vector3Ser, bool> boxes = new Dictionary<Vector3Ser, bool>(); //Maps boxes positions to wether they're enabled or not
-    public Dictionary<int, bool> triggers = new Dictionary<int, bool>(); //Maps triggers' instanceIDs to triggered variables
-    public List<int> doors = new List<int>(); //Maps doors' instanceIDs to open variables
+    public Dictionary<string, bool> triggers = new Dictionary<string, bool>(); //Maps triggers' instanceIDs to triggered variables
+    public List<string> doors = new List<string>(); //Maps doors' instanceIDs to open variables
 
     public bool playerHasBox = false;
 

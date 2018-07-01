@@ -198,7 +198,6 @@ public class Camera_Movement : MonoBehaviour
         float alpha = (Time.realtimeSinceStartup - startTime) / lerpTime;
         while (alpha < 1)
         {
-            print(alpha + " - " + lerpTime);
             lookRight = Mathf.Lerp(previousPosition.x, focusPosition.x, alpha);
             lookUp = Mathf.Lerp(previousPosition.y, focusPosition.y, alpha);
             this.GetComponent<Camera>().orthographicSize = Mathf.Lerp(original, newSize, alpha);

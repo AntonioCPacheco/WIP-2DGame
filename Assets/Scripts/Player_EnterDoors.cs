@@ -18,6 +18,8 @@ public class Player_EnterDoors : MonoBehaviour {
     public bool isInCutscene = false;
     public bool saveGameOnEnter = false;
 
+    public bool playSoundOnOpen = true;
+
     AudioSource audioSource;
     bool beenInitialized = false;
     EndGame end;
@@ -91,7 +93,6 @@ public class Player_EnterDoors : MonoBehaviour {
     public void close()
     {
         if (!isOpen) return;
-        audioSource.Play();
         print("close");
         isOpen = false;
         GetComponent<Animator>().SetBool("OpenDoor", false);
@@ -100,7 +101,11 @@ public class Player_EnterDoors : MonoBehaviour {
     public void open()
     {
         if (isOpen) return;
-        audioSource.Play();
+        if (playSoundOnOpen)
+        {
+            audioSource.pitch = 1;
+            audioSource.Play();
+        }
         print("open");
         isOpen = true;
         GetComponent<Animator>().SetBool("OpenDoor", true);
@@ -140,6 +145,10 @@ public class Player_EnterDoors : MonoBehaviour {
     public void load()
     {
         if (!dialogueTriggerDone && dialogueTrigger.gameObject.activeSelf) close();
-        else checkLocks();
+        else
+        {
+            lastNumTriggers = -1; //force to update indicators
+            checkLocks();
+        }
     }
 }

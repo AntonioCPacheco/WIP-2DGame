@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GUI_FirstSelected : MonoBehaviour {
 
@@ -13,6 +14,10 @@ public class GUI_FirstSelected : MonoBehaviour {
 	
     public void setFirstSelected(GameObject firstSelected)
     {
-        es.SetSelectedGameObject(firstSelected);
+        print(firstSelected.name);
+        //firstSelected.GetComponent<Button>(). = firstSelected.GetComponent<Button>().spriteState.highlightedSprite;
+        //if (es.currentSelectedGameObject != firstSelected) 
+            es.SetSelectedGameObject(firstSelected);
+        
     }
 }

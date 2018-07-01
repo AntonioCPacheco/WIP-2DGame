@@ -96,6 +96,17 @@ public class NPC_Movement : MonoBehaviour
         }
     }
 
+    void facePlayer()
+    {
+        Transform npc = player.transform;
+        if ((npc.position.x > this.transform.position.x && this.transform.localScale.x == -1) || (npc.position.x < this.transform.position.x && this.transform.localScale.x == 1))
+        {
+            Vector3 theScale = transform.localScale;
+            theScale.x = - theScale.x;
+            transform.localScale = theScale;
+        }
+    }
+
     void checkReachedTarget()
     {
         if(xBeforeTarget > target)
@@ -127,6 +138,7 @@ public class NPC_Movement : MonoBehaviour
 
     public void startDialogue()
     {
+        facePlayer();
         rbody.velocity = new Vector2(0, rbody.velocity.y);
         inDialogue = true;
     }
@@ -172,6 +184,18 @@ public class NPC_Movement : MonoBehaviour
     void OnCollisionEnter2D(Collision2D coll)
     {
         if (coll.gameObject.layer == LayerMask.NameToLayer("Floor")) isJumping = false;
+        else if(coll.transform.GetComponent<ZoomOut>() != null)
+        {
+            this.maxSpeed += 50;
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.transform.GetComponent<ZoomOut>() != null)
+        {
+            this.maxSpeed += 10;
+        }
     }
 
     public void addVerticalForce(float force)

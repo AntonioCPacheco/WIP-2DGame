@@ -21,10 +21,27 @@ public class Checkpoint_Handler : MonoBehaviour {
 
     public void returnToLastCheckpoint()
     {
+        StartCoroutine(muteAndWait());
         SaveManager.loadGame();
         /*if (checkpoint != null)
             transform.position = checkpoint.position;
         else
             GameObject.Find("SceneManager").GetComponent<Game_SceneManager>().NewGame();*/
+    }
+
+
+    IEnumerator muteAndWait()
+    {
+        AudioListener.volume = 0;
+        yield return new WaitForSeconds(1.7f);
+        float alpha = 0;
+        float start = Time.realtimeSinceStartup;
+        while(alpha < 1)
+        {
+            AudioListener.volume = Mathf.Lerp(0, 1, alpha);
+            alpha = (Time.realtimeSinceStartup - start) / 3;
+            yield return null;
+        }
+
     }
 }

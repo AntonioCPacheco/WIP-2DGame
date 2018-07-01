@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class Game_PauseManager : MonoBehaviour {
 
 	bool _paused;
 	GameObject auxObj;
+    bool alreadyPressed = false;
 	// Use this for initialization
 	void Start () {
+        Time.timeScale = 0;
 		_paused = false;
 		
 		auxObj = GameObject.Find("AuxiliaryGameObject");
@@ -15,13 +18,19 @@ public class Game_PauseManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.Escape)) {
+		if ((!alreadyPressed && Input.GetAxisRaw("Pause")>0.1) || (Input.GetAxisRaw("unPause")>0.1 && _paused))
+        {
+            alreadyPressed = true;
 			if (_paused) {
 				Unpause ();
 			} else {
 				Pause ();
 			}
 		}
+        else if(Input.GetAxisRaw("Pause") < 0.8)
+        {
+            alreadyPressed = false;
+        }
 	}
 
 	public void Unpause(){
@@ -35,6 +44,7 @@ public class Game_PauseManager : MonoBehaviour {
 		Time.timeScale = 0f;
 		_paused = true;
 		auxObj.SetActive(true);
+        GameObject.Find("EventSystem").GetComponent<GUI_FirstSelected>().setFirstSelected(GameObject.Find("Resume"));
         Cursor.visible = true;
     }
 
@@ -45,6 +55,13 @@ public class Game_PauseManager : MonoBehaviour {
 
     public void restartLevel()
     {
+        Time.timeScale = 1;
         SaveManager.loadGame();
+    }
+
+    public void StartGame()
+    {
+        Time.timeScale = 1;
+        GameObject.Find("IntroScreen").SetActive(false);
     }
 }

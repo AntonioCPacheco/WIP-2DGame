@@ -4,7 +4,6 @@ using UnityEngine;
 using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
-using UnityEditor;
 
 public class SaveManager : MonoBehaviour
 {
@@ -35,8 +34,8 @@ public class SaveManager : MonoBehaviour
     {
         Debug.Log(Application.persistentDataPath);
         Dictionary<Vector3, bool> boxes = new Dictionary<Vector3, bool>();
-        Dictionary<int, bool> triggers = new Dictionary<int, bool>();
-        List<int> doors = new List<int>();
+        Dictionary<string, bool> triggers = new Dictionary<string, bool>();
+        List<string> doors = new List<string>();
 
         foreach (GameObject b in SaveManager.boxes)
         {
@@ -47,12 +46,12 @@ public class SaveManager : MonoBehaviour
 
         foreach (GameObject t in GameObject.FindGameObjectsWithTag("Trigger"))
         {
-            triggers.Add(t.GetInstanceID(), t.GetComponent<Lock_BoxTrigger>().triggered);
+            triggers.Add(t.name, t.GetComponent<Lock_BoxTrigger>().triggered);
         }
 
         foreach (GameObject d in GameObject.FindGameObjectsWithTag("Door"))
         {
-            doors.Add(d.GetInstanceID());
+            doors.Add(d.name);
         }
 
         Save save = new Save();
@@ -105,18 +104,19 @@ public class SaveManager : MonoBehaviour
                 i++;
             }
 
-            foreach (KeyValuePair<int, bool> item in save.triggers)
+            foreach (KeyValuePair<string, bool> item in save.triggers)
             {
-                GameObject trigger = (GameObject)EditorUtility.InstanceIDToObject(item.Key);
+                GameObject trigger = GameObject.Find(item.Key);
                 trigger.GetComponent<Lock_BoxTrigger>().isTriggered = item.Value;
             }
 
-            foreach (int item in save.doors)
+            foreach (string item in save.doors)
             {
-                GameObject door = (GameObject)EditorUtility.InstanceIDToObject(item);
+                GameObject door = GameObject.Find(item);
 
                 door.GetComponent<Player_EnterDoors>().load();
             }
         }
+
     }
 }
