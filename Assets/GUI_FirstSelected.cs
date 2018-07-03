@@ -14,10 +14,9 @@ public class GUI_FirstSelected : MonoBehaviour {
 	
     public void setFirstSelected(GameObject firstSelected)
     {
-        print(firstSelected.name);
-        //firstSelected.GetComponent<Button>(). = firstSelected.GetComponent<Button>().spriteState.highlightedSprite;
-        //if (es.currentSelectedGameObject != firstSelected) 
-            es.SetSelectedGameObject(firstSelected);
-        
+        firstSelected.GetComponent<Button>().Select();
+        firstSelected.GetComponent<Button>().OnSelect(null);
+
+        es.SetSelectedGameObject(firstSelected);
     }
 }

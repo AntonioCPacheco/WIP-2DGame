@@ -205,4 +205,22 @@ public class Camera_Movement : MonoBehaviour
             yield return null;
         }
     }
+
+    public void EnterDoorCutscene()
+    {
+        inCutscene = true;
+        GameObject.Find("DeathScreen").GetComponent<Animator>().SetTrigger("FadeOut");
+        StartCoroutine(waitForFadeOut());
+    }
+
+    void continueEnterDoor()
+    {
+        inCutscene = false;
+    }
+
+    IEnumerator waitForFadeOut()
+    {
+        yield return new WaitForSeconds(1);
+        continueEnterDoor();
+    }
 }

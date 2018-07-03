@@ -206,7 +206,7 @@ public class Player_Movement : MonoBehaviour {
     void handleVerticalInput()
     {
         //Enter doors
-        if (Input.GetAxis("Fire1") > 0.1)
+        if (Input.GetAxis("EnterDoor") > 0.1)
         {
             Player_EnterDoors[] doors = FindObjectsOfType<Player_EnterDoors>();
             for (int i = 0; i < doors.Length; i++)
@@ -331,13 +331,16 @@ public class Player_Movement : MonoBehaviour {
             }
             else
             {
-                RaycastHit2D hit2D = Physics2D.Raycast(this.transform.position, this.transform.right, 20f, LayerMask.NameToLayer("Floor"));
+                RaycastHit2D hit2D = Physics2D.Raycast(this.transform.position, this.transform.localScale.x * Vector2.right, 10f, 1 << LayerMask.NameToLayer("Floor"));
                 
                 box.SetActive(true);
                 box.transform.SetParent(null);
                 box.transform.position = this.transform.position + new Vector3(facingRight ? 12.5f : -12f, 6.5f, -28);
-                if (hit2D.distance < 5f)
-                    box.transform.Translate(-1 * this.transform.localScale.x * (this.transform.right * 5f));
+                if (hit2D.collider!=null && hit2D.distance < 10f)
+                {
+                    print("worked");
+                    box.transform.Translate((-1 * this.transform.localScale.x) * (this.transform.right * 10f));
+                }
                 box = null;
                 hasBox = false;
                 anim.SetTrigger("lostBox");
@@ -452,6 +455,14 @@ public class Player_Movement : MonoBehaviour {
 
     public void stopDialogue()
     {
+        alreadyPressedJump = true;
+        anim.SetBool("inDialogue", false);
+        startedDialogue = false;
+    }
+
+    IEnumerator stopDialogueC()
+    {
+        yield return new WaitForSeconds(0.1f);
         anim.SetBool("inDialogue", false);
         startedDialogue = false;
     }
@@ -459,8 +470,6 @@ public class Player_Movement : MonoBehaviour {
     public void setBox(Transform box)
     {
         this.box = box.gameObject;
-
-        print(this.box.name);
         this.box.gameObject.SetActive(false);
         this.box.transform.SetParent(this.transform);
         this.box.gameObject.SetActive(false);

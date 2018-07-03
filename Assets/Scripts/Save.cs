@@ -10,7 +10,8 @@ public class Save
     public List<string> doors = new List<string>(); //Maps doors' instanceIDs to open variables
 
     public bool playerHasBox = false;
-
+    public float npcGoal = 0;
+    public bool npcVisible = true;
     Vector3Ser playerPosition;
     Vector3Ser npcPosition;
 

@@ -28,9 +28,7 @@ public class DialogueTrigger : MonoBehaviour {
     }
 
     IEnumerator waitForTime(float time)
-    {
-        print(Time.time);
-        
+    {        
         yield return new WaitForSeconds(time/2);
         if (platform != null)
         {

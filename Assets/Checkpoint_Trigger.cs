@@ -23,6 +23,8 @@ public class Checkpoint_Trigger : MonoBehaviour {
             triggered = true;
             SaveManager.saveGame();
 
+            GetComponent<AudioSource>().Play();
+
             GetComponent<SpriteRenderer>().sprite = checkpointOn;
             /*Checkpoint_Handler ch = coll.gameObject.GetComponent<Checkpoint_Handler>();
             ch.checkpoint = transform.GetChild(0).transform;*/

@@ -20,7 +20,9 @@ public class Player_EnterDoors : MonoBehaviour {
 
     public bool playSoundOnOpen = true;
 
-    AudioSource audioSource;
+    AudioSource dingSource;
+    AudioSource slideSource;
+
     bool beenInitialized = false;
     EndGame end;
     bool dialogueTriggerDone = false;
@@ -28,7 +30,9 @@ public class Player_EnterDoors : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        audioSource = this.GetComponent<AudioSource>();
+        dingSource = this.GetComponents<AudioSource>()[0];
+        slideSource = this.GetComponents<AudioSource>()[1];
+
         GetComponent<Animator>().SetBool("OpenDoor", isOpen);
         end = GetComponent<EndGame>();
         if (dialogueTrigger == null) dialogueTriggerDone = true;
@@ -65,15 +69,16 @@ public class Player_EnterDoors : MonoBehaviour {
                 if (end != null) end.endGame();
                 return;
             }
-            Camera mainCamera = Camera.main;
+            Camera_Movement mainCamera = Camera.main.GetComponent<Camera_Movement>();
             bool NPCvisible = linkedDoor.GetComponent<Player_EnterDoors>().sameRoomAsNPC;
-            mainCamera.GetComponent<Camera_Movement>().followNPC = NPCvisible;
-            GameObject.FindObjectOfType<NPC_Movement>().setVisibility(NPCvisible);
+
+            mainCamera.EnterDoorCutscene();
+            mainCamera.followNPC = NPCvisible;
+
+            //GameObject.FindObjectOfType<NPC_Movement>().setVisibility(NPCvisible);
 
             linkedDoor.close();
-
-            Vector3 v3 = linkedDoor.transform.TransformVector(linkedDoor.transform.position);
-            GameObject.Find("Player Prefab").GetComponent<Player_Movement>().MovePlayerTo(v3);
+            StartCoroutine(waitForFrame());
 
             if (npcDoor != null)
             {
@@ -81,7 +86,6 @@ public class Player_EnterDoors : MonoBehaviour {
             }
 
             if (end != null) end.endGame();
-            if (saveGameOnEnter) SaveManager.saveGame();
         }
         else
         {
@@ -90,9 +94,24 @@ public class Player_EnterDoors : MonoBehaviour {
         close();
     }
 
+    IEnumerator waitForFrame()
+    {
+        SpriteRenderer sr = GameObject.Find("Player Prefab").GetComponent<SpriteRenderer>();
+        sr.enabled = false;
+        yield return new WaitForSeconds(1.8f);
+
+        bool NPCvisible = linkedDoor.GetComponent<Player_EnterDoors>().sameRoomAsNPC;
+        GameObject.FindObjectOfType<NPC_Movement>().setVisibility(NPCvisible);
+        Vector3 v3 = linkedDoor.transform.TransformVector(linkedDoor.transform.position);
+        GameObject.Find("Player Prefab").GetComponent<Player_Movement>().MovePlayerTo(v3);
+        sr.enabled = true;
+        if (saveGameOnEnter) SaveManager.saveGame();
+    }
+
     public void close()
     {
         if (!isOpen) return;
+        slideSource.Play();
         print("close");
         isOpen = false;
         GetComponent<Animator>().SetBool("OpenDoor", false);
@@ -103,9 +122,9 @@ public class Player_EnterDoors : MonoBehaviour {
         if (isOpen) return;
         if (playSoundOnOpen)
         {
-            audioSource.pitch = 1;
-            audioSource.Play();
+            dingSource.Play();
         }
+        slideSource.Play();
         print("open");
         isOpen = true;
         GetComponent<Animator>().SetBool("OpenDoor", true);

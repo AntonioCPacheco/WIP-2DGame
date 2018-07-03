@@ -11,9 +11,9 @@ public class SaveManager : MonoBehaviour
 
     private static GameObject[] boxes;
 
+    private static DialogueTrigger[] dts;
     void Start()
     {
-        boxes = GameObject.FindGameObjectsWithTag("Box");
     }
 
     // Use this for initialization
@@ -28,11 +28,13 @@ public class SaveManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        dts = FindObjectsOfType<DialogueTrigger>();
+        boxes = GameObject.FindGameObjectsWithTag("Box");
     }
 
     public static void saveGame()
     {
-        Debug.Log(Application.persistentDataPath);
+        Debug.Log("Game is being saved!");
         Dictionary<Vector3, bool> boxes = new Dictionary<Vector3, bool>();
         Dictionary<string, bool> triggers = new Dictionary<string, bool>();
         List<string> doors = new List<string>();
@@ -60,6 +62,8 @@ public class SaveManager : MonoBehaviour
 
         save.setPlayerPosition(GameObject.FindGameObjectWithTag("Player").transform.position);
         save.setNpcPosition(GameObject.FindGameObjectWithTag("NPC").transform.position);
+        save.npcGoal = FindObjectOfType<NPC_Movement>().nextStep;
+        save.npcVisible = GameObject.FindGameObjectWithTag("NPC").GetComponent<SpriteRenderer>().enabled;
 
         save.setBoxes(boxes);
         save.triggers = triggers;
@@ -84,6 +88,13 @@ public class SaveManager : MonoBehaviour
             GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             GameObject.FindWithTag("Player").transform.position = save.getPlayerPosition();
             GameObject.FindWithTag("NPC").transform.position = save.getNpcPosition();
+            FindObjectOfType<NPC_Movement>().nextStep = save.npcGoal;
+            GameObject.FindGameObjectWithTag("NPC").GetComponent<SpriteRenderer>().enabled = save.npcVisible;
+
+            foreach(DialogueTrigger t in dts)
+            {
+                t.gameObject.SetActive(true);
+            }
 
             int i = 0;
             if (save.playerHasBox)
