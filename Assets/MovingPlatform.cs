@@ -17,6 +17,7 @@ public class MovingPlatform : MonoBehaviour
     public Sprite on;
     public Sprite off;
     SpriteRenderer onOff;
+    int inside = 0;
 
     // Use this for initialization
     void Start()
@@ -51,19 +52,27 @@ public class MovingPlatform : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.CompareTag("Player") && coll.collider.GetType() == typeof(CircleCollider2D))
+        if (coll.gameObject.CompareTag("Player") && coll.collider.GetType() == typeof(BoxCollider2D))
         {
-            GameObject.Find("Player Prefab").GetComponent<Player_Movement>().onTopOfSomething = true;
-            playerOnTop = true;
+            print("in");
+            if (inside++ == 0)
+            {
+                GameObject.Find("Player Prefab").GetComponent<Player_Movement>().onTopOfSomething = true;
+                playerOnTop = true;
+            }
         }
     }
 
     void OnCollisionExit2D(Collision2D col)
     {
-        if (col.gameObject.CompareTag("Player") && col.collider.GetType() == typeof(CircleCollider2D))
+        if (col.gameObject.CompareTag("Player") && col.collider.GetType() == typeof(BoxCollider2D))
         {
-            GameObject.Find("Player Prefab").GetComponent<Player_Movement>().onTopOfSomething = false;
-            playerOnTop = false;
+            print("out");
+            if (--inside <= 0)
+            {
+                GameObject.Find("Player Prefab").GetComponent<Player_Movement>().onTopOfSomething = false;
+                playerOnTop = false;
+            }
         }
     }
 

@@ -153,9 +153,9 @@ public class Camera_Movement : MonoBehaviour
         inCutscene = false;
     }
 
-    public void zoomIn(Vector2 focusPosition)
+    public void zoomIn()
     {
-        changeCameraSize(true, focusPosition);
+        changeCameraSize(new Vector2(3, 30), 125);
     }
 
     public void zoomIn(float lerpTime)
@@ -163,23 +163,16 @@ public class Camera_Movement : MonoBehaviour
         changeCameraSize(lerpTime);
     }
 
-    public void zoomOut(Vector2 focusPosition)
+    public void zoomOut(Vector2 focusPosition, float newSize)
     {
-        changeCameraSize(false, focusPosition);
+        changeCameraSize(focusPosition, newSize);
     }
 
-    void changeCameraSize(bool zoomIn, Vector2 focusPosition)
+    void changeCameraSize(Vector2 focusPosition, float newSize)
     {
         if (zoomInCoroutine != null) StopCoroutine(zoomInCoroutine);
-
-        if (zoomIn)
-        {
-            zoomInCoroutine = changeCameraSize(Vector2.zero, 125, 2);
-        }
-        else
-        {
-            zoomInCoroutine = changeCameraSize(focusPosition, 185, 2);
-        }
+        
+        zoomInCoroutine = changeCameraSize(focusPosition, newSize, 2);
         StartCoroutine(zoomInCoroutine);
     }
 

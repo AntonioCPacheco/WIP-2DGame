@@ -5,6 +5,7 @@ using UnityEngine;
 public class ZoomOut : MonoBehaviour {
 
     public Vector2 focusPosition;
+    public float newSize = 185;
     Camera_Movement mainCam;
     int inside = 0;
     // Use this for initialization
@@ -18,7 +19,7 @@ public class ZoomOut : MonoBehaviour {
         {
             if (inside == 0)
             {
-                mainCam.zoomOut(focusPosition);
+                mainCam.zoomOut(focusPosition, newSize);
             }
             inside++;
         }
@@ -31,7 +32,7 @@ public class ZoomOut : MonoBehaviour {
             inside--;
             if (inside == 0)
             {
-                mainCam.zoomIn(focusPosition);
+                mainCam.zoomIn();
             }
         }
     }
