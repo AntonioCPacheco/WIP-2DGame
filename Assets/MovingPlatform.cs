@@ -55,11 +55,11 @@ public class MovingPlatform : MonoBehaviour
         if (coll.gameObject.CompareTag("Player") && coll.collider.GetType() == typeof(BoxCollider2D))
         {
             print("in");
-            if (inside++ == 0)
-            {
+            //if (inside++ == 0)
+            //{
                 GameObject.Find("Player Prefab").GetComponent<Player_Movement>().onTopOfSomething = true;
                 playerOnTop = true;
-            }
+            //}
         }
     }
 
@@ -68,11 +68,11 @@ public class MovingPlatform : MonoBehaviour
         if (col.gameObject.CompareTag("Player") && col.collider.GetType() == typeof(BoxCollider2D))
         {
             print("out");
-            if (--inside <= 0)
-            {
+            //if (--inside <= 0)
+            //{
                 GameObject.Find("Player Prefab").GetComponent<Player_Movement>().onTopOfSomething = false;
                 playerOnTop = false;
-            }
+            //}
         }
     }
 

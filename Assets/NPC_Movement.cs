@@ -19,6 +19,8 @@ public class NPC_Movement : MonoBehaviour
     Rigidbody2D rbody;
     GameObject player;
 
+    public bool followPlayer = false; //mimic player movement
+
     float xBeforeTarget;
     float target;
     bool reachedTarget = true;
@@ -27,6 +29,9 @@ public class NPC_Movement : MonoBehaviour
 
     bool inDialogue = false;
     bool changedNextStep = true;
+
+    TriggerDialogueAfterTime tdat;
+    bool nextChoiceFinal = false;
 
     // Use this for initialization
     void Start()
@@ -39,40 +44,47 @@ public class NPC_Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (inDialogue) { return; }
-        if (isReadyForNextStep())
-        {
-            xBeforeTarget = this.transform.position.x;
-            target = getNextStep();
-            facingRight = xBeforeTarget < target;
-            Turn();
-        }
-        if ((reachedTarget && !changedNextStep))
-        {
-            rbody.velocity = new Vector2(0, rbody.velocity.y);
-        }
-        else
-        {
-            rbody.velocity = new Vector2((facingRight ? 1 : -1) * 0.3f * maxSpeed, rbody.velocity.y);
-        }
-
-        facingPlayer = ((player.transform.position.x - transform.position.x) >= 0 && facingRight) || ((player.transform.position.x - transform.position.x) <= 0 && !facingRight);
-        //anim.SetFloat("Speed", 0);
-        checkReachedTarget();
+        
     }
 
     void FixedUpdate()
     {
+
         Vector2 A = groundCheck.position + new Vector3(6, -0.2f);
         Vector2 B = groundCheck.position + new Vector3(-6, -0.2f);
         grounded = Physics2D.OverlapCircle(A, 0.2f, whatIsGround);
         grounded = grounded || Physics2D.OverlapCircle(B, 0.2f, whatIsGround);
-        anim.SetBool("Grounded", grounded);
         
+        checkReachedTarget(); //Update reachedTarget flag
+
+        if (!inDialogue)
+        {
+            if (isReadyForNextStep())
+            {
+                xBeforeTarget = this.transform.position.x;
+                target = getNextStep();
+                FaceObjective();
+            }
+            if (reachedTarget && !changedNextStep)
+            {
+                rbody.velocity = new Vector2(0, rbody.velocity.y);
+            }
+            else if (followPlayer) //For final cutscene
+            {
+                followPlayerFunction();
+            }
+            else
+            {
+                FaceObjective();
+                facingRight = (this.transform.localScale.x > 0);
+                rbody.velocity = new Vector2((facingRight ? 1 : -1) * 0.3f * maxSpeed, rbody.velocity.y);
+            }
+        }
+
+        anim.SetBool("Grounded", grounded);
+
         anim.SetFloat("Speed", Mathf.Abs(rbody.velocity.x));
         anim.SetFloat("vSpeed", rbody.velocity.y);
-        //if (!facingPlayer && (Mathf.Abs(player.transform.position.x - transform.position.x) > 7))
-        //    Flip();
     }
 
     float getDistance(float x1, float x2)
@@ -96,6 +108,15 @@ public class NPC_Movement : MonoBehaviour
         }
     }
 
+    void FaceObjective()
+    {
+        if ((target > this.transform.position.x && this.transform.localScale.x == -1) || (target < this.transform.position.x && this.transform.localScale.x == 1))
+        {
+            Vector3 theScale = transform.localScale;
+            theScale.x = -theScale.x;
+            transform.localScale = theScale;
+        }
+    }
     void facePlayer()
     {
         Transform npc = player.transform;
@@ -105,6 +126,28 @@ public class NPC_Movement : MonoBehaviour
             theScale.x = - theScale.x;
             transform.localScale = theScale;
         }
+    }
+
+    void followPlayerFunction()
+    {
+        Vector2 pv = player.GetComponent<Rigidbody2D>().velocity;
+        Vector2 npcV = new Vector2(0, rbody.velocity.y);
+        if (pv.x > 0)
+        {
+            FaceObjective();
+            npcV.x = ((player.transform.position.x > this.transform.position.x && player.transform.position.x - this.transform.position.x > 20f) ? 1.1f : 0.9f) * pv.x;
+        }
+        else
+        {
+            if (player.transform.position.x > this.transform.position.x)
+            {
+                FaceObjective();
+                npcV.x = 0.45f * maxSpeed;
+            }
+            else
+                facePlayer();
+        }
+        rbody.velocity = npcV;
     }
 
     void checkReachedTarget()
@@ -118,18 +161,15 @@ public class NPC_Movement : MonoBehaviour
             reachedTarget = (this.transform.position.x > target);
         }
     }
-
     bool isReadyForNextStep()
     {
         return (!inDialogue && changedNextStep);
     }
-
     public void setNextStep(float nextStep)
     {
         changedNextStep = true;
         this.nextStep = nextStep;
     }
-
     float getNextStep()
     {
         changedNextStep = false;
@@ -145,6 +185,37 @@ public class NPC_Movement : MonoBehaviour
 
     public void stopDialogue()
     {
+        if (nextChoiceFinal)
+        {
+            if (nextStep == 2851)
+            {
+                FindObjectOfType<Player_Movement>().followNPC = true;
+            }
+            else
+            {
+                GameObject d12 = GameObject.Find("DialogueTrigger 12");
+                d12.GetComponent<DialogueTrigger>().TriggerDialogue();
+            }
+            followPlayer = false;
+            nextChoiceFinal = false;
+            FindObjectOfType<Player_Movement>().maxSpeed = 0;
+        }
+        if (tdat != null)
+        {
+            print("d");
+            if (nextStep == 2850) //If player chooses to stay, trigger immedeately
+            { 
+                tdat.timeToTrigger = 0;
+            }
+            else
+            {
+                followPlayer = true;
+            }
+            tdat.arm();
+            tdat = null;
+            nextChoiceFinal = true;
+        }
+        FaceObjective();
         inDialogue = false;
     }
 
@@ -184,17 +255,14 @@ public class NPC_Movement : MonoBehaviour
     void OnCollisionEnter2D(Collision2D coll)
     {
         if (coll.gameObject.layer == LayerMask.NameToLayer("Floor")) isJumping = false;
-        else if(coll.transform.GetComponent<ZoomOut>() != null)
-        {
-            this.maxSpeed += 50;
-        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.transform.GetComponent<ZoomOut>() != null)
         {
-            this.maxSpeed += 10;
+            tdat = FindObjectOfType<TriggerDialogueAfterTime>();
+            maxSpeed += 5;
         }
     }
 

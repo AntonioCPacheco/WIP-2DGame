@@ -5,16 +5,18 @@ using UnityEngine;
 
 public class DialogueTrigger : MonoBehaviour {
 
-    public MovingPlatform platform;
-    public float timeToWait = 0f;
+    public bool onlyPlayerTrigger = true;
+    public int numOfSingleLines = 0;
 
     public Dialogue dialogue;
     public float[] npcSteps;
-    public int numOfSingleLines = 0;
-    public bool onlyPlayerTrigger = true;
+
+    public MovingPlatform platform;
 
     bool triggeredPlayer = false;
     bool triggeredNPC = false;
+
+    //public float timeToWait = 0f;
 
     public void initialize(string dialogueLines)
     {
@@ -24,7 +26,7 @@ public class DialogueTrigger : MonoBehaviour {
 
     public void TriggerDialogue()
     {
-        StartCoroutine(waitForTime(timeToWait));
+        StartCoroutine(waitForTime(0));
     }
 
     IEnumerator waitForTime(float time)
@@ -42,7 +44,6 @@ public class DialogueTrigger : MonoBehaviour {
             FindObjectOfType<DialogueManager>().SetRockPaperScissors(triggerAfterXChoices);
         }
         this.gameObject.SetActive(false);
-        print(Time.time);
     }
 
     void OnTriggerEnter2D(Collider2D other)

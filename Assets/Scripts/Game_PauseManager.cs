@@ -75,9 +75,24 @@ public class Game_PauseManager : MonoBehaviour {
 
     public void ContinueFromSave()
     {
-        Time.timeScale = 1;
+        StartCoroutine(muteAndWait());
         GameObject.Find("IntroScreen").SetActive(false);
         SaveManager.loadGame();
         GameObject.Find("DeathScreen").GetComponent<Animator>().SetTrigger("StartGame");
+    }
+
+    IEnumerator muteAndWait()
+    {
+        AudioListener.volume = 0;
+        Time.timeScale = 1;
+        yield return new WaitForSeconds(1.7f);
+        float alpha = 0;
+        float start = Time.realtimeSinceStartup;
+        while (alpha < 1)
+        {
+            AudioListener.volume = Mathf.Lerp(0, 1, alpha);
+            alpha = (Time.realtimeSinceStartup - start) / 3;
+            yield return null;
+        }
     }
 }

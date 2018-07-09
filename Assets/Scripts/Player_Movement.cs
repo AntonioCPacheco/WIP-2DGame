@@ -58,21 +58,29 @@ public class Player_Movement : MonoBehaviour {
 	int jumpNextWindow = 10;
 	int jumpNextDeltaFrames = 0;
 
+    bool alreadyPressedJump = false;
+    //Trampolin variables
     bool inTrampolin = false;
     bool inTrampolinUp = false;
 
-    bool alreadyPressedJump = false;
-    
-	Rigidbody2D rBody;
+    //Sound Objects
+    AudioSource footstepsSource;
+    AudioSource singleStompSource;
+
+    Rigidbody2D rBody;
 	Camera_Movement mainCamera;
 
     bool startedDialogue = false;
+    public bool followNPC = false;
 	
 	void Start(){
 		anim = GetComponent<Animator>();
 		rBody = GetComponent<Rigidbody2D> ();
 		mainCamera = GameObject.Find ("Main Camera").GetComponent<Camera_Movement> ();
-	}
+
+        singleStompSource = GetComponents<AudioSource>()[0];
+        footstepsSource = GetComponents<AudioSource>()[1];
+    }
 
 	//Deals with collision checks(ground, walls, boxes) and physics
 	void FixedUpdate(){
@@ -86,8 +94,41 @@ public class Player_Movement : MonoBehaviour {
         checkJumpStatus();
         checkWalls();
         //also handles animator variables
-        handleHorizontalInput();
+        if (!followNPC)
+        {
+            handleHorizontalInput();
+        }
+        else
+        {
+            followNPCFunction();
+        }
 	}
+
+    void followNPCFunction()
+    {
+        Transform npc = FindObjectOfType<NPC_Movement>().transform;
+        Vector2 npcV = npc.GetComponent<Rigidbody2D>().velocity;
+        Vector2 pV = new Vector2(0, rBody.velocity.y);
+
+        facingRight = FindObjectOfType<NPC_Movement>().facingRight;
+        if (npcV.x > 0)
+        {
+            if (npc.transform.position.x > this.transform.position.x)
+            {
+                pV.x = ((npc.transform.position.x - this.transform.position.x > 20f) ? 1.2f : 1.1f) * npcV.x;
+            }
+            else
+            {
+                pV.x = 0.9f * npcV.x;
+            }
+        }
+        rBody.velocity = pV;
+
+        anim.SetFloat("Speed", 1);
+        anim.SetFloat("vSpeed", rBody.velocity.y);
+        anim.SetFloat("hSpeed", rBody.velocity.x - somethingsVelocity.x);
+        anim.SetFloat("AbsHSpeed", Mathf.Abs(rBody.velocity.x - somethingsVelocity.x));
+    }
 
 	//Main function, deals with most of the player input. I should probably move the input elsewhere...
 	void Update(){
@@ -105,10 +146,15 @@ public class Player_Movement : MonoBehaviour {
 		}
 
         handleJumpInput1();
-        handleRunInput();
+
+        if (!followNPC) handleRunInput();
+
         handleJumpInput2();
-        handleVerticalInput();
-        handlePickUp();
+
+        if (!followNPC) { 
+            handleVerticalInput();
+            handlePickUp();
+        }
 
         if(Input.GetKeyDown(KeyCode.H))
             halpImStuck();
@@ -260,7 +306,10 @@ public class Player_Movement : MonoBehaviour {
                 //	jumpedTwice = true;
                 //	Jump ();
                 //} else {
+                singleStompSource.pitch = 0.8f;
+                singleStompSource.Play();
                 Jump();
+                VibrateController.vibrateControllerForXSeconds(0.05f, 0.2f, 0.2f);
                 //anim.SetBool ("Ground", false);		
                 //}
             }
@@ -355,12 +404,19 @@ public class Player_Movement : MonoBehaviour {
 
     void checkGround()
     {
+        bool prevGrounded = grounded;
         //Check if the GameObject is on the ground
         Vector3 auxGCPos1 = new Vector3(groundCheck.position.x + 4.0f, groundCheck.position.y, groundCheck.position.z);
         Vector3 auxGCPos2 = new Vector3(groundCheck.position.x - 4.0f, groundCheck.position.y, groundCheck.position.z);
         grounded = Physics2D.OverlapCircle(auxGCPos1, groundRadius, whatIsGround);
         grounded = grounded ? grounded : Physics2D.OverlapCircle(auxGCPos2, groundRadius, whatIsGround);
         anim.SetBool("Ground", grounded); //telling the Animator whether the GameObject is on the ground
+        if (!prevGrounded && grounded)
+        {
+            singleStompSource.pitch = 0.58f;
+            singleStompSource.Play();
+        }
+        else if (footstepsSource.isPlaying && !grounded) footstepsSource.Stop();
 
         if (grounded && !inTrampolinUp) inTrampolin = false; 
     }
@@ -415,6 +471,16 @@ public class Player_Movement : MonoBehaviour {
                 if (grounded)
                 {
                     rBody.velocity = new Vector2(move * (maxSpeed * (running ? 2 : 1) * (hasBox ? .6f : 1)), rBody.velocity.y);
+
+                    if (!footstepsSource.isPlaying && Mathf.Abs(rBody.velocity.x) > 1)
+                    {
+                        if (singleStompSource.isPlaying)
+                            footstepsSource.PlayDelayed(0.3f);
+                        else
+                            footstepsSource.Play();
+                    }
+                    else if (Mathf.Abs(rBody.velocity.x) < 1) footstepsSource.Stop();
+
                     if (onTopOfSomething)
                     {
                         rBody.velocity += somethingsVelocity;
@@ -451,15 +517,14 @@ public class Player_Movement : MonoBehaviour {
         anim.SetTrigger("enteredDialogue");
         anim.SetBool("inDialogue", true);
         startedDialogue = true;
+        if (footstepsSource.isPlaying) footstepsSource.Stop();
     }
-
     public void stopDialogue()
     {
         alreadyPressedJump = true;
         anim.SetBool("inDialogue", false);
         startedDialogue = false;
     }
-
     IEnumerator stopDialogueC()
     {
         yield return new WaitForSeconds(0.1f);
@@ -476,11 +541,14 @@ public class Player_Movement : MonoBehaviour {
         hasBox = true;
         anim.SetTrigger("pickBox");
     }
-
     public void dropBoxAnim()
     {
         anim.SetTrigger("lostBox");
         hasBox = false;
+    }
+    public bool doesPlayerHaveBox()
+    {
+        return hasBox;
     }
 
     void halpImStuck()
@@ -488,17 +556,11 @@ public class Player_Movement : MonoBehaviour {
         MovePlayerTo(this.transform.position + new Vector3(0, 20, 0));
     }
 
-    public bool doesPlayerHaveBox()
-    {
-        return hasBox;
-    }
-
     public void addDirectionalForce(Vector2 direction, float force, float jumpTime)
     {
         force *= hasBox ? 0.75f : 1f;
         StartCoroutine(ForceRoutine(direction, force, jumpTime));
-    }
-    
+    }    
     IEnumerator ForceRoutine(Vector2 direction, float force, float jumpTime)
     {
         inTrampolinUp = true;

@@ -245,7 +245,6 @@ public class DialogueManager : MonoBehaviour {
             return;
         }
         //Log choice
-        print(getIndex(choice).text);
         GameObject.Find("NPC").GetComponent<NPC_Movement>().setNextStep(npcSteps[choice - 1]);
         EndDialogue();
         StopAllCoroutines();
@@ -271,7 +270,9 @@ public class DialogueManager : MonoBehaviour {
         if (rockPaperScissors != -2)
         {
             if (numOfSingleLines == 0) HandleFirstSelected(1);
-            DisplayNextSentence();
+
+            if (sentences.Count == 0) EndDialogue();
+            else DisplayNextSentence();
         }
         else
         {

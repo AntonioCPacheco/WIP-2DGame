@@ -18,6 +18,7 @@ public class Trampolin_Behavior : MonoBehaviour {
     {
         if (other.CompareTag("Player"))
         {
+            VibrateController.vibrateControllerForXSeconds(0.1f, 0.7f, 0.7f);
             print(audioSource.name);
             if (audioSource != null) audioSource.Play();
             other.GetComponent<Player_Movement>().addDirectionalForce(this.transform.up, force, jumpTime);
