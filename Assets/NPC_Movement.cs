@@ -222,7 +222,7 @@ public class NPC_Movement : MonoBehaviour
     public void moveNPCto(Vector2 newPos)
     {
         this.transform.position = newPos;
-        nextStep = newPos.x + 50;
+        setNextStep(newPos.x + 2);
     }
 
     public bool tryEnterDoor(Player_EnterDoors sc)
@@ -270,5 +270,13 @@ public class NPC_Movement : MonoBehaviour
     {
         isJumping = true;
         rbody.AddForce(new Vector2(0, (force - (rbody.velocity.y * 45))));
+    }
+
+    public void load(Vector3 pos, float goal)
+    {
+        moveNPCto(pos);
+
+        reachedTarget = true;
+        setNextStep(goal);
     }
 }

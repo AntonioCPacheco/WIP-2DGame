@@ -83,7 +83,6 @@ public class Player_EnterDoors : MonoBehaviour {
             if (npcDoor != null)
             {
                 FindObjectOfType<NPC_Movement>().moveNPCto(npcDoor.transform.position);
-                FindObjectOfType<NPC_Movement>().nextStep = npcDoor.transform.position.x + 2;
             }
 
             if (end != null) end.endGame();

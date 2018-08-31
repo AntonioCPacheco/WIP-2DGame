@@ -44,7 +44,7 @@ public class Door_DisplayLockStates : MonoBehaviour {
     {
         if (numLocks == numTriggered) return;
 
-        for (int i=0; i<this.numLocks; i++)
+        for (int i=0; i<indicators.Length; i++)
         {
             indicators[i].GetComponent<SpriteRenderer>().sprite = (numLocks>0 ? activated : deactivated);
             numLocks--;

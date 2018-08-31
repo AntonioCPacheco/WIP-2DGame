@@ -81,15 +81,16 @@ public class DialogueManager : MonoBehaviour {
         switch (choice)
         {
             case 1:
-                sentence = "Rock vs. Scissors!\n You win. I'm going left.";
+                sentence = "Rock vs. Scissors!";
                 break;
             case 2:
-                sentence = "Paper vs. Rock!\n You win. I'm going left.";
+                sentence = "Paper vs. Rock!";
                 break;
             case 3:
-                sentence = "Scissors vs. Paper!\n You win. I'm going left.";
+                sentence = "Scissors vs. Paper!";
                 break;
         }
+        sentence += "\n You win. " + (assertive ? "I'm going left." : "I guess I'll go left.");
 
         this.rockPaperScissors = -2;
         Text toChange = getIndex(0);

@@ -31,7 +31,8 @@ public class SlowMotion : MonoBehaviour
             inside++;
 
             if (coll.CompareTag("Player")) coll.GetComponent<Player_Movement>().followNPC = true;
-            coll.GetComponent<NPC_Movement>().followPlayer = false;
+            if(coll.GetComponent<NPC_Movement>() != null)
+                coll.GetComponent<NPC_Movement>().followPlayer = false;
         }
     }
 

@@ -60,6 +60,11 @@ public class Game_PauseManager : MonoBehaviour {
         SceneManager.LoadScene(0);
     }
 
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
     public void restartLevel()
     {
         if(_paused) Unpause();
@@ -71,6 +76,7 @@ public class Game_PauseManager : MonoBehaviour {
         Time.timeScale = 1;
         GameObject.Find("IntroScreen").SetActive(false);
         GameObject.Find("DeathScreen").GetComponent<Animator>().SetTrigger("StartGame");
+        playAtmosphericAndMusic();
     }
 
     public void ContinueFromSave()
@@ -79,6 +85,7 @@ public class Game_PauseManager : MonoBehaviour {
         GameObject.Find("IntroScreen").SetActive(false);
         SaveManager.loadGame();
         GameObject.Find("DeathScreen").GetComponent<Animator>().SetTrigger("StartGame");
+        playAtmosphericAndMusic();
     }
 
     IEnumerator muteAndWait()
@@ -93,6 +100,15 @@ public class Game_PauseManager : MonoBehaviour {
             AudioListener.volume = Mathf.Lerp(0, 1, alpha);
             alpha = (Time.realtimeSinceStartup - start) / 3;
             yield return null;
+        }
+    }
+
+    void playAtmosphericAndMusic()
+    {
+        foreach (AudioSource s in Camera.main.GetComponents<AudioSource>())
+        {
+            if(!s.isPlaying && s.clip.name != "FinalSceneMusic")
+                s.Play();
         }
     }
 }

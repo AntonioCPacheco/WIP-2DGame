@@ -36,10 +36,7 @@ public class Lock_BoxTrigger : Lock_SuperClass {
         {
             VibrateController.vibrateControllerForXSeconds(0.2f, 0.6f, 0.6f);
             other.gameObject.SetActive(false);
-            trigger();
-            isTriggered = true;
-            transform.GetComponent<SpriteRenderer>().sprite = sprTriggered;
-            triggeredCollider.SetActive(true);
+            childTrigger();
             if (this.GetComponent<TriggerCutscene>() != null)
                 this.GetComponent<TriggerCutscene>().trigger();
         }
@@ -51,5 +48,19 @@ public class Lock_BoxTrigger : Lock_SuperClass {
         transform.GetComponent<SpriteRenderer>().sprite = sprUnTriggered;
         isTriggered = false;
         return;
+    }
+
+    private void childTrigger()
+    {
+        trigger();
+        isTriggered = true;
+        transform.GetComponent<SpriteRenderer>().sprite = sprTriggered;
+        triggeredCollider.SetActive(true);
+    }
+
+    public void load(bool triggered)
+    {
+        if (!triggered) childUnTrigger();
+        else childTrigger();
     }
 }

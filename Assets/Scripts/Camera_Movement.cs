@@ -122,6 +122,7 @@ public class Camera_Movement : MonoBehaviour
 
     public void newCutscene(Vector2 finalPosition, float pan_duration, float stay_duration, Player_EnterDoors linkedDoor)
     {
+        VibrateController.vibrateControllerForXSeconds(pan_duration + stay_duration, 0, 0);
         Time.timeScale = 0;
         inCutscene = true;
         StartCoroutine(panCamera(this.transform.position, Time.realtimeSinceStartup, finalPosition, pan_duration, stay_duration, linkedDoor));
