@@ -47,6 +47,7 @@ public class Lock_BoxTrigger : Lock_SuperClass {
         triggeredCollider.SetActive(false);
         transform.GetComponent<SpriteRenderer>().sprite = sprUnTriggered;
         isTriggered = false;
+        triggered = false;
         return;
     }
 

@@ -49,7 +49,6 @@ public class NPC_Movement : MonoBehaviour
 
     void FixedUpdate()
     {
-
         Vector2 A = groundCheck.position + new Vector3(6, -0.2f);
         Vector2 B = groundCheck.position + new Vector3(-6, -0.2f);
         grounded = Physics2D.OverlapCircle(A, 0.2f, whatIsGround);
@@ -71,6 +70,7 @@ public class NPC_Movement : MonoBehaviour
             }
             else if (followPlayer) //For final cutscene
             {
+                print("Following");
                 followPlayerFunction();
             }
             else
@@ -92,7 +92,7 @@ public class NPC_Movement : MonoBehaviour
         return Mathf.Abs((x1 + Mathf.Abs(x1) + Mathf.Abs(x2)) - (x2 + Mathf.Abs(x1) + Mathf.Abs(x2)));
     }
 
-    void Turn()
+    public void Turn()
     {
         if (facingRight)
         {
@@ -132,20 +132,24 @@ public class NPC_Movement : MonoBehaviour
     {
         Vector2 pv = player.GetComponent<Rigidbody2D>().velocity;
         Vector2 npcV = new Vector2(0, rbody.velocity.y);
+        FaceObjective();
         if (pv.x > 0)
         {
-            FaceObjective();
-            npcV.x = ((player.transform.position.x > this.transform.position.x && player.transform.position.x - this.transform.position.x > 20f) ? 1.1f : 0.9f) * pv.x;
+            float diff = this.transform.position.x - player.transform.position.x;
+            if (diff > 0)
+            {
+                npcV.x = ((diff > 30f) ? 0.2f : 0.3f) * maxSpeed;
+                FindObjectOfType<Player_Movement>().maxSpeed = 60f;
+            }
+            else
+            {
+                npcV.x = ((diff < -5f) ? 0.5f : 0.4f) * maxSpeed;
+                FindObjectOfType<Player_Movement>().maxSpeed = 40f;
+            }
         }
         else
         {
-            if (player.transform.position.x > this.transform.position.x)
-            {
-                FaceObjective();
-                npcV.x = 0.45f * maxSpeed;
-            }
-            else
-                facePlayer();
+            npcV.x = 0.2f * maxSpeed;
         }
         rbody.velocity = npcV;
     }
@@ -176,6 +180,14 @@ public class NPC_Movement : MonoBehaviour
         return nextStep;
     }
 
+    //USE ONLY IF YOU REALLY NEED TO
+    //Look at setNextStep first
+    public void changeTargetDirectly(float newTarget)
+    {
+        target = newTarget;
+        setNextStep(newTarget);
+    }
+
     public void startDialogue()
     {
         facePlayer();
@@ -187,30 +199,20 @@ public class NPC_Movement : MonoBehaviour
     {
         if (nextChoiceFinal)
         {
-            if (nextStep == 2851)
-            {
-                FindObjectOfType<Player_Movement>().followNPC = true;
-            }
-            else
+            if (nextStep != 2851)
             {
                 GameObject d12 = GameObject.Find("DialogueTrigger 12");
-                d12.GetComponent<DialogueTrigger>().TriggerDialogue();
+                if(d12 != null)
+                    d12.GetComponent<DialogueTrigger>().TriggerDialogue();
             }
             followPlayer = false;
             nextChoiceFinal = false;
-            FindObjectOfType<Player_Movement>().maxSpeed = 0;
+            //FindObjectOfType<Player_Movement>().maxSpeed = 0;
         }
         if (tdat != null)
         {
-            print("d");
-            if (nextStep == 2850) //If player chooses to stay, trigger immedeately
-            { 
-                tdat.timeToTrigger = 0;
-            }
-            else
-            {
-                followPlayer = true;
-            }
+            followPlayer = true;
+            
             tdat.arm();
             tdat = null;
             nextChoiceFinal = true;

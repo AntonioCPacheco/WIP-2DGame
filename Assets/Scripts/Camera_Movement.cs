@@ -26,6 +26,8 @@ public class Camera_Movement : MonoBehaviour
     public Vector3 bottomRight = new Vector3(3000f, -3000f, 0f);
     Vector3 target;
 
+    float zPos;
+
     bool isGrounded = true;
 
     Camera cam;
@@ -43,6 +45,8 @@ public class Camera_Movement : MonoBehaviour
         mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         cam = GetComponent<Camera>();
+
+        zPos = this.transform.position.z;
     }
 
     // Update is called once per frame
@@ -78,6 +82,7 @@ public class Camera_Movement : MonoBehaviour
         Vector3 hDamp = vDamp;
         hDamp.x = destination.x;
         transform.position = Vector3.SmoothDamp(vDamp, hDamp, ref velocity, hDampTime);
+        transform.position = new Vector3(transform.position.x, transform.position.y, zPos);
     }
 
     void calculateMouse()
@@ -214,7 +219,7 @@ public class Camera_Movement : MonoBehaviour
 
     IEnumerator waitForFadeOut()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1.8f);
         continueEnterDoor();
     }
 }

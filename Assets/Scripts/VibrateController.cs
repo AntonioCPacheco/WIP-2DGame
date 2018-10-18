@@ -29,4 +29,9 @@ public class VibrateController : MonoBehaviour {
         yield return new WaitForSeconds(seconds);
         GamePad.SetVibration(PlayerIndex.One, 0, 0);
     }
+
+    public static void stopVibrations()
+    {
+        GamePad.SetVibration(PlayerIndex.One, 0, 0);
+    }
 }

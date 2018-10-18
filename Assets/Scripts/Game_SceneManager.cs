@@ -40,7 +40,7 @@ public class Game_SceneManager : MonoBehaviour {
 
 	public void NewGame()
     {
-        Cursor.visible = false;
+        //Cursor.visible = false;
         Time.timeScale = 1f;
 		UnityEngine.SceneManagement.SceneManager.LoadScene (1);
 		//Application.LoadLevel (1);

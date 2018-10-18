@@ -24,7 +24,7 @@ public class EndGame : MonoBehaviour {
         yield return new WaitForSeconds(2f);
         GameObject.Find("DeathScreen").GetComponent<Animator>().SetTrigger("GameOver");
         yield return new WaitForSeconds(6f);
-        Application.Quit();
+        FindObjectOfType<Game_PauseManager>().Quit();
     }
 
 }

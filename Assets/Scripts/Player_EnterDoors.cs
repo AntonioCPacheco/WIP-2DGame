@@ -112,7 +112,6 @@ public class Player_EnterDoors : MonoBehaviour {
     {
         if (!isOpen) return;
         slideSource.Play();
-        print("close");
         isOpen = false;
         GetComponent<Animator>().SetBool("OpenDoor", false);
     }
@@ -135,7 +134,7 @@ public class Player_EnterDoors : MonoBehaviour {
         int numLocksTriggered = 0;
         for( int i = 0; i < locks.Length; i++ )
         {
-            if (!locks[i].GetComponent<Lock_SuperClass>().triggered)
+            if (!locks[i].triggered)
             {
                 auxOpen = false;
             }

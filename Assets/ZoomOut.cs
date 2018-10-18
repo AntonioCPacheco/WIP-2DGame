@@ -8,7 +8,7 @@ public class ZoomOut : MonoBehaviour {
     public float newSize = 185;
     Camera_Movement mainCam;
     int inside = 0;
-    bool soundBool = false;
+    public bool soundBool = false;
     // Use this for initialization
     void Awake () {
         mainCam = Camera.main.GetComponent<Camera_Movement>();

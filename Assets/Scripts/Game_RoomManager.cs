@@ -67,7 +67,7 @@ public class Game_RoomManager : MonoBehaviour {
 
 		//Checking if final room on floor
 		if (GetActiveLadder() != null) {
-			Player_EnterDoors ladder = GetActiveLadder().GetComponent<Player_EnterDoors> ();
+			//Player_EnterDoors ladder = GetActiveLadder().GetComponent<Player_EnterDoors> ();
 			/*
 			ladder.currentRoom = activeRoom;
 			ladder.nextRoom = NewLevelFirstRoom();

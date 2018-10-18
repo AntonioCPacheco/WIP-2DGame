@@ -10,7 +10,7 @@ public class Blob_Movement : MonoBehaviour {
     public bool needsLight = true;
     public float minDistanceToPlayer = 200;
 
-    Vector3 vecZero = Vector3.zero;
+    //Vector3 vecZero = Vector3.zero;
     Rigidbody2D rbody;
 
     bool grounded = false;

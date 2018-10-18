@@ -6,7 +6,10 @@ using System.IO;
 using System;
 
 public class DialogueManager : MonoBehaviour {
-    public bool assertive = true;
+    
+    public bool assertive = false;
+    [HideInInspector]
+    public Text nameTag;
 
     private Queue<string> sentences;
     private int sentencesDisplayed = 0;
@@ -25,10 +28,17 @@ public class DialogueManager : MonoBehaviour {
 
     IEnumerator lastCoroutine;
 
+    //NPC Answers variables
+    NPC_Answer npcAnswer;
+    bool lastPlayerAnswerWasRight;
+    [HideInInspector]
+    public int opposing = 0;
+    float rightDoorX = 0;
+
 	// Use this for initialization
 	void Start () {
         Application.targetFrameRate = 30;
-        initializeTriggers();
+        //initializeTriggers();
 
         childObject = this.transform.Find("ChildObject");
         for(int i=0; i<childObject.childCount; i++)
@@ -57,6 +67,11 @@ public class DialogueManager : MonoBehaviour {
 
         foreach (string sentence in dialogue.sentences){ sentences.Enqueue(sentence); }
         DisplayNextSentence();
+    }
+
+    public void setAnswer(NPC_Answer answer)
+    {
+        npcAnswer = answer;
     }
 
     public void StartDialogue(Dialogue dialogue, float[] npcSteps, int numOfSingleLines)
@@ -97,8 +112,9 @@ public class DialogueManager : MonoBehaviour {
         getIndex(5);
         HandleFirstSelected(5);
 
-        StopAllCoroutines();
-        StartCoroutine(TypeSingleSentence(sentence, toChange));
+        if (lastCoroutine != null) StopCoroutine(lastCoroutine);
+        lastCoroutine = TypeSingleSentence(sentence, toChange);
+        StartCoroutine(lastCoroutine);
     }
 
     //Displaying Sentences
@@ -146,8 +162,9 @@ public class DialogueManager : MonoBehaviour {
         HandleFirstSelected(5);
 
         string sentence = sentences.Dequeue();
-        StopAllCoroutines();
-        StartCoroutine(TypeSingleSentence(sentence, toChange));
+        if (lastCoroutine != null) StopCoroutine(lastCoroutine);
+        lastCoroutine = TypeSingleSentence(sentence, toChange);
+        StartCoroutine(lastCoroutine);
     }
 
     //Typing one letter at a time
@@ -216,8 +233,19 @@ public class DialogueManager : MonoBehaviour {
         {
             childObject.GetChild(i).gameObject.SetActive(false);
         }
-        GameObject.Find("Player Prefab").GetComponent<Player_Movement>().stopDialogue();
-        GameObject.Find("NPC").GetComponent<NPC_Movement>().stopDialogue();
+
+        bool doesNPCAnswer = false;
+        if (npcAnswer != null)
+        {
+            doesNPCAnswer = npcAnswer.triggerPlayerAnswer(lastPlayerAnswerWasRight);
+            npcAnswer = null;
+        }
+        
+        if(!doesNPCAnswer)
+        {
+            GameObject.Find("Player Prefab").GetComponent<Player_Movement>().stopDialogue();
+            GameObject.Find("NPC").GetComponent<NPC_Movement>().stopDialogue();
+        }
     }
 
     //Function called when a button is pressed
@@ -234,21 +262,42 @@ public class DialogueManager : MonoBehaviour {
             {
                 childObject.GetChild(i).gameObject.SetActive(false);
             }
-            StopAllCoroutines();
+            if(lastCoroutine!=null) StopCoroutine(lastCoroutine);
             return;
         }
 
         if (npcSteps == null || npcSteps.Length == 0)
         {
             EndDialogue();
-            StopAllCoroutines();
+            if (lastCoroutine != null) StopCoroutine(lastCoroutine);
             print("No steps for the NPC to take.");
             return;
         }
         //Log choice
         GameObject.Find("NPC").GetComponent<NPC_Movement>().setNextStep(npcSteps[choice - 1]);
+        float rightX = float.MinValue;
+        for (int i=0; i<npcSteps.Length; i++)
+        {
+            if (rightX < npcSteps[i]) rightX = npcSteps[i];
+        }
+        rightDoorX = rightX;
+        lastPlayerAnswerWasRight = (npcSteps[choice - 1] < rightDoorX);
+        if (lastCoroutine != null) StopCoroutine(lastCoroutine);
         EndDialogue();
-        StopAllCoroutines();
+    }
+
+    public float getRightDoorX()
+    {
+        return rightDoorX;
+    }
+
+    public float getLeftDoorX()
+    {
+        for(int i=0; i < npcSteps.Length; i++)
+        {
+            if (npcSteps[i] < rightDoorX - 1) return npcSteps[i];
+        }
+        throw new Exception("Error in calculating left door.");
     }
 
     //Returns child of "ChildObject" correspondent to index
@@ -266,7 +315,7 @@ public class DialogueManager : MonoBehaviour {
 
         sources[0].Play();
         waitForContinue = false;
-        StopAllCoroutines();
+        if (lastCoroutine != null) StopCoroutine(lastCoroutine);
 
         if (rockPaperScissors != -2)
         {
@@ -290,9 +339,10 @@ public class DialogueManager : MonoBehaviour {
     }
 
     //Initialize Dialogue triggers with text from txt file
-    void initializeTriggers()
+    public void initializeTriggers()
     {
         string path = Application.dataPath + "/Dialogue/dialogue" + (assertive ? "Assertive" : "Submissive") + ".txt";
+        print(path);
         if (!File.Exists(path)) return;
 
         StreamReader reader = new StreamReader(path);
@@ -303,6 +353,9 @@ public class DialogueManager : MonoBehaviour {
         {
             GameObject.Find("DialogueTrigger " + i).GetComponent<DialogueTrigger>().initialize(dialogueList[i-1]);
         }
+
+        //CHANGE NAME TAG BASED ON assertive VARIABLE
+        nameTag.text = (assertive ? "MAX:" : "LINUS:");
     }
 
     List<string> parseTriggerText(string file)
@@ -311,5 +364,11 @@ public class DialogueManager : MonoBehaviour {
         string[] triggers = file.Split('|');
         res.AddRange(triggers);
         return res;
+    }
+
+    public void toggleAssertive()
+    {
+        print("toggled ass");
+        assertive = !assertive;
     }
 }

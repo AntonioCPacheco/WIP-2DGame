@@ -16,12 +16,16 @@ public class DialogueTrigger : MonoBehaviour {
     bool triggeredPlayer = false;
     bool triggeredNPC = false;
 
+    public NPC_Answer answer;
+
     //public float timeToWait = 0f;
 
     public void initialize(string dialogueLines)
     {
         string[] lines = dialogueLines.Split('-');
         dialogue = new Dialogue(lines);
+        triggeredPlayer = false;
+        triggeredNPC = false;
     }
 
     public void TriggerDialogue()
@@ -38,6 +42,8 @@ public class DialogueTrigger : MonoBehaviour {
         }
         yield return new WaitForSeconds(time/2);
         FindObjectOfType<DialogueManager>().StartDialogue(dialogue, npcSteps, numOfSingleLines);
+        if(answer != null)
+            FindObjectOfType<DialogueManager>().setAnswer(answer);
         if (GetComponent<RockPaperScissorsTrigger>() != null)
         {
             int triggerAfterXChoices = GetComponent<RockPaperScissorsTrigger>().triggerAfterXChoices;

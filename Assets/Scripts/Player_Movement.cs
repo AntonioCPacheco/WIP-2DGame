@@ -72,8 +72,8 @@ public class Player_Movement : MonoBehaviour {
 
     bool startedDialogue = false;
     public bool followNPC = false;
-	
-	void Start(){
+
+    void Start(){
 		anim = GetComponent<Animator>();
 		rBody = GetComponent<Rigidbody2D> ();
 		mainCamera = GameObject.Find ("Main Camera").GetComponent<Camera_Movement> ();
@@ -94,14 +94,7 @@ public class Player_Movement : MonoBehaviour {
         checkJumpStatus();
         checkWalls();
         //also handles animator variables
-        if (!followNPC)
-        {
-            handleHorizontalInput();
-        }
-        else
-        {
-            followNPCFunction();
-        }
+        handleHorizontalInput();
 	}
 
     void followNPCFunction()
@@ -252,7 +245,7 @@ public class Player_Movement : MonoBehaviour {
     void handleVerticalInput()
     {
         //Enter doors
-        if (Input.GetAxis("EnterDoor") > 0.1)
+        if (MyInput.GetEnterDoor())
         {
             Player_EnterDoors[] doors = FindObjectsOfType<Player_EnterDoors>();
             for (int i = 0; i < doors.Length; i++)
@@ -298,7 +291,7 @@ public class Player_Movement : MonoBehaviour {
     }
     void handleJumpInput1()
     {
-        if (!alreadyPressedJump && !inTrampolin && Input.GetAxis("Jump") > 0.1)
+        if (!alreadyPressedJump && !inTrampolin && MyInput.GetJump())
         {
             if (grounded /*|| !jumpedTwice*/)
             {
@@ -334,7 +327,7 @@ public class Player_Movement : MonoBehaviour {
     }
     void handleJumpInput2()
     {
-        if (Input.GetAxis("Jump") < 0.1 || inTrampolinUp)
+        if (!MyInput.GetJump() || inTrampolinUp)
         {
             if (alreadyPressedJump)
                 alreadyPressedJump = false;
@@ -367,7 +360,7 @@ public class Player_Movement : MonoBehaviour {
     }
     void handlePickUp()
     {
-        if(Input.GetAxis("PickUp") == 1 && !isPickingUp)
+        if(MyInput.GetPickUp() && !isPickingUp)
         {
             isPickingUp = true;
             if (!hasBox)
@@ -395,7 +388,7 @@ public class Player_Movement : MonoBehaviour {
                 anim.SetTrigger("lostBox");
             }
         }
-        else if(isPickingUp && Input.GetAxis("PickUp") == 0)
+        else if(isPickingUp && !MyInput.GetPickUp())
         {
             isPickingUp = false;
         }

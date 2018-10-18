@@ -31,7 +31,7 @@ public class Camera_Position_Snapper : MonoBehaviour {
             Camera_Movement cm = Camera.main.GetComponent<Camera_Movement>();
             if (cm.followPlayer)
             {
-                cm.camPositionSnap = transform.GetChild(0).position;
+                cm.camPositionSnap = (Vector2)transform.GetChild(0).position;
                 lastFollowPlayer = true;
                 cm.followPlayer = false;
             }
@@ -42,9 +42,9 @@ public class Camera_Position_Snapper : MonoBehaviour {
                 lastFollowPlayer = false;
                 cm.followPlayer = true;
             }
-            else if(cm.camPositionSnap == transform.GetChild(0).position)
+            else if((Vector2)cm.camPositionSnap == (Vector2)transform.GetChild(0).position)
             {
-                cm.camPositionSnap = lastPosition;
+                cm.camPositionSnap = (Vector2)lastPosition;
                 lastPosition = transform.GetChild(0).position;
                 lastFollowPlayer = false;
                 cm.followPlayer = false;
@@ -52,7 +52,7 @@ public class Camera_Position_Snapper : MonoBehaviour {
             else
             {
                 lastPosition = cm.camPositionSnap;
-                cm.camPositionSnap = transform.GetChild(0).position;
+                cm.camPositionSnap = (Vector2)transform.GetChild(0).position;
                 lastFollowPlayer = false;
                 cm.followPlayer = false;
             }

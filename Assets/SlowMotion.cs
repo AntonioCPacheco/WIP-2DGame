@@ -10,7 +10,7 @@ public class SlowMotion : MonoBehaviour
     int inside = 0;
     IEnumerator coroutine;
 
-    public GameObject introScreen;
+    GameObject introScreen;
 
     // Use this for initialization
     void Awake()
@@ -20,11 +20,15 @@ public class SlowMotion : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.CompareTag("Player") || coll.CompareTag("NPC"))
+        if (coll.CompareTag("Player") )//|| coll.CompareTag("NPC"))
         {
             if (inside == 0)
             {
                 if (coroutine != null) StopCoroutine(coroutine);
+
+                NPC_Movement nm = FindObjectOfType<NPC_Movement>();
+                nm.followPlayer = true;
+
                 coroutine = changeTimeScale(true, Time.realtimeSinceStartup);
                 StartCoroutine(coroutine);
             }
@@ -76,13 +80,19 @@ public class SlowMotion : MonoBehaviour
     IEnumerator backToMenu()
     {
         float start = Time.realtimeSinceStartup;
-        while (Time.realtimeSinceStartup - start < 4f)
+        while (Time.realtimeSinceStartup - start < 6f)
         {
             yield return null;
         }
-        
-        introScreen.SetActive(true);
+
+        FindObjectOfType<Game_PauseManager>().Quit();
+        /*introScreen.SetActive(true);
         GameObject button = GameObject.Find("Play");
-        FindObjectOfType<GUI_FirstSelected>().setFirstSelected(button);
+        FindObjectOfType<GUI_FirstSelected>().setFirstSelected(button);*/
+    }
+
+    public bool isActive()
+    {
+        return inside > 0;
     }
 }

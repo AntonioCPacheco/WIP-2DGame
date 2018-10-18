@@ -37,7 +37,6 @@ public abstract class Lock_SuperClass : MonoBehaviour {
         if (!triggered)
         {
             triggerAux(true);
-            print(audioSource.name);
             if (audioSource != null) audioSource.Play();
         }
     }

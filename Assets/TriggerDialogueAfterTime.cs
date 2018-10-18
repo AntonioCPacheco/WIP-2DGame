@@ -33,7 +33,7 @@ public class TriggerDialogueAfterTime : MonoBehaviour {
 
     public void disarm()
     {
-        timeToTrigger = float.MaxValue;
+        triggered = true;
     }
 
     void OnTriggerEnter2D(Collider2D other)

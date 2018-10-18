@@ -21,65 +21,68 @@ public class SaveManager : MonoBehaviour
     {
         string path = Application.dataPath + "/Saves";
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Application.isEditor)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetKey(KeyCode.LeftShift))
             {
-                print("Loading Room1.");
-                SaveManager.loadGame(path + "/Room1.dat");
+                if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    print("Loading Room1.");
+                    SaveManager.saveGame(path + "/Room1.dat");
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    print("Loading Room2.");
+                    SaveManager.loadGame(path + "/Room2.dat");
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    print("Loading Room3.");
+                    SaveManager.loadGame(path + "/Room3.dat");
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha4))
+                {
+                    print("Loading Room4.");
+                    SaveManager.loadGame(path + "/Room4.dat");
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha5))
+                {
+                    print("Loading Room5.");
+                    SaveManager.loadGame(path + "/Room5.dat");
+                }
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            else
             {
-                print("Loading Room2.");
-                SaveManager.loadGame(path + "/Room2.dat");
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                print("Loading Room3.");
-                SaveManager.loadGame(path + "/Room3.dat");
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                print("Loading Room4.");
-                SaveManager.loadGame(path + "/Room4.dat");
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha5))
-            {
-                print("Loading Room5.");
-                SaveManager.loadGame(path + "/Room5.dat");
-            }
-        }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                print("Loading Level1.");
-                SaveManager.loadGame(path + "/Level1.dat");
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                print("Loading Level2.");
-                SaveManager.loadGame(path + "/Level2.dat");
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                print("Loading Level3.");
-                SaveManager.loadGame(path + "/Level3.dat");
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                print("Loading Level4.");
-                SaveManager.loadGame(path + "/Level4.dat");
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha5))
-            {
-                print("Loading Level5.");
-                SaveManager.loadGame(path + "/Level5.dat");
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha6))
-            {
-                print("Loading Level6.");
-                SaveManager.loadGame(path + "/Level6.dat");
+                if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    print("Loading Level1.");
+                    SaveManager.loadGame(path + "/Level1.dat");
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    print("Loading Level2.");
+                    SaveManager.loadGame(path + "/Level2.dat");
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    print("Loading Level3.");
+                    SaveManager.loadGame(path + "/Level3.dat");
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha4))
+                {
+                    print("Loading Level4.");
+                    SaveManager.loadGame(path + "/Level4.dat");
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha5))
+                {
+                    print("Loading Level5.");
+                    SaveManager.loadGame(path + "/Level5.dat");
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha6))
+                {
+                    print("Loading Level6.");
+                    SaveManager.loadGame(path + "/Level6.dat");
+                }
             }
         }
     }
@@ -216,5 +219,11 @@ public class SaveManager : MonoBehaviour
             }
         }
 
+    }
+
+    public static void loadFirstLevel()
+    {
+        string path = Application.dataPath + "/Saves";
+        SaveManager.loadGame(path + "/Room1.dat");
     }
 }
