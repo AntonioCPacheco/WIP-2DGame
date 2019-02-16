@@ -4,26 +4,32 @@ using UnityEngine;
 
 public class Blob_Movement : MonoBehaviour {
 
-    public float maxSpeed = 2f;
-    public bool facingRight = false;
-    public float delay = 2f;
-    public bool needsLight = true;
-    public float minDistanceToPlayer = 200;
+    [SerializeField]
+    private bool facingRight = false;
+    [SerializeField]
+    private bool needsLight = true;
+    [SerializeField]
+    private float maxSpeed = 2f;
+    [SerializeField]
+    private float delay = 2f;
+    [SerializeField]
+    private float minDistanceToPlayer = 200;
+    [SerializeField]
+    private LayerMask FloorLayerMask;
+    [SerializeField]
+    private LayerMask BouncyLayerMask;
 
-    //Vector3 vecZero = Vector3.zero;
-    Rigidbody2D rbody;
+    private Rigidbody2D rbody;
+    private LightSensor sensor;
+    private Transform idleColliders;
+    private Transform movingColliders;
+    private Animator anim;
 
-    bool grounded = false;
-
-    bool v_isInLight = false;
-    float distance_to_player = 0f;
-    float timeInLight = 0f;
-    bool triggered = false;
-
-    public GameObject idleColliders;
-    public GameObject movingColliders;
-
-    Animator anim;
+    private bool grounded = false;
+    private float distance_to_player = 0f;
+    private float timeInLight = 0f;
+    private bool triggered = false;
+    private bool flippedThisFrame = false;
 
     // Use this for initialization
     void Start()
@@ -31,6 +37,10 @@ public class Blob_Movement : MonoBehaviour {
         distance_to_player = (this.transform.position - GameObject.Find("Player").transform.position).magnitude;
         rbody = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        sensor = GetComponent<LightSensor>();
+
+        idleColliders = transform.Find("IdleColliders");
+        movingColliders = transform.Find("MovingColliders");
     }
 
     // Update is called once per frame
@@ -39,7 +49,7 @@ public class Blob_Movement : MonoBehaviour {
         distance_to_player = (this.transform.position - GameObject.Find("Player").transform.position).magnitude;
         if (!triggered)
         {
-            if (v_isInLight || !needsLight)
+            if (sensor.IsInLight() || !needsLight)
             {
                 if ((timeInLight >= delay || !needsLight) && distance_to_player <= minDistanceToPlayer)
                 {
@@ -49,7 +59,7 @@ public class Blob_Movement : MonoBehaviour {
                     anim.SetBool("Moving", true);
                     switchColliders();
                 }
-                else if(v_isInLight && distance_to_player <= minDistanceToPlayer)
+                else if(sensor.IsInLight() && distance_to_player <= minDistanceToPlayer)
                 {
                     anim.SetBool("WakingUp", true);
                     timeInLight += Time.deltaTime;
@@ -74,32 +84,42 @@ public class Blob_Movement : MonoBehaviour {
         grounded = Mathf.Round(rbody.velocity.y) == 0f;
     }
 
+    private void LateUpdate()
+    {
+        flippedThisFrame = false;
+    }
+
     void switchColliders()
     {
-        idleColliders.SetActive(!idleColliders.activeSelf);
-        movingColliders.SetActive(!movingColliders.activeSelf);
+        idleColliders.gameObject.SetActive(!idleColliders.gameObject.activeSelf);
+        movingColliders.gameObject.SetActive(!movingColliders.gameObject.activeSelf);
     }
 
-    public void Flip()
+    private void Flip()
     {
-        Debug.Log("***TRIGGERED***");
-        facingRight = !facingRight;
-        transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
-    }
-
-    public void InLight(bool l)
-    {
-        v_isInLight = l;
-    }
-
-    public bool IsInLight()
-    {
-        return v_isInLight;
+        if (flippedThisFrame || !flippedThisFrame)
+        {
+            flippedThisFrame = true;
+            facingRight = !facingRight;
+            transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Floor") || other.gameObject.layer == LayerMask.NameToLayer("Statues") || (other.gameObject.layer == LayerMask.NameToLayer("LightWalls") && !other.isTrigger))
+        LayerMask l = other.gameObject.layer;
+        if (FloorLayerMask == (FloorLayerMask | (1 << l)))
+        {
             Flip();
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        LayerMask l = collision.gameObject.layer;
+        if (BouncyLayerMask == (BouncyLayerMask | (1 << l)))
+        {
+            Flip();
+        }
     }
 }

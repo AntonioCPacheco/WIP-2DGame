@@ -70,7 +70,7 @@ public class Player_EnterDoors : MonoBehaviour {
                 return;
             }
             Old_Camera_Movement mainCamera = Camera.main.GetComponent<Old_Camera_Movement>();
-            bool NPCvisible = linkedDoor.GetComponent<Player_EnterDoors>().sameRoomAsNPC;
+            //bool NPCvisible = linkedDoor.GetComponent<Player_EnterDoors>().sameRoomAsNPC;
 
             mainCamera.EnterDoorCutscene();
 

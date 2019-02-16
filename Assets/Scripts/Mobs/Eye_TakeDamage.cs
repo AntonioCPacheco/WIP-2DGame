@@ -20,7 +20,7 @@ public class Eye_TakeDamage : MonoBehaviour {
 	}
 
 	void TakeDamageFunction(){
-		GameObject.Find ("Player").GetComponent<Player_Movement> ().jumpOnEnemy ();
+		//GameObject.Find ("Player").GetComponent<Player_Movement> ().jumpOnEnemy ();
 		Destroy (this.gameObject);
 		Debug.Log (this.GetInstanceID() + " died.");
 	}

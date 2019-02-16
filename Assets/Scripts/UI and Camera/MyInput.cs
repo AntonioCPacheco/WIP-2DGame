@@ -102,6 +102,21 @@ public static class MyInput {
         }
     }
 
+    public static float GetShutLight()
+    {
+        switch (MyInput.getControllerType())
+        {
+            case (-1):
+                return Input.GetButton("ShutLightKeyboard") ? 1 : 0;
+            case (0):
+                return Input.GetAxis("ShutLightXbox");
+            case (1):
+                return MyMathLib.Remap(Input.GetAxis("ShutLightPS4"), -1, 1, 0, 1); //PS4 trigger input comes in -1 to 1 range
+            default:
+                return 0;
+        }
+    }
+
     public static float GetRightHorizontal()
     {
         switch (MyInput.getControllerType())
@@ -138,7 +153,6 @@ public static class MyInput {
     {
         if (Input.GetJoystickNames().Length != 0)
         {
-            string c = Input.GetJoystickNames()[0];
             bool isXbox = false;
             bool isKeyboard = true;
 

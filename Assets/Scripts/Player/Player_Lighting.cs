@@ -11,7 +11,7 @@ public class Player_Lighting : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         GameObject l = GameObject.Find("Light");
-        if (l != null)
+        if (l != null && l.activeSelf)
         {
             s_settings = l.GetComponent<Light_Settings>();
             s_movement = l.GetComponent<Light_Movement>();
@@ -21,8 +21,8 @@ public class Player_Lighting : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (MyInput.GetRecall()) s_movement.CallToPlayer(); 
-        else s_movement.CancelCall(); 
+        if (MyInput.GetRecall()) s_movement.CallToPlayer();
+        else if (s_movement!=null) s_movement.CancelRecall();
     }
 
     public void increaseLight(int ammount)

@@ -2,15 +2,16 @@
 using System.Collections;
 
 public class Light_Movement : MonoBehaviour {
-    private static float PERMANENT_Z = -95f;
+    private static float DEFAULT_Z = 0f;
 
+    public float onPlayerMultiplier = 0.3f;
     public float dampTime = 0.2f;
-    public float maxSpeed = 1000f;
+    public float maxSpeed = 10f;
     public Vector2 maxDistanceToPlayer;
 
     Vector2 positionToRecallTo = Vector2.zero; //Temporary position to move in the direction of the player
     bool recallingToPlayer = false; //If the light is travelling to the player
-    bool onPlayer = false; //If the light should be on top of the player and follow their movement
+    public static bool onPlayer = false; //If the light should be on top of the player and follow their movement
 
     Transform player; //Player Transform
 
@@ -29,13 +30,17 @@ public class Light_Movement : MonoBehaviour {
         Vector3 move = new Vector3(MyInput.GetRightHorizontal(), MyInput.GetRightVertical(), 0.0f);
         velocity = rbody2D.velocity;
 
-        if (recallingToPlayer)
+        if (recallingToPlayer || onPlayer)
         {
-            if (Mathf.Abs(move.x) + Mathf.Abs(move.y) > 0.2f) recallingToPlayer = false;
-            else checkIfWithingPlayersReach();
+            if (Mathf.Abs(move.x) + Mathf.Abs(move.y) > 0.2f)
+            {
+                CancelOnPlayer();
+                CancelRecall();
+            }
+            else checkIfWithinPlayersReach();
         }
 
-        if (recallingToPlayer && onPlayer) targetPos = (Vector2)player.position + Vector2.up * 30f; //On top of the player
+        if (onPlayer) targetPos = (Vector2)player.position + Vector2.up * onPlayerMultiplier; //On top of the player
         else if (recallingToPlayer) //Recalling movement
         {
             targetPos = positionToRecallTo; 
@@ -47,9 +52,7 @@ public class Light_Movement : MonoBehaviour {
             targetPos = KeepLightInPlayersRange(targetPos);
             targetPos = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, dampTime, maxSpeed, Time.deltaTime);
         }
-
-        print("targetPos : " + targetPos);
-        targetPos.z = PERMANENT_Z;
+        targetPos.z = DEFAULT_Z;
         transform.position = targetPos;
         rbody2D.velocity = velocity;
     }
@@ -58,29 +61,33 @@ public class Light_Movement : MonoBehaviour {
     {
         if (checkIfRecallable())
         {
-            positionToRecallTo = (Vector2)player.position + (Vector2.up * 30f);
+            positionToRecallTo = (Vector2)player.position + (Vector2.up * onPlayerMultiplier);
             recallingToPlayer = true;
         }
     }
 
-    public void CancelCall()
+    public void CancelRecall()
     {
         recallingToPlayer = false;
+    }
+
+    void CancelOnPlayer()
+    {
         onPlayer = false;
     }
 
-    void checkIfWithingPlayersReach()
+    void checkIfWithinPlayersReach()
     {
         Vector2 p = player.position;
         Vector2 t = transform.position;
-        Vector2 targetPos = (Vector2)p + (Vector2.up * 30f);
+        Vector2 targetPos = (Vector2)p + (Vector2.up * onPlayerMultiplier);
 
-        if ((t - targetPos).sqrMagnitude < 20f)
+        if ((t - targetPos).sqrMagnitude < 0.1f)
         {
             onPlayer = true;
         }
 
-        if ((positionToRecallTo - t).sqrMagnitude < 1500f)
+        if ((positionToRecallTo - t).sqrMagnitude < 10f)
         {
             positionToRecallTo = targetPos;
         }
@@ -95,15 +102,15 @@ public class Light_Movement : MonoBehaviour {
 
         int layer =~ LayerMask.GetMask("Light", "Camera");
         direction = (playerPosition - thisPosition).normalized;
-        hit = Physics2D.Raycast(thisPosition, direction, 1000f, layer);
+        hit = Physics2D.Raycast(thisPosition, direction, 30f, layer);
         if (hit.collider != null && hit.collider.CompareTag("Player")) return true;
 
-        direction = ((playerPosition + Vector2.up * 10f) - thisPosition).normalized;
-        hit = Physics2D.Raycast(thisPosition, direction, 1000f, layer);
+        direction = ((playerPosition + Vector2.up * 0.75f) - thisPosition).normalized;
+        hit = Physics2D.Raycast(thisPosition, direction, 30f, layer);
         if (hit.collider != null && hit.collider.CompareTag("Player")) return true;
 
-        direction = ((playerPosition + Vector2.up * 20f) - thisPosition).normalized;
-        hit = Physics2D.Raycast(thisPosition, direction, 1000f, layer);
+        direction = ((playerPosition + Vector2.up * 1.5f) - thisPosition).normalized;
+        hit = Physics2D.Raycast(thisPosition, direction, 30f, layer);
         if (hit.collider != null && hit.collider.CompareTag("Player")) return true;
 
         return false;

@@ -48,7 +48,7 @@ public class Player_Health : MonoBehaviour {
 
         if (spotlight != null)
         {
-            spotlight.GetComponent<Light>().color = Color.Lerp(spotlight.GetComponent<Light>().color, defaultColor, Time.deltaTime * smoothColor);
+            spotlight.GetComponentInChildren<Light>().color = Color.Lerp(spotlight.GetComponentInChildren<Light>().color, defaultColor, Time.deltaTime * smoothColor);
         }
     }
 	
@@ -75,7 +75,7 @@ public class Player_Health : MonoBehaviour {
 					Physics2D.IgnoreLayerCollision (LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Eyes"));
 					Physics2D.IgnoreLayerCollision (LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Crawlers"));
                     
-                    if(spotlight != null) spotlight.GetComponent<Light>().color = damageColor;
+                    if(spotlight != null) spotlight.GetComponentInChildren<Light>().color = damageColor;
                 }
 
 				res = true;

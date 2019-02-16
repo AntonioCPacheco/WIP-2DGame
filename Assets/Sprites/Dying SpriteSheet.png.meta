@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: 84000da0010ecca42b8d1f9f71776ffb
-timeCreated: 1458436685
-licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Dying SpriteSheet_0
@@ -16,14 +14,17 @@ TextureImporter:
     21300018: Dying SpriteSheet_9
     21300020: Dying SpriteSheet_10
     21300022: Dying SpriteSheet_11
-  serializedVersion: 2
+  externalObjects: {}
+  serializedVersion: 7
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
+    sRGBTexture: 1
     linearTexture: 0
-    correctGamma: 0
     fadeOut: 0
     borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
@@ -32,37 +33,81 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
   grayScaleToAlpha: 0
-  generateCubemap: 0
+  generateCubemap: 6
   cubemapConvolution: 0
-  cubemapConvolutionSteps: 7
-  cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -3
   maxTextureSize: 1024
   textureSettings:
+    serializedVersion: 2
     filterMode: 0
     aniso: 16
-    mipBias: -1
-    wrapMode: 1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
-  rGBM: 0
   compressionQuality: 50
-  allowsAlphaSplitting: 0
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 20
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 1
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
   alphaIsTransparency: 1
+  spriteTessellationDetail: -1
   textureType: 8
-  buildTargetSettings: []
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Android
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
+    serializedVersion: 2
     sprites:
-    - name: Dying SpriteSheet_0
+    - serializedVersion: 2
+      name: Dying SpriteSheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -73,7 +118,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Dying SpriteSheet_1
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51ff8223fd3c10544a6a80dd22d17fc4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dying SpriteSheet_1
       rect:
         serializedVersion: 2
         x: 21
@@ -84,7 +138,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Dying SpriteSheet_2
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 748cef821879b8a47b66ac1197c6564b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dying SpriteSheet_2
       rect:
         serializedVersion: 2
         x: 42
@@ -95,7 +158,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Dying SpriteSheet_3
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 562a961ad60791d4aa1cb9e150134e69
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dying SpriteSheet_3
       rect:
         serializedVersion: 2
         x: 63
@@ -106,7 +178,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Dying SpriteSheet_4
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 474f30e922a5ed2419997124c9bf6e3e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dying SpriteSheet_4
       rect:
         serializedVersion: 2
         x: 0
@@ -117,7 +198,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Dying SpriteSheet_5
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 950c321873cb82e418dd61d075ee8cf6
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dying SpriteSheet_5
       rect:
         serializedVersion: 2
         x: 21
@@ -128,7 +218,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Dying SpriteSheet_6
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acb5b7384970160458da5e89c3425b6c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dying SpriteSheet_6
       rect:
         serializedVersion: 2
         x: 42
@@ -139,7 +238,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Dying SpriteSheet_7
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1e48af581b51a94085180ebdd2e8c27
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dying SpriteSheet_7
       rect:
         serializedVersion: 2
         x: 63
@@ -150,7 +258,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Dying SpriteSheet_8
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b35a11adde9a8e64fabc08bef6196ade
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dying SpriteSheet_8
       rect:
         serializedVersion: 2
         x: 0
@@ -161,7 +278,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Dying SpriteSheet_9
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa2993297589f70459a7df275112d658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dying SpriteSheet_9
       rect:
         serializedVersion: 2
         x: 21
@@ -172,7 +298,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Dying SpriteSheet_10
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 230f336b6a98a574590d222189fd2995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dying SpriteSheet_10
       rect:
         serializedVersion: 2
         x: 42
@@ -183,7 +318,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Dying SpriteSheet_11
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1eb41ee8115665d4980deb061a7a30f4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dying SpriteSheet_11
       rect:
         serializedVersion: 2
         x: 63
@@ -194,8 +338,25 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4d83b4edd69bd14ab9a8b2cb31a6ede
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
   spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -23,7 +23,7 @@ public class Player_Movement : MonoBehaviour {
 
 	//Ground Check Variables
 	bool grounded = false;
-	float groundRadius = 0.1f;
+	float groundRadius = 0.05f;
 	public Transform groundCheck;
 
     //WallJumping Variables
@@ -80,10 +80,13 @@ public class Player_Movement : MonoBehaviour {
 
         singleStompSource = GetComponents<AudioSource>()[0];
         footstepsSource = GetComponents<AudioSource>()[1];
+
+        //EVENT LISTENERS
+        TakeDamageOnTriggerEnter.OnTakeDamage += TakeDamageOnTriggerEnter_OnTakeDamage;
     }
 
-	//Deals with collision checks(ground, walls, boxes) and physics
-	void FixedUpdate(){
+    //Deals with collision checks(ground, walls, boxes) and physics
+    void FixedUpdate(){
         if (!canMove())
         {
             anim.SetFloat("Speed", 0);
@@ -218,13 +221,8 @@ public class Player_Movement : MonoBehaviour {
 		yield return new WaitForEndOfFrame();
 	}
 
-	//Secondary jump, or rather bounce. Used when the player jumps on an enemy
-	public void jumpOnEnemy() {
-		rBody.AddForce (new Vector2 (0, (jumpForce * 0.8f) - (rBody.velocity.y * 45)));
-	}
-
-	//Function that returns true if the player is facing right (x>0 direction) and false if the player is facing left (x<0 direction)
-	public bool isFacingRight(){
+    //Function that returns true if the player is facing right (x>0 direction) and false if the player is facing left (x<0 direction)
+    public bool isFacingRight(){
 		return facingRight;
 	}
 
@@ -291,7 +289,7 @@ public class Player_Movement : MonoBehaviour {
     }
     void handleJumpInput1()
     {
-        if (!alreadyPressedJump && !inTrampolin && MyInput.GetJump())
+        if (!alreadyPressedJump && isGrounded() && MyInput.GetJump())
         {
             if (grounded /*|| !jumpedTwice*/)
             {
@@ -302,7 +300,7 @@ public class Player_Movement : MonoBehaviour {
                 singleStompSource.pitch = 0.8f;
                 singleStompSource.Play();
                 Jump();
-                VibrateController.vibrateControllerForXSeconds(0.05f, 0.2f, 0.2f);
+                VibrateController.vibrateControllerForXSeconds(0.05f, VibrateController.SOFT, VibrateController.SOFT);
                 //anim.SetBool ("Ground", false);		
                 //}
             }
@@ -332,8 +330,7 @@ public class Player_Movement : MonoBehaviour {
             if (alreadyPressedJump)
                 alreadyPressedJump = false;
             if(rBody.velocity.y > 0f)
-                rBody.velocity = new Vector2(rBody.velocity.x, rBody.velocity.y * 0.6f);
-            //jumpFrames = maxJumpFrames + 1;
+                rBody.velocity = new Vector2(rBody.velocity.x, rBody.velocity.y * 0.7f);
         }
     }
     void handleRunInput()
@@ -399,8 +396,8 @@ public class Player_Movement : MonoBehaviour {
     {
         bool prevGrounded = grounded;
         //Check if the GameObject is on the ground
-        Vector3 auxGCPos1 = new Vector3(groundCheck.position.x + 4.0f, groundCheck.position.y, groundCheck.position.z);
-        Vector3 auxGCPos2 = new Vector3(groundCheck.position.x - 4.0f, groundCheck.position.y, groundCheck.position.z);
+        Vector3 auxGCPos1 = new Vector3(groundCheck.position.x + .15f, groundCheck.position.y, groundCheck.position.z);
+        Vector3 auxGCPos2 = new Vector3(groundCheck.position.x - .15f, groundCheck.position.y, groundCheck.position.z);
         grounded = Physics2D.OverlapCircle(auxGCPos1, groundRadius, whatIsGround);
         grounded = grounded ? grounded : Physics2D.OverlapCircle(auxGCPos2, groundRadius, whatIsGround);
         anim.SetBool("Ground", grounded); //telling the Animator whether the GameObject is on the ground
@@ -558,7 +555,6 @@ public class Player_Movement : MonoBehaviour {
     {
         inTrampolinUp = true;
         inTrampolin = true;
-        //rBody.velocity = new Vector2(rBody.velocity.x, 0);
         float timer = 0;
         
         while (timer < jumpTime)
@@ -576,5 +572,14 @@ public class Player_Movement : MonoBehaviour {
         }
 
         inTrampolinUp = false;
+    }
+    
+    //EVENT LISTENERS
+    private void TakeDamageOnTriggerEnter_OnTakeDamage()
+    {
+        rBody.velocity = Vector2.zero;
+        addDirectionalForce(Vector2.up, 20f, 0.8f);
+        rBody.AddForce(Vector2.up * jumpForce * 1, ForceMode2D.Impulse);
+        VibrateController.vibrateControllerForXSeconds(0.05f, VibrateController.SOFT, VibrateController.SOFT);
     }
 }

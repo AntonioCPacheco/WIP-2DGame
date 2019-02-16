@@ -19,8 +19,8 @@ public class Old_Camera_Movement : MonoBehaviour
 
     Vector3 velocity = Vector3.zero;
 
-    Transform player;
-    Transform light;
+    Transform playerTransform;
+    Transform lightTransform;
     Vector3 mouse;
     public Vector3 topLeft = new Vector3(-3000f, 3000f, 0f);
     public Vector3 bottomRight = new Vector3(3000f, -3000f, 0f);
@@ -40,8 +40,8 @@ public class Old_Camera_Movement : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        player = GameObject.Find("Player").transform;
-        light = GameObject.Find("Light").transform;
+        playerTransform = GameObject.Find("Player").transform;
+        lightTransform = GameObject.Find("3").transform;
         
         mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -55,16 +55,16 @@ public class Old_Camera_Movement : MonoBehaviour
     {
         if (inCutscene) return;
 
-        isGrounded = player.gameObject.GetComponent<Player_Movement>().isGrounded();
+        isGrounded = playerTransform.gameObject.GetComponent<Player_Movement>().isGrounded();
 
         if (followPlayer)
         {
             if (followMouse)
                 calculateMouse();
             else if(followLight)
-                target = (player.position + light.position)/2 + new Vector3(lookRight, lookUp, 0);
+                target = (playerTransform.position + lightTransform.position)/2 + new Vector3(lookRight, lookUp, 0);
             else
-                target = player.position + new Vector3(lookRight, lookUp, 0);
+                target = playerTransform.position + new Vector3(lookRight, lookUp, 0);
         }
         else
         {
@@ -90,7 +90,7 @@ public class Old_Camera_Movement : MonoBehaviour
     {
         mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        Vector2 mouseRelative = mouse - player.position;
+        Vector2 mouseRelative = mouse - playerTransform.position;
 
         if (mouseRelative.magnitude > minMouseDistance)
         {
@@ -105,7 +105,7 @@ public class Old_Camera_Movement : MonoBehaviour
             compensation2D = lookRight * compensation2D;
             float targetX = (followMouse ? compensation2D.x : 0);
             float targetY = (followMouse ? compensation2D.y : 0);
-            target = new Vector3((player.position.x + targetX), (player.position.y + targetY), (player.position.z));
+            target = new Vector3((playerTransform.position.x + targetX), (playerTransform.position.y + targetY), (playerTransform.position.z));
         }
     }
 

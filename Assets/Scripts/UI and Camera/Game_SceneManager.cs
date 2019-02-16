@@ -18,12 +18,12 @@ public class Game_SceneManager : MonoBehaviour {
 	void Start(){
         Application.targetFrameRate = 60;
 
-		Physics2D.IgnoreLayerCollision (LayerMask.NameToLayer("Platforms"), LayerMask.NameToLayer("Eyes"));
-		Physics2D.IgnoreLayerCollision (LayerMask.NameToLayer("Statues"), LayerMask.NameToLayer("Eyes"));
-		Physics2D.IgnoreLayerCollision (LayerMask.NameToLayer("Crawlers"), LayerMask.NameToLayer("Eyes"));
-        Physics2D.IgnoreLayerCollision (LayerMask.NameToLayer("Eyes"), LayerMask.NameToLayer("Eyes"));
-		Physics2D.IgnoreLayerCollision (LayerMask.NameToLayer("Crawlers"), LayerMask.NameToLayer("Crawlers"));
-        Physics2D.IgnoreLayerCollision (LayerMask.NameToLayer("Crawlers"), LayerMask.NameToLayer("Statues"));
+		//Physics2D.IgnoreLayerCollision (LayerMask.NameToLayer("Platforms"), LayerMask.NameToLayer("Eyes"));
+		//Physics2D.IgnoreLayerCollision (LayerMask.NameToLayer("Statues"), LayerMask.NameToLayer("Eyes"));
+		//Physics2D.IgnoreLayerCollision (LayerMask.NameToLayer("Crawlers"), LayerMask.NameToLayer("Eyes"));
+        //Physics2D.IgnoreLayerCollision (LayerMask.NameToLayer("Eyes"), LayerMask.NameToLayer("Eyes"));
+		//Physics2D.IgnoreLayerCollision (LayerMask.NameToLayer("Crawlers"), LayerMask.NameToLayer("Crawlers"));
+        //Physics2D.IgnoreLayerCollision (LayerMask.NameToLayer("Crawlers"), LayerMask.NameToLayer("Statues"));
     }
 	
 	// Update is called once per frame

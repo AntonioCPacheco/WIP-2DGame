@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ProgressiveLight : MonoBehaviour {
 
-    public GameObject player;
+    private GameObject player;
     Light settings;
     float maxX = 200;
     public float maxIntensity;

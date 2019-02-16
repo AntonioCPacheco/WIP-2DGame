@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: 72d033a5bb52e7b44a79196b463e743a
-timeCreated: 1528676756
-licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Cave_Spreadsheet_0
@@ -57,7 +55,7 @@ TextureImporter:
     21300100: Cave_Spreadsheet_50
     21300102: Cave_Spreadsheet_51
   externalObjects: {}
-  serializedVersion: 4
+  serializedVersion: 7
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -75,6 +73,8 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -85,7 +85,7 @@ TextureImporter:
     serializedVersion: 2
     filterMode: 0
     aniso: -1
-    mipBias: -1
+    mipBias: -100
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -93,39 +93,56 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 48
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 2
+  spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
+  singleChannelComponent: 0
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
-  - buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-  - buildTarget: Standalone
-    maxTextureSize: 2048
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Android
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -134,7 +151,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 528
+        y: 539
         width: 48
         height: 48
       alignment: 0
@@ -147,12 +164,18 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 910cfbb859100b24a898d32a8689f927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_1
       rect:
         serializedVersion: 2
-        x: 48
-        y: 528
+        x: 49
+        y: 539
         width: 48
         height: 48
       alignment: 0
@@ -165,12 +188,18 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: b7abbc7f160f2b9468c0cb7c49a66901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_2
       rect:
         serializedVersion: 2
-        x: 96
-        y: 528
+        x: 98
+        y: 539
         width: 48
         height: 48
       alignment: 0
@@ -183,12 +212,18 @@ TextureImporter:
         - {x: 22, y: -24}
         - {x: 22, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 190e18c22a41a0b43a9459ebc033923c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_3
       rect:
         serializedVersion: 2
-        x: 144
-        y: 528
+        x: 147
+        y: 539
         width: 48
         height: 48
       alignment: 0
@@ -201,12 +236,18 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: aff6094efe7a7e148a2b65113ab9a2e0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_4
       rect:
         serializedVersion: 2
         x: 0
-        y: 480
+        y: 490
         width: 48
         height: 48
       alignment: 0
@@ -219,12 +260,18 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: eb1006090be2c1e43827847cbda631ec
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_5
       rect:
         serializedVersion: 2
-        x: 48
-        y: 480
+        x: 49
+        y: 490
         width: 48
         height: 48
       alignment: 0
@@ -237,12 +284,18 @@ TextureImporter:
         - {x: 22, y: -24}
         - {x: 22, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: cf49130e83e68db44ab2591d64fabc39
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_6
       rect:
         serializedVersion: 2
-        x: 96
-        y: 480
+        x: 98
+        y: 490
         width: 48
         height: 48
       alignment: 0
@@ -255,12 +308,18 @@ TextureImporter:
         - {x: 24, y: -19.980072}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 7b0c64a856e65c74582793c49755236c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_7
       rect:
         serializedVersion: 2
-        x: 144
-        y: 480
+        x: 147
+        y: 490
         width: 48
         height: 48
       alignment: 0
@@ -273,12 +332,18 @@ TextureImporter:
         - {x: 24, y: -20}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: b33b0fd28de486d43b0309ceaa09f001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_8
       rect:
         serializedVersion: 2
         x: 0
-        y: 432
+        y: 441
         width: 48
         height: 48
       alignment: 0
@@ -291,12 +356,18 @@ TextureImporter:
         - {x: 22, y: -20}
         - {x: 22, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: c8b7d534728c1314589706894e15eefb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_9
       rect:
         serializedVersion: 2
-        x: 48
-        y: 432
+        x: 49
+        y: 441
         width: 48
         height: 48
       alignment: 0
@@ -309,12 +380,18 @@ TextureImporter:
         - {x: 24, y: -20}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: c7d1ec5453f4be949a82f263142f6616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_10
       rect:
         serializedVersion: 2
-        x: 96
-        y: 432
+        x: 98
+        y: 441
         width: 48
         height: 48
       alignment: 0
@@ -327,12 +404,18 @@ TextureImporter:
         - {x: 24, y: -20}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: fd807494809101045bc35ef419029dc0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_11
       rect:
         serializedVersion: 2
-        x: 144
-        y: 432
+        x: 147
+        y: 441
         width: 48
         height: 48
       alignment: 0
@@ -345,12 +428,18 @@ TextureImporter:
         - {x: 22, y: -20}
         - {x: 22, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 43a1a073d37144f4f8e8ae15cb1bf62e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_12
       rect:
         serializedVersion: 2
         x: 0
-        y: 384
+        y: 392
         width: 48
         height: 48
       alignment: 0
@@ -363,12 +452,18 @@ TextureImporter:
         - {x: 22, y: -24}
         - {x: 22, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: a1bed95d02bcbe64ebdc55734a07cc97
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_13
       rect:
         serializedVersion: 2
-        x: 48
-        y: 384
+        x: 49
+        y: 392
         width: 48
         height: 48
       alignment: 0
@@ -381,12 +476,18 @@ TextureImporter:
         - {x: 22, y: -24}
         - {x: 22, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 4bf5f16570f82a44188130beefb1448c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_14
       rect:
         serializedVersion: 2
-        x: 96
-        y: 384
+        x: 98
+        y: 392
         width: 48
         height: 48
       alignment: 0
@@ -399,12 +500,18 @@ TextureImporter:
         - {x: 22, y: -20}
         - {x: 22, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 8990eaa7f314a9b4fa9d1d5e296f85bb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_15
       rect:
         serializedVersion: 2
-        x: 144
-        y: 384
+        x: 147
+        y: 392
         width: 48
         height: 48
       alignment: 0
@@ -417,12 +524,18 @@ TextureImporter:
         - {x: -22, y: -20}
         - {x: 22, y: -20}
       tessellationDetail: 0
+      bones: []
+      spriteID: 80448791af89efe4dab9e316396766b2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_16
       rect:
         serializedVersion: 2
         x: 0
-        y: 336
+        y: 343
         width: 48
         height: 48
       alignment: 0
@@ -435,12 +548,18 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 273c5278da269fe48b44766fd9dbbc44
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_17
       rect:
         serializedVersion: 2
-        x: 48
-        y: 336
+        x: 49
+        y: 343
         width: 48
         height: 48
       alignment: 0
@@ -453,12 +572,18 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 8bd7ab973d6169b4d84eac6a33510d57
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_18
       rect:
         serializedVersion: 2
-        x: 96
-        y: 336
+        x: 98
+        y: 343
         width: 48
         height: 48
       alignment: 0
@@ -471,12 +596,18 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: e561cbfe4e845ad46a8518e849c7cd80
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_19
       rect:
         serializedVersion: 2
-        x: 144
-        y: 336
+        x: 147
+        y: 343
         width: 48
         height: 48
       alignment: 0
@@ -489,12 +620,18 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 05177f00ddb479c408bebab47bcd8cba
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_20
       rect:
         serializedVersion: 2
         x: 0
-        y: 288
+        y: 294
         width: 48
         height: 48
       alignment: 0
@@ -507,12 +644,18 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 7230c2453100aa645aab4ca5e5165367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_21
       rect:
         serializedVersion: 2
-        x: 48
-        y: 288
+        x: 49
+        y: 294
         width: 48
         height: 48
       alignment: 0
@@ -525,12 +668,18 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 4b840a2ea7f6c244caff9c52b13e1f3e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_22
       rect:
         serializedVersion: 2
-        x: 96
-        y: 288
+        x: 98
+        y: 294
         width: 48
         height: 48
       alignment: 0
@@ -543,12 +692,18 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 00300a5aa6644074fa8df2106cecbc1b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_23
       rect:
         serializedVersion: 2
-        x: 144
-        y: 288
+        x: 147
+        y: 294
         width: 48
         height: 48
       alignment: 0
@@ -561,6 +716,12 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 7bf1ed7d3622468479bed77edb649e08
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_24
       rect:
@@ -568,7 +729,7 @@ TextureImporter:
         x: 0
         y: 240
         width: 48
-        height: 48
+        height: 53
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 2, y: 26, z: 0, w: 0}
@@ -579,12 +740,18 @@ TextureImporter:
         - {x: 24, y: 2.9728394}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: c7843719fc067504aaae3974f0904b95
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_25
       rect:
         serializedVersion: 2
-        x: 48
-        y: 240
+        x: 49
+        y: 245
         width: 48
         height: 48
       alignment: 0
@@ -597,12 +764,18 @@ TextureImporter:
         - {x: 24, y: 2.9728394}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: f632c42406cd1de4d9abee1b5632ddef
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_26
       rect:
         serializedVersion: 2
-        x: 96
-        y: 240
+        x: 98
+        y: 245
         width: 48
         height: 48
       alignment: 0
@@ -619,12 +792,18 @@ TextureImporter:
         - {x: 22, y: 3}
         - {x: 22, y: 3}
       tessellationDetail: 0
+      bones: []
+      spriteID: c8484aab4442afe47b0bd7fe72f8b84a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_27
       rect:
         serializedVersion: 2
-        x: 144
-        y: 240
+        x: 147
+        y: 245
         width: 48
         height: 48
       alignment: 0
@@ -637,12 +816,18 @@ TextureImporter:
         - {x: 22, y: 3}
         - {x: 22, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 57dd0bc7de46a274e933483b8b59df98
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_28
       rect:
         serializedVersion: 2
         x: 0
-        y: 192
+        y: 196
         width: 48
         height: 48
       alignment: 0
@@ -655,12 +840,18 @@ TextureImporter:
         - {x: 24, y: -20}
         - {x: 24, y: 0}
       tessellationDetail: 0
+      bones: []
+      spriteID: 82b46c35ff79d31469b8a04154bdfa9c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_29
       rect:
         serializedVersion: 2
-        x: 48
-        y: 192
+        x: 49
+        y: 196
         width: 48
         height: 48
       alignment: 0
@@ -673,12 +864,18 @@ TextureImporter:
         - {x: 24, y: 0}
         - {x: -24, y: 0}
       tessellationDetail: 0
+      bones: []
+      spriteID: 5cc5151d1705eb144bf94edd57598157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_30
       rect:
         serializedVersion: 2
-        x: 96
-        y: 192
+        x: 98
+        y: 196
         width: 48
         height: 48
       alignment: 0
@@ -691,12 +888,18 @@ TextureImporter:
         - {x: 22, y: -20}
         - {x: 22, y: 0}
       tessellationDetail: 0
+      bones: []
+      spriteID: c4eac16010b26554eac3eacaecdef50c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_31
       rect:
         serializedVersion: 2
-        x: 144
-        y: 192
+        x: 147
+        y: 196
         width: 48
         height: 48
       alignment: 0
@@ -709,12 +912,18 @@ TextureImporter:
         - {x: 22, y: -20}
         - {x: 22, y: 0}
       tessellationDetail: 0
+      bones: []
+      spriteID: 82dbadb4e23375f45a4df5ff01ea639c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_32
       rect:
         serializedVersion: 2
         x: 0
-        y: 144
+        y: 147
         width: 48
         height: 48
       alignment: 0
@@ -727,12 +936,18 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 0}
       tessellationDetail: 0
+      bones: []
+      spriteID: c68c9bee9bb62774abdcd7dccdee6af9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_33
       rect:
         serializedVersion: 2
-        x: 48
-        y: 144
+        x: 49
+        y: 147
         width: 48
         height: 48
       alignment: 0
@@ -745,12 +960,18 @@ TextureImporter:
         - {x: 24, y: 0}
         - {x: -24, y: 0}
       tessellationDetail: 0
+      bones: []
+      spriteID: c1aa328538b20d94ca4fb57100ff451a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_34
       rect:
         serializedVersion: 2
-        x: 96
-        y: 144
+        x: 98
+        y: 147
         width: 48
         height: 48
       alignment: 0
@@ -763,12 +984,18 @@ TextureImporter:
         - {x: 22, y: -24}
         - {x: 22, y: 0}
       tessellationDetail: 0
+      bones: []
+      spriteID: 10b7e84964ab0cf4d92e1bcd3ed690b5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_35
       rect:
         serializedVersion: 2
-        x: 144
-        y: 144
+        x: 147
+        y: 147
         width: 48
         height: 48
       alignment: 0
@@ -781,12 +1008,18 @@ TextureImporter:
         - {x: 22, y: -24}
         - {x: 22, y: 0}
       tessellationDetail: 0
+      bones: []
+      spriteID: a33af7a80f5e4a24cbf881b71c718bbc
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_36
       rect:
         serializedVersion: 2
         x: 0
-        y: 96
+        y: 98
         width: 48
         height: 48
       alignment: 0
@@ -799,12 +1032,18 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 30881cc3b8341144d8b4f6e70abf1980
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_37
       rect:
         serializedVersion: 2
-        x: 48
-        y: 96
+        x: 49
+        y: 98
         width: 48
         height: 48
       alignment: 0
@@ -817,12 +1056,18 @@ TextureImporter:
         - {x: 11, y: -24}
         - {x: 11, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 5340d171ced0e224ca35012b096012a6
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_38
       rect:
         serializedVersion: 2
-        x: 96
-        y: 96
+        x: 98
+        y: 98
         width: 48
         height: 48
       alignment: 0
@@ -839,12 +1084,18 @@ TextureImporter:
         - {x: 24, y: -19}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 4e693bbede924004f9bea7478eb29203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_39
       rect:
         serializedVersion: 2
-        x: 144
-        y: 96
+        x: 147
+        y: 98
         width: 48
         height: 48
       alignment: 0
@@ -857,12 +1108,18 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 2ad4dc872a4d78e4f936dcc37671d642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_40
       rect:
         serializedVersion: 2
         x: 0
-        y: 48
+        y: 49
         width: 48
         height: 48
       alignment: 0
@@ -875,12 +1132,18 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: f7bee56086c1a764983e26262fc97799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_41
       rect:
         serializedVersion: 2
-        x: 48
-        y: 48
+        x: 49
+        y: 49
         width: 48
         height: 48
       alignment: 0
@@ -893,12 +1156,18 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 44b53f51bdc3f6249bcb92eb103f5ab1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_42
       rect:
         serializedVersion: 2
-        x: 96
-        y: 48
+        x: 98
+        y: 49
         width: 48
         height: 48
       alignment: 0
@@ -911,12 +1180,18 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: c1b8d8f15d9b5574d8ce6ddc3d68f44a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_43
       rect:
         serializedVersion: 2
-        x: 144
-        y: 48
+        x: 147
+        y: 49
         width: 48
         height: 48
       alignment: 0
@@ -929,6 +1204,12 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: d5361ff3d6d42f747b3adeca50cc14ac
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_44
       rect:
@@ -947,11 +1228,17 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 0b178efd37b4f3541869749a16abd33b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_45
       rect:
         serializedVersion: 2
-        x: 48
+        x: 49
         y: 0
         width: 48
         height: 48
@@ -965,11 +1252,17 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: e78aeb449da28a742b095703e63481b3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_46
       rect:
         serializedVersion: 2
-        x: 96
+        x: 98
         y: 0
         width: 48
         height: 48
@@ -983,11 +1276,17 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 21e695ea665ebfd42a88de92b4cfef70
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_47
       rect:
         serializedVersion: 2
-        x: 144
+        x: 147
         y: 0
         width: 48
         height: 48
@@ -1001,12 +1300,18 @@ TextureImporter:
         - {x: 24, y: -24}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: a95d72d3dbfb9884895f8eca9f024207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_48
       rect:
         serializedVersion: 2
         x: 0
-        y: 168
+        y: 172
         width: 48
         height: 48
       alignment: 0
@@ -1019,12 +1324,18 @@ TextureImporter:
         - {x: 24, y: 4.0547943}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 0b1fe7d0ae3021142bb5e7356c328dd7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_49
       rect:
         serializedVersion: 2
-        x: 48
-        y: 168
+        x: 49
+        y: 172
         width: 48
         height: 48
       alignment: 0
@@ -1037,12 +1348,18 @@ TextureImporter:
         - {x: 24, y: 3.9469604}
         - {x: 24, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 298881660e9bab841a7041dff0a4cfba
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_50
       rect:
         serializedVersion: 2
-        x: 96
-        y: 168
+        x: 98
+        y: 172
         width: 48
         height: 48
       alignment: 0
@@ -1055,12 +1372,18 @@ TextureImporter:
         - {x: 22.003662, y: 3.973648}
         - {x: 22.085709, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 4a48cd7998de35b4086e070d83a2f08a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Cave_Spreadsheet_51
       rect:
         serializedVersion: 2
-        x: 144
-        y: 168
+        x: 147
+        y: 172
         width: 48
         height: 48
       alignment: 0
@@ -1073,9 +1396,23 @@ TextureImporter:
         - {x: 21.975616, y: 4.0587006}
         - {x: 22.030365, y: 24}
       tessellationDetail: 0
+      bones: []
+      spriteID: 20e43f736b77df848b187b02af5e79fc
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
+    bones: []
+    spriteID: 6dc390c11128bcf40866184e8d6a5ecf
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
   spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

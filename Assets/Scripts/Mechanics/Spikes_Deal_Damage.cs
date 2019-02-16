@@ -19,7 +19,7 @@ public class Spikes_Deal_Damage : MonoBehaviour {
         {
             coll.GetComponent<Checkpoint_Handler>().returnToLastCheckpoint();
             GameObject.Find("DeathScreen").GetComponent<Animator>().SetTrigger("Die");
-            VibrateController.vibrateControllerForXSeconds(0.5f, 0.3f, 0.3f);
+            VibrateController.vibrateControllerForXSeconds(0.5f, VibrateController.MEDIUM, VibrateController.MEDIUM);
         }
     }
 }

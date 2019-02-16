@@ -34,7 +34,7 @@ public class Lock_BoxTrigger : Lock_SuperClass {
     {
         if (other.CompareTag("Box"))
         {
-            VibrateController.vibrateControllerForXSeconds(0.2f, 0.6f, 0.6f);
+            VibrateController.vibrateControllerForXSeconds(0.2f, VibrateController.MEDIUM_HARD, VibrateController.MEDIUM_HARD);
             other.gameObject.SetActive(false);
             childTrigger();
             if (this.GetComponent<TriggerCutscene>() != null)

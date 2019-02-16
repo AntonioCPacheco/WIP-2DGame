@@ -13,7 +13,7 @@ public class MovingPlatform : MonoBehaviour
 
     float lastX = 0f;
 
-    public bool enabled = true;
+    public bool movementEnabled = true;
     public Sprite on;
     public Sprite off;
     SpriteRenderer onOff;
@@ -24,13 +24,13 @@ public class MovingPlatform : MonoBehaviour
     {
         rbody = GetComponent<Rigidbody2D>();
         onOff = transform.Find("OnOff").GetComponentInChildren<SpriteRenderer>();
-        onOff.sprite = enabled ? on : off;
+        onOff.sprite = movementEnabled ? on : off;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (enabled)
+        if (movementEnabled)
         {
             rbody.velocity = new Vector2(0.3f * maxSpeed, 0);
         }
@@ -101,13 +101,13 @@ public class MovingPlatform : MonoBehaviour
 
     public void enable()
     {
-        enabled = true;
+        movementEnabled = true;
         onOff.sprite = on;
     }
 
     public void disable()
     {
-        enabled = false;
+        movementEnabled = false;
         onOff.sprite = off;
     }
 

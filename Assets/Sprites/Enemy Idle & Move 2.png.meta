@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: 7c32d26336dc09a49a1090033e015585
-timeCreated: 1458420286
-licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Enemy Idle & Move 2_0
@@ -13,14 +11,17 @@ TextureImporter:
     21300012: Enemy Idle & Move 2_6
     21300014: Enemy Idle & Move 2_7
     21300016: Enemy Idle & Move 2_8
-  serializedVersion: 2
+  externalObjects: {}
+  serializedVersion: 7
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
+    sRGBTexture: 1
     linearTexture: 0
-    correctGamma: 0
     fadeOut: 0
     borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
@@ -29,37 +30,81 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
   grayScaleToAlpha: 0
-  generateCubemap: 0
+  generateCubemap: 6
   cubemapConvolution: 0
-  cubemapConvolutionSteps: 8
-  cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -3
   maxTextureSize: 1024
   textureSettings:
+    serializedVersion: 2
     filterMode: 0
     aniso: 16
-    mipBias: -1
-    wrapMode: 1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
-  rGBM: 0
   compressionQuality: 50
-  allowsAlphaSplitting: 0
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 20
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 1
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
   alphaIsTransparency: 1
+  spriteTessellationDetail: -1
   textureType: 8
-  buildTargetSettings: []
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Android
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
+    serializedVersion: 2
     sprites:
-    - name: Enemy Idle & Move 2_0
+    - serializedVersion: 2
+      name: Enemy Idle & Move 2_0
       rect:
         serializedVersion: 2
         x: 2
@@ -70,7 +115,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Enemy Idle & Move 2_1
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24111a6d45ce72a4f877e259fdf3d853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy Idle & Move 2_1
       rect:
         serializedVersion: 2
         x: 23
@@ -81,7 +135,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Enemy Idle & Move 2_2
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d34ac9032636604899aa035e5c4beda
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy Idle & Move 2_2
       rect:
         serializedVersion: 2
         x: 44
@@ -92,7 +155,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Enemy Idle & Move 2_3
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62cd108ac81b5ff449f1089959516d52
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy Idle & Move 2_3
       rect:
         serializedVersion: 2
         x: 2
@@ -103,7 +175,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Enemy Idle & Move 2_4
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2cadd835c356b6c4ba7a95bce81ca77b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy Idle & Move 2_4
       rect:
         serializedVersion: 2
         x: 22
@@ -114,7 +195,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Enemy Idle & Move 2_5
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3c4947f557c9234cbc6a09c4717c968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy Idle & Move 2_5
       rect:
         serializedVersion: 2
         x: 42
@@ -125,7 +215,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Enemy Idle & Move 2_6
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c588788856281c41b23f8a8685986ed
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy Idle & Move 2_6
       rect:
         serializedVersion: 2
         x: 0
@@ -136,7 +235,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Enemy Idle & Move 2_7
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8073e51a86af2674283e577feab29d41
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy Idle & Move 2_7
       rect:
         serializedVersion: 2
         x: 21
@@ -147,7 +255,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Enemy Idle & Move 2_8
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18bba3f61c649ef4fb6df6de09f6ebbb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy Idle & Move 2_8
       rect:
         serializedVersion: 2
         x: 42
@@ -158,8 +275,25 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0cd2ebca337debe4a88e7d57eab6874b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
   spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
